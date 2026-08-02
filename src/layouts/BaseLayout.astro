@@ -14,10 +14,14 @@ const {
   title, 
   description, 
   canonical = 'https://onlinetool.me/',
-  ogImage = 'https://onlinetool.me/og-image.jpg'
+  ogImage = 'https://onlinetool.me/images/og/default-tools.png'
 } = Astro.props;
 
-const siteTitle = title ? `${title} - OnlineTool.me` : 'OnlineTool.me - Best Free Online Tools';
+const siteTitle = title.includes('OnlineTool.me')
+  ? title
+  : title
+    ? `${title} - OnlineTool.me`
+    : 'OnlineTool.me - Best Free Online Tools';
 ---
 
 <!DOCTYPE html>
@@ -68,15 +72,6 @@ const siteTitle = title ? `${title} - OnlineTool.me` : 'OnlineTool.me - Best Fre
         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "xvj9aw2rtd");
-  </script>
-  
-  <!-- Dark mode: prevent FOUC -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6P1T8FB23S"></script>
-  <script is:inline>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-6P1T8FB23S');
   </script>
   
   <!-- Dark mode: prevent FOUC -->

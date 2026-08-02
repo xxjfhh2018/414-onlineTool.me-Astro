@@ -29,7 +29,33 @@ export async function getStaticPaths() {
 }
 
 const { tool } = Astro.props;
-const { title, description, category, icon, howToUse, faq } = tool.data;
+const {
+  seoTitle,
+  title,
+  description,
+  intro,
+  category,
+  icon,
+  whatIs,
+  features,
+  useCases,
+  method,
+  limitations,
+  howToUse,
+  faq,
+  ogImage,
+  relatedTools,
+} = tool.data;
+
+const allTools = await getCollection('tools');
+const related = relatedTools
+  .map(slug => allTools.find(entry => entry.slug === slug))
+  .filter((entry): entry is NonNullable<typeof entry> => Boolean(entry));
+
+const canonical = `https://onlinetool.me/${tool.slug}/`;
+const resolvedOgImage = ogImage
+  ? new URL(ogImage, 'https://onlinetool.me').toString()
+  : 'https://onlinetool.me/images/og/default-tools.png';
 
 const categoryLabels: Record<string, string> = {
   'calculators': 'Calculators',
@@ -58,13 +84,51 @@ const toolComponents: Record<string, any> = {
 };
 
 const ToolComponent = toolComponents[tool.slug];
+
+const webApplicationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: title,
+  description,
+  url: canonical,
+  applicationCategory: category === 'calculators' ? 'FinanceApplication' : 'UtilitiesApplication',
+  operatingSystem: 'Any',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+};
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://onlinetool.me/' },
+    { '@type': 'ListItem', position: 2, name: title, item: canonical },
+  ],
+};
+
+const faqJsonLd = faq?.length ? {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map(item => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  })),
+} : null;
 ---
 
 <BaseLayout 
-  title={title}
+  title={seoTitle}
   description={description}
-  canonical={`https://onlinetool.me/${tool.slug}/`}
+  canonical={canonical}
+  ogImage={resolvedOgImage}
 >
+  <script type="application/ld+json" set:html={JSON.stringify(webApplicationJsonLd)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+  {faqJsonLd && <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />}
   <!-- Breadcrumb -->
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
     <nav class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
@@ -86,12 +150,22 @@ const ToolComponent = toolComponents[tool.slug];
         {title}
       </h1>
       <p class="text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
-        {description}
+        {intro}
       </p>
       <div class="mt-4">
         <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400">
           {categoryLabels[category] || category}
         </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- What Is It -->
+  <section class="pb-12">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">What Is {title}?</h2>
+      <div class="space-y-4 text-gray-600 dark:text-gray-400 leading-7">
+        {whatIs.map(paragraph => <p>{paragraph}</p>)}
       </div>
     </div>
   </section>
@@ -111,7 +185,7 @@ const ToolComponent = toolComponents[tool.slug];
   {howToUse && howToUse.length > 0 && (
     <section class="pb-12">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">How to Use</h2>
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">How to Use {title}</h2>
         <div class="space-y-4">
           {howToUse.map((step) => (
             <div class="flex gap-4 p-5 rounded-xl bg-white dark:bg-surface-dark border border-gray-100 dark:border-white/5">
@@ -123,6 +197,84 @@ const ToolComponent = toolComponents[tool.slug];
                 <p class="text-sm text-gray-500 dark:text-gray-400">{step.description}</p>
               </div>
             </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Method, Formula, and Example -->
+  <section class="pb-12">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">{method.title}</h2>
+      <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-100 dark:border-white/5 p-6">
+        <div class="space-y-4 text-gray-600 dark:text-gray-400 leading-7">
+          {method.description.map(paragraph => <p>{paragraph}</p>)}
+        </div>
+        {method.formula && (
+          <div class="mt-5 rounded-xl bg-gray-50 dark:bg-white/5 px-4 py-3 font-mono text-sm text-gray-800 dark:text-gray-200 overflow-x-auto">
+            {method.formula}
+          </div>
+        )}
+        <div class="mt-5 border-l-4 border-primary-500 pl-4">
+          <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Example</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400 leading-6">{method.example}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="pb-12">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">{title} Features</h2>
+      <ul class="grid sm:grid-cols-2 gap-3">
+        {features.map(feature => (
+          <li class="flex gap-3 rounded-xl bg-white dark:bg-surface-dark border border-gray-100 dark:border-white/5 p-4 text-sm text-gray-600 dark:text-gray-400">
+            <span class="text-primary-500 font-bold" aria-hidden="true">✓</span>
+            <span>{feature}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Use Cases -->
+  <section class="pb-12">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Common Use Cases</h2>
+      <div class="grid sm:grid-cols-2 gap-4">
+        {useCases.map(item => (
+          <article class="rounded-xl bg-white dark:bg-surface-dark border border-gray-100 dark:border-white/5 p-5">
+            <h3 class="font-semibold text-gray-900 dark:text-white mb-2">{item.title}</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400 leading-6">{item.description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Limits and Assumptions -->
+  <section class="pb-12">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Limits and Important Notes</h2>
+      <ul class="list-disc pl-5 space-y-2 text-sm text-gray-600 dark:text-gray-400 leading-6">
+        {limitations.map(item => <li>{item}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Related Tools -->
+  {related.length > 0 && (
+    <section class="pb-12">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Related Tools</h2>
+        <div class="grid sm:grid-cols-2 gap-4">
+          {related.map(entry => (
+            <a href={`/${entry.slug}/`} class="block rounded-xl bg-white dark:bg-surface-dark border border-gray-100 dark:border-white/5 p-5 hover:border-primary-300 dark:hover:border-primary-700 transition-colors">
+              <h3 class="font-semibold text-gray-900 dark:text-white mb-1">{entry.data.title}</h3>
+              <p class="text-sm text-gray-500 dark:text-gray-400 leading-6">{entry.data.intro}</p>
+            </a>
           ))}
         </div>
       </div>

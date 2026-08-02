@@ -4,10 +4,16 @@
     "tools": {
       "type": "object",
       "properties": {
+        "seoTitle": {
+          "type": "string"
+        },
         "title": {
           "type": "string"
         },
         "description": {
+          "type": "string"
+        },
+        "intro": {
           "type": "string"
         },
         "keywords": {
@@ -29,6 +35,76 @@
         "featured": {
           "type": "boolean",
           "default": false
+        },
+        "whatIs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "useCases": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "title",
+              "description"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "method": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "description": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "formula": {
+              "type": "string"
+            },
+            "example": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "title",
+            "description",
+            "example"
+          ],
+          "additionalProperties": false
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "relatedTools": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
         },
         "howToUse": {
           "type": "array",
@@ -80,10 +156,17 @@
         }
       },
       "required": [
+        "seoTitle",
         "title",
         "description",
+        "intro",
         "category",
-        "icon"
+        "icon",
+        "whatIs",
+        "features",
+        "useCases",
+        "method",
+        "limitations"
       ],
       "additionalProperties": false
     }

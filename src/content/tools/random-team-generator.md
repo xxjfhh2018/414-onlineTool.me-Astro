@@ -1,9 +1,37 @@
 ---
+seoTitle: "Random Team Generator - Split Names | OnlineTool.me"
 title: "Random Team Generator"
-description: "Create random teams quickly and easily. Perfect for classrooms, sports, office activities, and group events."
+description: "Paste one name per line and use this random team generator to shuffle participants into a selected number of balanced groups."
+intro: "Shuffle a newline-separated list of names and distribute participants across a selected number of teams."
 category: "generators"
 icon: "UsersRound"
 featured: true
+whatIs:
+  - "A random team generator shuffles a list of participants and assigns them to groups. This tool distributes shuffled names in rotation so team sizes differ by no more than one when the inputs are valid."
+  - "Generating again creates another arrangement using the browser's standard random-number function."
+features:
+  - "Accepts one participant per line"
+  - "Creates a user-selected number of teams"
+  - "Balances team sizes through round-robin assignment"
+  - "Copies the displayed assignments"
+useCases:
+  - title: "Classrooms and workshops"
+    description: "Split students or attendees into small discussion, activity, or project groups."
+  - title: "Games and activities"
+    description: "Create quick recreational teams when skill-based seeding is not required."
+method:
+  title: "How Random Teams Are Created"
+  description:
+    - "The tool shuffles the submitted names with the Fisher–Yates method, then assigns each name to teams in rotating order."
+  formula: "Assigned team index = shuffled position mod number of teams"
+  example: "With 10 names and 3 teams, the generated sizes will be 4, 3, and 3."
+limitations:
+  - "The generator does not account for skill, role, preference, or prior assignments."
+  - "Duplicate names are treated as separate entries."
+  - "The randomness is suitable for casual grouping, not security-sensitive drawings."
+relatedTools:
+  - "tally-counter"
+  - "compare-two-lists"
 howToUse:
   - step: 1
     title: "Enter Names"
