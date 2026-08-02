@@ -1,0 +1,82 @@
+<div class="max-w-lg mx-auto">
+  <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-6 space-y-5">
+    <div>
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Duty Station ZIP Code</label>
+      <input id="bah-zip" type="text" placeholder="90210" maxlength="5"
+             class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200" />
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Pay Grade</label>
+      <select id="bah-rank" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200">
+        <option value="">Select rank...</option>
+        <option value="E-1">E-1</option>
+        <option value="E-2">E-2</option>
+        <option value="E-3">E-3</option>
+        <option value="E-4">E-4</option>
+        <option value="E-5">E-5</option>
+        <option value="E-6">E-6</option>
+        <option value="E-7">E-7</option>
+        <option value="E-8">E-8</option>
+        <option value="E-9">E-9</option>
+        <option value="W-1">W-1</option>
+        <option value="W-2">W-2</option>
+        <option value="W-3">W-3</option>
+        <option value="W-4">W-4</option>
+        <option value="W-5">W-5</option>
+        <option value="O-1">O-1</option>
+        <option value="O-2">O-2</option>
+        <option value="O-3">O-3</option>
+        <option value="O-4">O-4</option>
+        <option value="O-5">O-5</option>
+        <option value="O-6">O-6</option>
+      </select>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Dependency Status</label>
+      <select id="bah-dependent" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200">
+        <option value="with">With Dependents</option>
+        <option value="without">Without Dependents</option>
+      </select>
+    </div>
+    
+    <button id="bah-calc" class="w-full px-4 py-3 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors">
+      Calculate BAH
+    </button>
+    
+    <div id="bah-result" class="hidden p-5 rounded-xl bg-primary-50 dark:bg-primary-900/20 text-center">
+      <div class="text-sm text-gray-500 dark:text-gray-400">Estimated Monthly BAH</div>
+      <div id="bah-value" class="text-3xl font-bold text-primary-600 dark:text-primary-400 mt-1">$0</div>
+      <p class="text-xs text-gray-400 mt-2">Note: For estimation only. Verify with official DoD rates.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const calcBtn = document.getElementById('bah-calc');
+    const result = document.getElementById('bah-result');
+    const value = document.getElementById('bah-value');
+    
+    // Simplified demo calculation
+    calcBtn?.addEventListener('click', () => {
+      const rank = (document.getElementById('bah-rank') as HTMLSelectElement)?.value;
+      const dependent = (document.getElementById('bah-dependent') as HTMLSelectElement)?.value;
+      
+      if (!rank) return;
+      
+      // Base rates for demo (very simplified)
+      const baseRates: Record<string, number> = {
+        'E-1': 800, 'E-2': 850, 'E-3': 900, 'E-4': 1000, 'E-5': 1100,
+        'E-6': 1250, 'E-7': 1400, 'E-8': 1550, 'E-9': 1700,
+        'W-1': 1400, 'W-2': 1500, 'W-3': 1600, 'W-4': 1700, 'W-5': 1800,
+        'O-1': 1500, 'O-2': 1650, 'O-3': 1800, 'O-4': 1950, 'O-5': 2100, 'O-6': 2250
+      };
+      
+      let rate = baseRates[rank] || 1000;
+      if (dependent === 'with') rate *= 1.2;
+      
+      if (value) value.textContent = '$' + Math.round(rate).toLocaleString();
+      result?.classList.remove('hidden');
+    });
+  })();
+</script>

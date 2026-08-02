@@ -1,0 +1,86 @@
+<div class="max-w-3xl mx-auto">
+  <div class="grid md:grid-cols-2 gap-4 mb-6">
+    <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 overflow-hidden">
+      <div class="p-3 border-b border-gray-100 dark:border-white/5">
+        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Names</span>
+      </div>
+      <textarea 
+        id="rtg-names"
+        class="w-full h-48 p-4 bg-transparent resize-none outline-none text-gray-800 dark:text-gray-200 text-sm leading-relaxed"
+        placeholder="Enter names, one per line..."
+      ></textarea>
+    </div>
+    
+    <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 overflow-hidden">
+      <div class="p-3 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
+        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Teams</span>
+        <button id="rtg-copy" class="text-xs text-primary-500 hover:text-primary-600 transition-colors">Copy</button>
+      </div>
+      <div id="rtg-output" class="w-full h-48 p-4 overflow-y-auto text-sm text-gray-800 dark:text-gray-200">
+        <p class="text-gray-400 text-center mt-16">Teams will appear here</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="flex items-center gap-4 mb-6">
+    <label class="text-sm text-gray-600 dark:text-gray-400">Number of Teams:</label>
+    <input id="rtg-count" type="number" value="3" min="2" max="20" 
+           class="w-20 px-3 py-2 rounded-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-white/10 text-center outline-none text-gray-800 dark:text-gray-200" />
+  </div>
+  
+  <button id="rtg-generate" class="w-full px-4 py-3 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors">
+    Generate Teams
+  </button>
+</div>
+
+<script>
+  (function() {
+    const namesInput = document.getElementById('rtg-names') as HTMLTextAreaElement;
+    const countInput = document.getElementById('rtg-count') as HTMLInputElement;
+    const output = document.getElementById('rtg-output');
+    const generateBtn = document.getElementById('rtg-generate');
+    const copyBtn = document.getElementById('rtg-copy');
+    
+    function shuffle<T>(array: T[]): T[] {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+    
+    function generate() {
+      const names = (namesInput?.value || '').split('\n').map(s => s.trim()).filter(s => s !== '');
+      const teamCount = parseInt(countInput?.value || '3');
+      
+      if (names.length === 0 || !output) return;
+      
+      const shuffled = shuffle(names);
+      const teams: string[][] = Array.from({ length: teamCount }, () => []);
+      
+      shuffled.forEach((name, i) => {
+        teams[i % teamCount].push(name);
+      });
+      
+      output.innerHTML = teams.map((team, i) => `
+        <div class="mb-4 p-4 rounded-xl bg-gray-50 dark:bg-white/5">
+          <div class="font-semibold text-primary-500 mb-2">Team ${i + 1}</div>
+          <div class="space-y-1">
+            ${team.map(name => `<div class="text-gray-700 dark:text-gray-300">${name}</div>`).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    generateBtn?.addEventListener('click', generate);
+    
+    copyBtn?.addEventListener('click', () => {
+      if (!output) return;
+      const text = output.innerText;
+      navigator.clipboard.writeText(text);
+      copyBtn.textContent = 'Copied!';
+      setTimeout(() => copyBtn.textContent = 'Copy', 1500);
+    });
+  })();
+</script>

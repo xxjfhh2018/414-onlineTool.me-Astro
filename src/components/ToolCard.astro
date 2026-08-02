@@ -1,0 +1,54 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  tool: {
+    slug: string;
+    data: {
+      title: string;
+      description: string;
+      category: string;
+      icon: string;
+      featured?: boolean;
+    };
+  };
+}
+
+const { tool } = Astro.props;
+const { title, description, category, icon, featured } = tool.data;
+---
+
+<a 
+  href={`/${tool.slug}/`}
+  class="group block p-5 rounded-2xl bg-white dark:bg-surface-dark border border-gray-100 dark:border-white/5 
+         hover:shadow-lg hover:shadow-primary-500/5 dark:hover:shadow-none
+         hover:-translate-y-0.5 transition-all duration-300"
+  data-category={category}
+  data-title={title.toLowerCase()}
+  data-description={description.toLowerCase()}
+>
+  <div class="flex items-start gap-4">
+    <div class="flex-shrink-0 w-11 h-11 rounded-xl bg-primary-50 dark:bg-primary-900/30 
+                flex items-center justify-center text-primary-500 dark:text-primary-400
+                group-hover:bg-primary-500 group-hover:text-white dark:group-hover:bg-primary-500
+                transition-colors duration-300">
+      <Icon name={icon} class="w-5 h-5" />
+    </div>
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center gap-2">
+        <h3 class="font-semibold text-gray-900 dark:text-white text-sm truncate">
+          {title}
+        </h3>
+        {featured && (
+          <span class="flex-shrink-0 px-2 py-0.5 text-[10px] font-medium rounded-full 
+                       bg-primary-100 dark:bg-primary-900/40 text-primary-600 dark:text-primary-400">
+            Featured
+          </span>
+        )}
+      </div>
+      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400 line-clamp-2 leading-relaxed">
+        {description}
+      </p>
+    </div>
+  </div>
+</a>

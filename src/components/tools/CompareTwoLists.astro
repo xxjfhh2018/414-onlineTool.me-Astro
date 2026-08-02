@@ -1,0 +1,111 @@
+<div class="max-w-4xl mx-auto">
+  <div class="grid md:grid-cols-2 gap-4">
+    <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 overflow-hidden">
+      <div class="p-3 border-b border-gray-100 dark:border-white/5">
+        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">List A</span>
+      </div>
+      <textarea 
+        id="ctl-a"
+        class="w-full h-48 p-4 bg-transparent resize-none outline-none text-gray-800 dark:text-gray-200 text-sm leading-relaxed"
+        placeholder="Enter first list..."
+      ></textarea>
+    </div>
+    
+    <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 overflow-hidden">
+      <div class="p-3 border-b border-gray-100 dark:border-white/5">
+        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">List B</span>
+      </div>
+      <textarea 
+        id="ctl-b"
+        class="w-full h-48 p-4 bg-transparent resize-none outline-none text-gray-800 dark:text-gray-200 text-sm leading-relaxed"
+        placeholder="Enter second list..."
+      ></textarea>
+    </div>
+  </div>
+  
+  <div class="mt-4 flex flex-wrap gap-2">
+    <button data-mode="common" class="ctl-mode px-4 py-2 rounded-lg bg-primary-500 text-white text-sm font-medium">Common Items</button>
+    <button data-mode="a-only" class="ctl-mode px-4 py-2 rounded-lg bg-gray-100 dark:bg-white/5 text-gray-700 dark:text-gray-300 text-sm font-medium">Only in A</button>
+    <button data-mode="b-only" class="ctl-mode px-4 py-2 rounded-lg bg-gray-100 dark:bg-white/5 text-gray-700 dark:text-gray-300 text-sm font-medium">Only in B</button>
+    <button data-mode="unique" class="ctl-mode px-4 py-2 rounded-lg bg-gray-100 dark:bg-white/5 text-gray-700 dark:text-gray-300 text-sm font-medium">All Unique</button>
+  </div>
+  
+  <div class="mt-4 rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 overflow-hidden">
+    <div class="p-3 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
+      <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Result</span>
+      <button id="ctl-copy" class="text-xs text-primary-500 hover:text-primary-600 transition-colors">Copy</button>
+    </div>
+    <textarea 
+      id="ctl-output"
+      class="w-full h-48 p-4 bg-transparent resize-none outline-none text-gray-800 dark:text-gray-200 text-sm leading-relaxed"
+      placeholder="Comparison result will appear here..."
+      readonly
+    ></textarea>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const listA = document.getElementById('ctl-a') as HTMLTextAreaElement;
+    const listB = document.getElementById('ctl-b') as HTMLTextAreaElement;
+    const output = document.getElementById('ctl-output') as HTMLTextAreaElement;
+    const modeBtns = document.querySelectorAll('.ctl-mode');
+    const copyBtn = document.getElementById('ctl-copy');
+    
+    let activeMode = 'common';
+    
+    function getItems(el: HTMLTextAreaElement) {
+      return (el?.value || '').split('\n').map(s => s.trim()).filter(s => s !== '');
+    }
+    
+    function compare() {
+      const a = getItems(listA);
+      const b = getItems(listB);
+      const setA = new Set(a);
+      const setB = new Set(b);
+      let result: string[] = [];
+      
+      switch (activeMode) {
+        case 'common':
+          result = a.filter(item => setB.has(item));
+          break;
+        case 'a-only':
+          result = a.filter(item => !setB.has(item));
+          break;
+        case 'b-only':
+          result = b.filter(item => !setA.has(item));
+          break;
+        case 'unique':
+          result = [...new Set([...a, ...b])];
+          break;
+      }
+      
+      if (output) output.value = result.join('\n');
+    }
+    
+    modeBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeMode = btn.getAttribute('data-mode') || 'common';
+        modeBtns.forEach(b => {
+          b.classList.remove('bg-primary-500', 'text-white');
+          b.classList.add('bg-gray-100', 'dark:bg-white/5', 'text-gray-700', 'dark:text-gray-300');
+        });
+        btn.classList.remove('bg-gray-100', 'dark:bg-white/5', 'text-gray-700', 'dark:text-gray-300');
+        btn.classList.add('bg-primary-500', 'text-white');
+        compare();
+      });
+    });
+    
+    listA?.addEventListener('input', compare);
+    listB?.addEventListener('input', compare);
+    
+    copyBtn?.addEventListener('click', () => {
+      if (output) {
+        output.select();
+        navigator.clipboard.writeText(output.value);
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => copyBtn.textContent = 'Copy', 1500);
+      }
+    });
+  })();
+</script>

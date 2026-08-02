@@ -1,0 +1,76 @@
+<div class="max-w-3xl mx-auto">
+  <div class="mb-4 flex items-center gap-3">
+    <label class="text-sm text-gray-600 dark:text-gray-400">Separator:</label>
+    <select id="rde-separator" class="px-3 py-1.5 rounded-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-white/10 text-sm outline-none">
+      <option value="newline">New Line</option>
+      <option value="comma">Comma</option>
+      <option value="semicolon">Semicolon</option>
+    </select>
+  </div>
+  
+  <div class="grid md:grid-cols-2 gap-4">
+    <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 overflow-hidden">
+      <div class="p-3 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
+        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Email List</span>
+        <button id="rde-clear" class="text-xs text-gray-400 hover:text-primary-500 transition-colors">Clear</button>
+      </div>
+      <textarea 
+        id="rde-input"
+        class="w-full h-64 p-4 bg-transparent resize-none outline-none text-gray-800 dark:text-gray-200 text-sm leading-relaxed"
+        placeholder="Paste your email list here..."
+      ></textarea>
+    </div>
+    
+    <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 overflow-hidden">
+      <div class="p-3 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
+        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Clean List</span>
+        <button id="rde-copy" class="text-xs text-primary-500 hover:text-primary-600 transition-colors">Copy</button>
+      </div>
+      <textarea 
+        id="rde-output"
+        class="w-full h-64 p-4 bg-transparent resize-none outline-none text-gray-800 dark:text-gray-200 text-sm leading-relaxed"
+        placeholder="Deduplicated emails will appear here..."
+        readonly
+      ></textarea>
+    </div>
+  </div>
+  
+  <div class="mt-4">
+    <button id="rde-process" class="w-full px-4 py-3 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors">
+      Remove Duplicates
+    </button>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const input = document.getElementById('rde-input') as HTMLTextAreaElement;
+    const output = document.getElementById('rde-output') as HTMLTextAreaElement;
+    const separator = document.getElementById('rde-separator') as HTMLSelectElement;
+    const processBtn = document.getElementById('rde-process');
+    const clearBtn = document.getElementById('rde-clear');
+    const copyBtn = document.getElementById('rde-copy');
+    
+    function process() {
+      const text = input?.value || '';
+      const sep = separator?.value || 'newline';
+      const delimiter = sep === 'comma' ? ',' : sep === 'semicolon' ? ';' : '\n';
+      
+      const items = text.split(delimiter).map(s => s.trim()).filter(s => s !== '');
+      const unique = [...new Set(items)];
+      
+      if (output) output.value = unique.join('\n');
+    }
+    
+    processBtn?.addEventListener('click', process);
+    clearBtn?.addEventListener('click', () => { if (input) input.value = ''; if (output) output.value = ''; });
+    copyBtn?.addEventListener('click', () => {
+      if (output) {
+        output.select();
+        navigator.clipboard.writeText(output.value);
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => copyBtn.textContent = 'Copy', 1500);
+      }
+    });
+  })();
+</script>

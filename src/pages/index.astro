@@ -1,0 +1,234 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ToolCard from '../components/ToolCard.astro';
+
+const allTools = await getCollection('tools');
+
+const categoryConfig = [
+  { id: 'calculators', label: 'Calculators', icon: 'Calculator' },
+  { id: 'text-tools', label: 'Text & List Tools', icon: 'Type' },
+  { id: 'qr-code', label: 'QR Code Tools', icon: 'QrCode' },
+  { id: 'generators', label: 'Generators', icon: 'UsersRound' },
+  { id: 'timers', label: 'Timers & Counters', icon: 'Timer' },
+];
+
+// Group tools by category, preserving config order
+const grouped = categoryConfig.map(cat => ({
+  ...cat,
+  tools: allTools.filter(t => t.data.category === cat.id),
+})).filter(g => g.tools.length > 0);
+
+const featuredCount = allTools.filter(t => t.data.featured).length;
+---
+
+<BaseLayout 
+  title="Home" 
+  description="Explore the best free online tools at OnlineTool.me! Word counters, calculators, QR code generators, and more."
+>
+  <!-- Hero Section -->
+  <section class="pt-16 pb-12 text-center">
+    <div class="max-w-3xl mx-auto px-4">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+        Best Free Online Tools
+      </h1>
+      <p class="text-lg text-gray-500 dark:text-gray-400 mb-10">
+        Simple, fast, and free tools for everyday tasks. No signup required.
+      </p>
+      
+      <!-- Search Box -->
+      <div class="flex items-center gap-3 max-w-xl mx-auto px-5 py-3.5 rounded-2xl 
+                  bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 
+                  shadow-sm focus-within:ring-2 focus-within:ring-primary-500/20 
+                  focus-within:border-primary-300 dark:focus-within:border-primary-700 transition-all">
+        <svg class="w-5 h-5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+        <input 
+          id="search-input"
+          type="text" 
+          placeholder="Search tools..." 
+          class="w-full bg-transparent outline-none text-gray-700 dark:text-gray-200 placeholder-gray-400 text-sm"
+        />
+        <button 
+          id="search-btn"
+          class="px-4 py-1.5 rounded-lg bg-primary-500 text-white text-sm font-medium 
+                 hover:bg-primary-600 transition-colors flex-shrink-0"
+        >
+          Search
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Category Quick Nav -->
+  <section class="pb-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-wrap items-center gap-2" id="category-tabs">
+        <button 
+          data-category="all"
+          class="category-tab px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 bg-primary-500 text-white"
+        >
+          All Tools
+        </button>
+        {grouped.map(cat => (
+          <button 
+            data-category={cat.id}
+            class="category-tab px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-white/10"
+          >
+            {cat.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Tool Sections by Category -->
+  <section class="pb-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Results info -->
+      <div class="flex items-center justify-between mb-8">
+        <p class="text-sm text-gray-500 dark:text-gray-400">
+          <span id="result-count">{allTools.length}</span> tools available
+        </p>
+      </div>
+      
+      {grouped.map((cat, idx) => (
+        <div class="tool-section mb-10" data-section-category={cat.id}>
+          <!-- Category Header: dashed line | icon + name (count) | dashed line -->
+          <div class="flex items-center justify-center gap-4 mb-5">
+            <div class="w-20 md:w-32 border-t border-dashed border-gray-300 dark:border-white/20"></div>
+            <div class="flex items-center gap-2 flex-shrink-0">
+              <div class="w-7 h-7 rounded-lg bg-primary-50 dark:bg-primary-900/30 flex items-center justify-center text-primary-500">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  {cat.id === 'calculators' && (
+                    <><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></>
+                  )}
+                  {cat.id === 'text-tools' && (
+                    <><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" x2="15" y1="20" y2="20"/><line x1="12" x2="12" y1="4" y2="20"/></>
+                  )}
+                  {cat.id === 'qr-code' && (
+                    <><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></>
+                  )}
+                  {cat.id === 'generators' && (
+                    <><path d="M18 21a8 8 0 0 0-16 0"/><circle cx="10" cy="8" r="5"/><path d="M22 21a8 8 0 0 0-16 0"/><circle cx="14" cy="8" r="5"/></>
+                  )}
+                  {cat.id === 'timers' && (
+                    <><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></>
+                  )}
+                </svg>
+              </div>
+              <h2 class="text-base font-semibold text-gray-800 dark:text-gray-200">{cat.label}</h2>
+              <span class="text-xs text-gray-400 dark:text-gray-500">({cat.tools.length})</span>
+            </div>
+            <div class="w-20 md:w-32 border-t border-dashed border-gray-300 dark:border-white/20"></div>
+          </div>
+          
+          <!-- Tool Grid for this category -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {cat.tools.map(tool => (
+              <ToolCard tool={tool} />
+            ))}
+          </div>
+          
+          <!-- Subtle section divider (except last) -->
+          {idx < grouped.length - 1 && (
+            <div class="mt-10 border-b border-gray-100 dark:border-white/5"></div>
+          )}
+        </div>
+      ))}
+      
+      <!-- No results -->
+      <div id="no-results" class="hidden text-center py-20">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gray-100 dark:bg-white/5 flex items-center justify-center">
+          <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+        </div>
+        <p class="text-gray-500 dark:text-gray-400">No tools found. Try a different search.</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  (function() {
+    const searchInput = document.getElementById('search-input');
+    const searchBtn = document.getElementById('search-btn');
+    const tabs = document.querySelectorAll('.category-tab');
+    const cards = document.querySelectorAll('.tool-section .grid > a');
+    const sections = document.querySelectorAll('.tool-section');
+    const noResults = document.getElementById('no-results');
+    const resultCount = document.getElementById('result-count');
+    
+    let activeCategory = 'all';
+    let searchQuery = '';
+    
+    function filterCards() {
+      let totalVisible = 0;
+      const query = searchQuery.toLowerCase().trim();
+      
+      // Filter individual cards
+      cards.forEach(function(card) {
+        const category = card.getAttribute('data-category');
+        const title = card.getAttribute('data-title') || '';
+        const description = card.getAttribute('data-description') || '';
+        
+        const matchesCategory = activeCategory === 'all' || category === activeCategory;
+        const matchesSearch = !query || title.includes(query) || description.includes(query);
+        
+        if (matchesCategory && matchesSearch) {
+          card.style.display = '';
+          totalVisible++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      
+      // Hide empty sections
+      sections.forEach(function(section) {
+        const visibleCards = section.querySelectorAll('.grid > a:not([style*="display: none"])');
+        if (visibleCards.length === 0) {
+          section.style.display = 'none';
+        } else {
+          section.style.display = '';
+        }
+      });
+      
+      if (resultCount) resultCount.textContent = String(totalVisible);
+      if (noResults) {
+        noResults.classList.toggle('hidden', totalVisible > 0);
+      }
+    }
+    
+    // Category tabs
+    tabs.forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        activeCategory = tab.getAttribute('data-category') || 'all';
+        
+        tabs.forEach(function(t) {
+          t.classList.remove('bg-primary-500', 'text-white');
+          t.classList.add('bg-gray-100', 'dark:bg-white/5', 'text-gray-600', 'dark:text-gray-400');
+        });
+        tab.classList.remove('bg-gray-100', 'dark:bg-white/5', 'text-gray-600', 'dark:text-gray-400');
+        tab.classList.add('bg-primary-500', 'text-white');
+        
+        filterCards();
+      });
+    });
+    
+    // Search on Enter
+    searchInput?.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        searchQuery = searchInput.value;
+        filterCards();
+      }
+    });
+    
+    // Search on button click
+    searchBtn?.addEventListener('click', function() {
+      searchQuery = searchInput?.value || '';
+      filterCards();
+    });
+  })();
+</script>

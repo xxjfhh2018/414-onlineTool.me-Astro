@@ -1,0 +1,194 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+
+// Import all tool components
+import WordCounter from '../components/tools/WordCounter.astro';
+import RemoveEmptyLines from '../components/tools/RemoveEmptyLines.astro';
+import RemoveDuplicateEmail from '../components/tools/RemoveDuplicateEmail.astro';
+import CompareTwoLists from '../components/tools/CompareTwoLists.astro';
+import PomodoroTimer from '../components/tools/PomodoroTimer.astro';
+import TallyCounter from '../components/tools/TallyCounter.astro';
+import RandomTeamGenerator from '../components/tools/RandomTeamGenerator.astro';
+import BACCalculator from '../components/tools/BACCalculator.astro';
+import BAHCalculator from '../components/tools/BAHCalculator.astro';
+import CDCalculator from '../components/tools/CDCalculator.astro';
+import DynastyTradeCalculator from '../components/tools/DynastyTradeCalculator.astro';
+import ScoreBoard from '../components/tools/ScoreBoard.astro';
+import QRCodeGenerator from '../components/tools/QRCodeGenerator.astro';
+import QRCodeReader from '../components/tools/QRCodeReader.astro';
+import TI84Calculator from '../components/tools/TI84Calculator.astro';
+
+export async function getStaticPaths() {
+  const tools = await getCollection('tools');
+  return tools.map(tool => ({
+    params: { slug: tool.slug },
+    props: { tool },
+  }));
+}
+
+const { tool } = Astro.props;
+const { title, description, category, icon, howToUse, faq } = tool.data;
+
+const categoryLabels: Record<string, string> = {
+  'calculators': 'Calculators',
+  'text-tools': 'Text & List Tools',
+  'qr-code': 'QR Code Tools',
+  'generators': 'Generators',
+  'timers': 'Timers & Counters',
+};
+
+const toolComponents: Record<string, any> = {
+  'word-counter': WordCounter,
+  'remove-empty-lines': RemoveEmptyLines,
+  'remove-duplicate-email': RemoveDuplicateEmail,
+  'compare-two-lists': CompareTwoLists,
+  'pomodoro-timer': PomodoroTimer,
+  'tally-counter': TallyCounter,
+  'random-team-generator': RandomTeamGenerator,
+  'bac-calculator': BACCalculator,
+  'bah-calculator': BAHCalculator,
+  'cd-calculator': CDCalculator,
+  'dynasty-trade-calculator': DynastyTradeCalculator,
+  'score-board': ScoreBoard,
+  'qr-code-generator': QRCodeGenerator,
+  'qr-code-reader': QRCodeReader,
+  'ti-84-calculator': TI84Calculator,
+};
+
+const ToolComponent = toolComponents[tool.slug];
+---
+
+<BaseLayout 
+  title={title}
+  description={description}
+  canonical={`https://onlinetool.me/${tool.slug}/`}
+>
+  <!-- Breadcrumb -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+    <nav class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+      <a href="/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+      </svg>
+      <span class="text-gray-900 dark:text-white font-medium">{title}</span>
+    </nav>
+  </div>
+
+  <!-- Hero -->
+  <section class="pt-8 pb-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="w-16 h-16 mx-auto mb-5 rounded-2xl bg-primary-50 dark:bg-primary-900/30 flex items-center justify-center text-primary-500 dark:text-primary-400">
+        <Icon name={icon} class="w-8 h-8" />
+      </div>
+      <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3">
+        {title}
+      </h1>
+      <p class="text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
+        {description}
+      </p>
+      <div class="mt-4">
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400">
+          {categoryLabels[category] || category}
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tool Function Area -->
+  <section class="pb-12">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      {ToolComponent ? <ToolComponent /> : (
+        <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-8 text-center">
+          <p class="text-sm text-gray-500 dark:text-gray-400">Tool interface coming soon.</p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- How to Use -->
+  {howToUse && howToUse.length > 0 && (
+    <section class="pb-12">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">How to Use</h2>
+        <div class="space-y-4">
+          {howToUse.map((step) => (
+            <div class="flex gap-4 p-5 rounded-xl bg-white dark:bg-surface-dark border border-gray-100 dark:border-white/5">
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center text-sm font-bold">
+                {step.step}
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-900 dark:text-white mb-1">{step.title}</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">{step.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- FAQ -->
+  {faq && faq.length > 0 && (
+    <section class="pb-20">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-3">
+          {faq.map((item, index) => (
+            <div class="rounded-xl bg-white dark:bg-surface-dark border border-gray-100 dark:border-white/5 overflow-hidden">
+              <button 
+                class="faq-toggle w-full flex items-center justify-between p-5 text-left group"
+                data-index={index}
+                aria-expanded="false"
+              >
+                <span class="font-medium text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                  {item.question}
+                </span>
+                <svg 
+                  class="faq-icon w-5 h-5 text-gray-400 flex-shrink-0 ml-4 transition-transform duration-300" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="faq-content hidden px-5 pb-5">
+                <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                  {item.answer}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<script>
+  (function() {
+    const toggles = document.querySelectorAll('.faq-toggle');
+    
+    toggles.forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        const content = toggle.nextElementSibling;
+        const icon = toggle.querySelector('.faq-icon');
+        const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+        
+        toggles.forEach(t => {
+          if (t !== toggle) {
+            t.setAttribute('aria-expanded', 'false');
+            t.nextElementSibling?.classList.add('hidden');
+            t.querySelector('.faq-icon')?.classList.remove('rotate-180');
+          }
+        });
+        
+        toggle.setAttribute('aria-expanded', String(!isExpanded));
+        content?.classList.toggle('hidden');
+        icon?.classList.toggle('rotate-180');
+      });
+    });
+  })();
+</script>

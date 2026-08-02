@@ -1,0 +1,126 @@
+<div class="max-w-2xl mx-auto">
+  <div class="grid md:grid-cols-2 gap-4 mb-6">
+    <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-5">
+      <div class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">You Give</div>
+      <div id="dtc-side-a" class="space-y-2"></div>
+      <button id="dtc-add-a" class="mt-3 w-full py-2 rounded-lg border border-dashed border-gray-300 dark:border-white/10 text-sm text-gray-500 hover:border-primary-500 hover:text-primary-500 transition-colors">
+        + Add Player / Pick
+      </button>
+    </div>
+    
+    <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-5">
+      <div class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">You Get</div>
+      <div id="dtc-side-b" class="space-y-2"></div>
+      <button id="dtc-add-b" class="mt-3 w-full py-2 rounded-lg border border-dashed border-gray-300 dark:border-white/10 text-sm text-gray-500 hover:border-primary-500 hover:text-primary-500 transition-colors">
+        + Add Player / Pick
+      </button>
+    </div>
+  </div>
+  
+  <button id="dtc-evaluate" class="w-full px-4 py-3 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors mb-6">
+    Evaluate Trade
+  </button>
+  
+  <div id="dtc-result" class="hidden rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-6 text-center">
+    <div id="dtc-verdict" class="text-2xl font-bold mb-2"></div>
+    <div class="grid grid-cols-2 gap-4 mt-4">
+      <div class="p-3 rounded-xl bg-gray-50 dark:bg-white/5">
+        <div class="text-xs text-gray-500 dark:text-gray-400">Side A Value</div>
+        <div id="dtc-val-a" class="text-xl font-bold text-gray-800 dark:text-white"></div>
+      </div>
+      <div class="p-3 rounded-xl bg-gray-50 dark:bg-white/5">
+        <div class="text-xs text-gray-500 dark:text-gray-400">Side B Value</div>
+        <div id="dtc-val-b" class="text-xl font-bold text-gray-800 dark:text-white"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const sideA = document.getElementById('dtc-side-a');
+    const sideB = document.getElementById('dtc-side-b');
+    const addA = document.getElementById('dtc-add-a');
+    const addB = document.getElementById('dtc-add-b');
+    const evaluateBtn = document.getElementById('dtc-evaluate');
+    const result = document.getElementById('dtc-result');
+    const verdict = document.getElementById('dtc-verdict');
+    const valA = document.getElementById('dtc-val-a');
+    const valB = document.getElementById('dtc-val-b');
+    
+    let itemsA: { name: string; value: number }[] = [];
+    let itemsB: { name: string; value: number }[] = [];
+    
+    function addItem(container: HTMLElement | null, items: typeof itemsA, isPick: boolean) {
+      const name = prompt(isPick ? 'Enter pick (e.g., 2025 1st):' : 'Enter player name:');
+      if (!name) return;
+      const value = parseFloat(prompt('Enter value (1-100):') || '50');
+      items.push({ name, value });
+      render();
+    }
+    
+    function render() {
+      if (sideA) {
+        sideA.innerHTML = itemsA.map((item, i) => `
+          <div class="flex items-center justify-between p-2 rounded-lg bg-gray-50 dark:bg-white/5 text-sm">
+            <span class="text-gray-800 dark:text-gray-200">${item.name}</span>
+            <div class="flex items-center gap-2">
+              <span class="text-primary-500 font-medium">${item.value}</span>
+              <button data-side="a" data-i="${i}" class="dtc-del text-gray-400 hover:text-red-500">✕</button>
+            </div>
+          </div>
+        `).join('');
+      }
+      if (sideB) {
+        sideB.innerHTML = itemsB.map((item, i) => `
+          <div class="flex items-center justify-between p-2 rounded-lg bg-gray-50 dark:bg-white/5 text-sm">
+            <span class="text-gray-800 dark:text-gray-200">${item.name}</span>
+            <div class="flex items-center gap-2">
+              <span class="text-primary-500 font-medium">${item.value}</span>
+              <button data-side="b" data-i="${i}" class="dtc-del text-gray-400 hover:text-red-500">✕</button>
+            </div>
+          </div>
+        `).join('');
+      }
+      
+      document.querySelectorAll('.dtc-del').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const s = btn.getAttribute('data-side');
+          const i = parseInt(btn.getAttribute('data-i') || '0');
+          if (s === 'a') itemsA.splice(i, 1);
+          else itemsB.splice(i, 1);
+          render();
+        });
+      });
+    }
+    
+    addA?.addEventListener('click', () => addItem(sideA, itemsA, false));
+    addB?.addEventListener('click', () => addItem(sideB, itemsB, false));
+    
+    evaluateBtn?.addEventListener('click', () => {
+      const totalA = itemsA.reduce((sum, item) => sum + item.value, 0);
+      const totalB = itemsB.reduce((sum, item) => sum + item.value, 0);
+      
+      if (valA) valA.textContent = String(totalA);
+      if (valB) valB.textContent = String(totalB);
+      
+      if (verdict) {
+        const diff = Math.abs(totalA - totalB);
+        const pct = Math.max(totalA, totalB) > 0 ? (diff / Math.max(totalA, totalB) * 100) : 0;
+        
+        if (pct < 10) {
+          verdict.textContent = 'Fair Trade';
+          verdict.className = 'text-2xl font-bold text-primary-500 mb-2';
+        } else if (totalA > totalB) {
+          verdict.textContent = 'Favors You';
+          verdict.className = 'text-2xl font-bold text-green-500 mb-2';
+        } else {
+          verdict.textContent = 'Favors Other Side';
+          verdict.className = 'text-2xl font-bold text-amber-500 mb-2';
+        }
+      }
+      
+      result?.classList.remove('hidden');
+    });
+  })();
+</script>

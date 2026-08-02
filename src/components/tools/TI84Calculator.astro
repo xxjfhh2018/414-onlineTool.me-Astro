@@ -1,0 +1,112 @@
+<div class="max-w-sm mx-auto">
+  <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-4">
+    <!-- Display -->
+    <div class="mb-4 p-4 rounded-xl bg-gray-100 dark:bg-white/5 text-right">
+      <div id="calc-history" class="text-xs text-gray-400 h-5"></div>
+      <div id="calc-display" class="text-3xl font-mono font-bold text-gray-900 dark:text-white truncate">0</div>
+    </div>
+    
+    <!-- Keypad -->
+    <div class="grid grid-cols-4 gap-2">
+      <button class="calc-btn p-3 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-500 font-medium hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors" data-action="clear">AC</button>
+      <button class="calc-btn p-3 rounded-lg bg-gray-50 dark:bg-white/5 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-100 dark:hover:bg-white/10 transition-colors" data-action="neg">+/-</button>
+      <button class="calc-btn p-3 rounded-lg bg-gray-50 dark:bg-white/5 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-100 dark:hover:bg-white/10 transition-colors" data-action="percent">%</button>
+      <button class="calc-btn p-3 rounded-lg bg-primary-50 dark:bg-primary-900/20 text-primary-500 font-bold hover:bg-primary-100 dark:hover:bg-primary-900/30 transition-colors" data-op="/">÷</button>
+      
+      <button class="calc-btn p-3 rounded-lg bg-white dark:bg-white/5 border border-gray-100 dark:border-white/5 text-gray-800 dark:text-gray-200 font-medium hover:bg-gray-50 dark:hover:bg-white/10 transition-colors" data-num="7">7</button>
+      <button class="calc-btn p-3 rounded-lg bg-white dark:bg-white/5 border border-gray-100 dark:border-white/5 text-gray-800 dark:text-gray-200 font-medium hover:bg-gray-50 dark:hover:bg-white/10 transition-colors" data-num="8">8</button>
+      <button class="calc-btn p-3 rounded-lg bg-white dark:bg-white/5 border border-gray-100 dark:border-white/5 text-gray-800 dark:text-gray-200 font-medium hover:bg-gray-50 dark:hover:bg-white/10 transition-colors" data-num="9">9</button>
+      <button class="calc-btn p-3 rounded-lg bg-primary-50 dark:bg-primary-900/20 text-primary-500 font-bold hover:bg-primary-100 dark:hover:bg-primary-900/30 transition-colors" data-op="*">×</button>
+      
+      <button class="calc-btn p-3 rounded-lg bg-white dark:bg-white/5 border border-gray-100 dark:border-white/5 text-gray-800 dark:text-gray-200 font-medium hover:bg-gray-50 dark:hover:bg-white/10 transition-colors" data-num="4">4</button>
+      <button class="calc-btn p-3 rounded-lg bg-white dark:bg-white/5 border border-gray-100 dark:border-white/5 text-gray-800 dark:text-gray-200 font-medium hover:bg-gray-50 dark:hover:bg-white/10 transition-colors" data-num="5">5</button>
+      <button class="calc-btn p-3 rounded-lg bg-white dark:bg-white/5 border border-gray-100 dark:border-white/5 text-gray-800 dark:text-gray-200 font-medium hover:bg-gray-50 dark:hover:bg-white/10 transition-colors" data-num="6">6</button>
+      <button class="calc-btn p-3 rounded-lg bg-primary-50 dark:bg-primary-900/20 text-primary-500 font-bold hover:bg-primary-100 dark:hover:bg-primary-900/30 transition-colors" data-op="-">−</button>
+      
+      <button class="calc-btn p-3 rounded-lg bg-white dark:bg-white/5 border border-gray-100 dark:border-white/5 text-gray-800 dark:text-gray-200 font-medium hover:bg-gray-50 dark:hover:bg-white/10 transition-colors" data-num="1">1</button>
+      <button class="calc-btn p-3 rounded-lg bg-white dark:bg-white/5 border border-gray-100 dark:border-white/5 text-gray-800 dark:text-gray-200 font-medium hover:bg-gray-50 dark:hover:bg-white/10 transition-colors" data-num="2">2</button>
+      <button class="calc-btn p-3 rounded-lg bg-white dark:bg-white/5 border border-gray-100 dark:border-white/5 text-gray-800 dark:text-gray-200 font-medium hover:bg-gray-50 dark:hover:bg-white/10 transition-colors" data-num="3">3</button>
+      <button class="calc-btn p-3 rounded-lg bg-primary-50 dark:bg-primary-900/20 text-primary-500 font-bold hover:bg-primary-100 dark:hover:bg-primary-900/30 transition-colors" data-op="+">+</button>
+      
+      <button class="calc-btn col-span-2 p-3 rounded-lg bg-white dark:bg-white/5 border border-gray-100 dark:border-white/5 text-gray-800 dark:text-gray-200 font-medium hover:bg-gray-50 dark:hover:bg-white/10 transition-colors" data-num="0">0</button>
+      <button class="calc-btn p-3 rounded-lg bg-white dark:bg-white/5 border border-gray-100 dark:border-white/5 text-gray-800 dark:text-gray-200 font-medium hover:bg-gray-50 dark:hover:bg-white/10 transition-colors" data-num=".">.</button>
+      <button class="calc-btn p-3 rounded-lg bg-primary-500 text-white font-bold hover:bg-primary-600 transition-colors" data-action="equals">=</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const display = document.getElementById('calc-display');
+    const history = document.getElementById('calc-history');
+    const buttons = document.querySelectorAll('.calc-btn');
+    
+    let current = '0';
+    let previous = '';
+    let op = '';
+    let shouldReset = false;
+    
+    function update() {
+      if (display) display.textContent = current;
+      if (history) history.textContent = previous + ' ' + op;
+    }
+    
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const num = btn.getAttribute('data-num');
+        const oper = btn.getAttribute('data-op');
+        const action = btn.getAttribute('data-action');
+        
+        if (num) {
+          if (shouldReset) {
+            current = num === '.' ? '0.' : num;
+            shouldReset = false;
+          } else {
+            if (num === '.' && current.includes('.')) return;
+            current = current === '0' && num !== '.' ? num : current + num;
+          }
+        }
+        
+        if (oper) {
+          previous = current;
+          op = oper;
+          shouldReset = true;
+        }
+        
+        if (action === 'clear') {
+          current = '0';
+          previous = '';
+          op = '';
+        }
+        
+        if (action === 'neg') {
+          current = String(parseFloat(current) * -1);
+        }
+        
+        if (action === 'percent') {
+          current = String(parseFloat(current) / 100);
+        }
+        
+        if (action === 'equals') {
+          if (previous && op) {
+            const a = parseFloat(previous);
+            const b = parseFloat(current);
+            let result = 0;
+            switch (op) {
+              case '+': result = a + b; break;
+              case '-': result = a - b; break;
+              case '*': result = a * b; break;
+              case '/': result = b !== 0 ? a / b : 0; break;
+            }
+            current = String(Math.round(result * 100000000) / 100000000);
+            previous = '';
+            op = '';
+            shouldReset = true;
+          }
+        }
+        
+        update();
+      });
+    });
+  })();
+</script>

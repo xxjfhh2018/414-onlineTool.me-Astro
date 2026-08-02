@@ -1,0 +1,105 @@
+<div class="max-w-2xl mx-auto">
+  <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-6 mb-6">
+    <div class="grid grid-cols-3 gap-3 mb-4">
+      <div>
+        <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Reading</label>
+        <input id="sb-reading" type="number" min="200" max="800" placeholder="400" 
+               class="w-full px-3 py-2 rounded-lg bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none text-center text-gray-800 dark:text-gray-200" />
+      </div>
+      <div>
+        <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Writing</label>
+        <input id="sb-writing" type="number" min="200" max="800" placeholder="400" 
+               class="w-full px-3 py-2 rounded-lg bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none text-center text-gray-800 dark:text-gray-200" />
+      </div>
+      <div>
+        <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Math</label>
+        <input id="sb-math" type="number" min="200" max="800" placeholder="400" 
+               class="w-full px-3 py-2 rounded-lg bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none text-center text-gray-800 dark:text-gray-200" />
+      </div>
+    </div>
+    <div class="mb-4">
+      <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Test Date</label>
+      <input id="sb-date" type="date" 
+             class="w-full px-3 py-2 rounded-lg bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none text-gray-800 dark:text-gray-200" />
+    </div>
+    <button id="sb-add" class="w-full px-4 py-2 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors">
+      Add Score
+    </button>
+  </div>
+  
+  <div id="sb-scores" class="space-y-3"></div>
+  
+  <div id="sb-summary" class="hidden mt-6 p-5 rounded-2xl bg-primary-50 dark:bg-primary-900/20 text-center">
+    <div class="text-sm text-gray-500 dark:text-gray-400">Best Total Score</div>
+    <div id="sb-best" class="text-4xl font-bold text-primary-600 dark:text-primary-400 mt-1">0</div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const reading = document.getElementById('sb-reading') as HTMLInputElement;
+    const writing = document.getElementById('sb-writing') as HTMLInputElement;
+    const math = document.getElementById('sb-math') as HTMLInputElement;
+    const date = document.getElementById('sb-date') as HTMLInputElement;
+    const addBtn = document.getElementById('sb-add');
+    const container = document.getElementById('sb-scores');
+    const summary = document.getElementById('sb-summary');
+    const bestEl = document.getElementById('sb-best');
+    
+    let scores: { date: string; reading: number; writing: number; math: number; total: number }[] = [];
+    
+    function render() {
+      if (!container) return;
+      container.innerHTML = scores.map((s, i) => `
+        <div class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-surface-dark border border-gray-100 dark:border-white/5">
+          <div class="flex-1">
+            <div class="text-xs text-gray-500 dark:text-gray-400">${s.date}</div>
+            <div class="flex gap-4 mt-1">
+              <span class="text-sm">R: <strong>${s.reading}</strong></span>
+              <span class="text-sm">W: <strong>${s.writing}</strong></span>
+              <span class="text-sm">M: <strong>${s.math}</strong></span>
+            </div>
+          </div>
+          <div class="text-xl font-bold text-primary-500">${s.total}</div>
+          <button data-i="${i}" class="sb-del text-gray-400 hover:text-red-500 text-sm">✕</button>
+        </div>
+      `).join('');
+      
+      container.querySelectorAll('.sb-del').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const i = parseInt(btn.getAttribute('data-i') || '0');
+          scores.splice(i, 1);
+          render();
+          updateSummary();
+        });
+      });
+    }
+    
+    function updateSummary() {
+      if (scores.length === 0) {
+        summary?.classList.add('hidden');
+        return;
+      }
+      const best = Math.max(...scores.map(s => s.total));
+      if (bestEl) bestEl.textContent = String(best);
+      summary?.classList.remove('hidden');
+    }
+    
+    addBtn?.addEventListener('click', () => {
+      const r = parseInt(reading?.value || '0');
+      const w = parseInt(writing?.value || '0');
+      const m = parseInt(math?.value || '0');
+      const d = date?.value || new Date().toISOString().split('T')[0];
+      
+      if (r > 0 && w > 0 && m > 0) {
+        scores.push({ date: d, reading: r, writing: w, math: m, total: r + w + m });
+        scores.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        render();
+        updateSummary();
+        if (reading) reading.value = '';
+        if (writing) writing.value = '';
+        if (math) math.value = '';
+      }
+    });
+  })();
+</script>

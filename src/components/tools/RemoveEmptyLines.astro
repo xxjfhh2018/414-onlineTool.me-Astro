@@ -1,0 +1,62 @@
+<div class="max-w-3xl mx-auto">
+  <div class="grid md:grid-cols-2 gap-4">
+    <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 overflow-hidden">
+      <div class="p-3 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
+        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Input</span>
+        <button id="rel-clear" class="text-xs text-gray-400 hover:text-primary-500 transition-colors">Clear</button>
+      </div>
+      <textarea 
+        id="rel-input"
+        class="w-full h-64 p-4 bg-transparent resize-none outline-none text-gray-800 dark:text-gray-200 text-sm leading-relaxed"
+        placeholder="Paste text with empty lines here..."
+      ></textarea>
+    </div>
+    
+    <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 overflow-hidden">
+      <div class="p-3 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
+        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Result</span>
+        <button id="rel-copy" class="text-xs text-primary-500 hover:text-primary-600 transition-colors">Copy</button>
+      </div>
+      <textarea 
+        id="rel-output"
+        class="w-full h-64 p-4 bg-transparent resize-none outline-none text-gray-800 dark:text-gray-200 text-sm leading-relaxed"
+        placeholder="Cleaned text will appear here..."
+        readonly
+      ></textarea>
+    </div>
+  </div>
+  
+  <div class="mt-4 flex gap-3">
+    <button id="rel-process" class="flex-1 px-4 py-3 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors">
+      Remove Empty Lines
+    </button>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const input = document.getElementById('rel-input') as HTMLTextAreaElement;
+    const output = document.getElementById('rel-output') as HTMLTextAreaElement;
+    const processBtn = document.getElementById('rel-process');
+    const clearBtn = document.getElementById('rel-clear');
+    const copyBtn = document.getElementById('rel-copy');
+    
+    function process() {
+      const text = input?.value || '';
+      const lines = text.split('\n');
+      const cleaned = lines.filter(line => line.trim() !== '').join('\n');
+      if (output) output.value = cleaned;
+    }
+    
+    processBtn?.addEventListener('click', process);
+    clearBtn?.addEventListener('click', () => { if (input) input.value = ''; if (output) output.value = ''; });
+    copyBtn?.addEventListener('click', () => {
+      if (output) {
+        output.select();
+        navigator.clipboard.writeText(output.value);
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => copyBtn.textContent = 'Copy', 1500);
+      }
+    });
+  })();
+</script>

@@ -1,0 +1,57 @@
+<div class="max-w-3xl mx-auto">
+  <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 overflow-hidden">
+    <div class="p-4 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
+      <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Input</span>
+      <span class="text-xs text-gray-400">Type or paste your text</span>
+    </div>
+    <textarea 
+      id="wc-input"
+      class="w-full h-48 p-4 bg-transparent resize-none outline-none text-gray-800 dark:text-gray-200 text-sm leading-relaxed"
+      placeholder="Start typing or paste your text here..."
+    ></textarea>
+  </div>
+  
+  <div class="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
+    <div class="p-4 rounded-xl bg-white dark:bg-surface-dark border border-gray-100 dark:border-white/5 text-center">
+      <div id="wc-words" class="text-2xl font-bold text-primary-500">0</div>
+      <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">Words</div>
+    </div>
+    <div class="p-4 rounded-xl bg-white dark:bg-surface-dark border border-gray-100 dark:border-white/5 text-center">
+      <div id="wc-chars" class="text-2xl font-bold text-primary-500">0</div>
+      <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">Characters</div>
+    </div>
+    <div class="p-4 rounded-xl bg-white dark:bg-surface-dark border border-gray-100 dark:border-white/5 text-center">
+      <div id="wc-chars-no-spaces" class="text-2xl font-bold text-primary-500">0</div>
+      <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">No Spaces</div>
+    </div>
+    <div class="p-4 rounded-xl bg-white dark:bg-surface-dark border border-gray-100 dark:border-white/5 text-center">
+      <div id="wc-sentences" class="text-2xl font-bold text-primary-500">0</div>
+      <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">Sentences</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const input = document.getElementById('wc-input') as HTMLTextAreaElement;
+    const wordsEl = document.getElementById('wc-words');
+    const charsEl = document.getElementById('wc-chars');
+    const charsNoSpacesEl = document.getElementById('wc-chars-no-spaces');
+    const sentencesEl = document.getElementById('wc-sentences');
+    
+    function count() {
+      const text = input?.value || '';
+      const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+      const chars = text.length;
+      const charsNoSpaces = text.replace(/\s/g, '').length;
+      const sentences = text.trim() ? text.split(/[.!?]+/).filter(s => s.trim()).length : 0;
+      
+      if (wordsEl) wordsEl.textContent = String(words);
+      if (charsEl) charsEl.textContent = String(chars);
+      if (charsNoSpacesEl) charsNoSpacesEl.textContent = String(charsNoSpaces);
+      if (sentencesEl) sentencesEl.textContent = String(sentences);
+    }
+    
+    input?.addEventListener('input', count);
+  })();
+</script>
