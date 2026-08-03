@@ -44,8 +44,8 @@ howToUse:
     title: "Total the FRQ Rubrics"
     description: "Add points from all long- and short-answer scoring guides."
   - step: 3
-    title: "Calculate the AP Chem Prediction"
-    description: "Review the estimated 1–5 score and weighted composite."
+    title: "Review the Live AP Chem Prediction"
+    description: "The estimated 1–5 score and weighted composite update automatically as you change an input."
 faq:
   - question: "How do I calculate an AP Chemistry score?"
     answer: "Convert MCQ and total FRQ points to percentages, weight each section 50%, and add the results."

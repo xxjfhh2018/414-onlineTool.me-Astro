@@ -44,8 +44,8 @@ howToUse:
     title: "Enter FRQ Points"
     description: "Sum points earned from the long and short free-response scoring guides."
   - step: 3
-    title: "Calculate the AP Bio Estimate"
-    description: "Review the composite, prediction, and section contributions."
+    title: "Review the Live AP Bio Estimate"
+    description: "The composite, prediction, and section contributions update automatically as you change an input."
 faq:
   - question: "How do I calculate an AP Biology score?"
     answer: "Convert MCQ and FRQ raw scores to percentages, give each section 50% weight, and add the contributions."

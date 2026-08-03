@@ -38,16 +38,16 @@ relatedTools:
 howToUse:
   - step: 1
     title: "Enter Your Scores"
-    description: "Input your SAT section scores (Reading, Writing, Math) into the board."
+    description: "Enter values from 200 to 800 for Reading, Writing, and Math; the draft total appears immediately."
   - step: 2
     title: "Add Test Dates"
     description: "Record the date of each practice test or official exam."
   - step: 3
     title: "Track Progress"
-    description: "View your score trends and improvements over time."
+    description: "Save each completed attempt and compare the dated totals shown on the board."
   - step: 4
-    title: "Set Goals"
-    description: "Set target scores and see how close you are to achieving them."
+    title: "Review Your Best Total"
+    description: "The summary updates automatically when an attempt is added or removed."
 faq:
   - question: "What is a good SAT score?"
     answer: "A useful target depends on the current scoring system and the colleges you are considering. Check current official SAT guidance and each institution's published data."

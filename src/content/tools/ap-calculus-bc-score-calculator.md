@@ -44,8 +44,8 @@ howToUse:
     title: "Add Free-Response Points"
     description: "Total the earned and possible points from all FRQ rubrics."
   - step: 3
-    title: "Calculate the BC Estimate"
-    description: "Review the overall composite and predicted score."
+    title: "Review the Live BC Estimate"
+    description: "The overall composite and predicted score update automatically as you change an input."
 faq:
   - question: "How do I calculate an AP Calculus BC score?"
     answer: "Convert MCQ and FRQ totals to percentages, give each section 50% weight, and add them."

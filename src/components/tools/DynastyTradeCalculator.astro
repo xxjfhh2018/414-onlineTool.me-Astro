@@ -1,126 +1,101 @@
-<div class="max-w-2xl mx-auto">
+<div class="max-w-2xl mx-auto" id="dynasty-trade-tool">
   <div class="grid md:grid-cols-2 gap-4 mb-6">
     <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-5">
       <div class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">You Give</div>
-      <div id="dtc-side-a" class="space-y-2"></div>
-      <button id="dtc-add-a" class="mt-3 w-full py-2 rounded-lg border border-dashed border-gray-300 dark:border-white/10 text-sm text-gray-500 hover:border-primary-500 hover:text-primary-500 transition-colors">
+      <div id="dtc-side-a" class="space-y-3"></div>
+      <button id="dtc-add-a" type="button" class="mt-3 w-full py-2 rounded-lg border border-dashed border-gray-300 dark:border-white/10 text-sm text-gray-500 hover:border-primary-500 hover:text-primary-500 transition-colors">
         + Add Player / Pick
       </button>
     </div>
-    
+
     <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-5">
       <div class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">You Get</div>
-      <div id="dtc-side-b" class="space-y-2"></div>
-      <button id="dtc-add-b" class="mt-3 w-full py-2 rounded-lg border border-dashed border-gray-300 dark:border-white/10 text-sm text-gray-500 hover:border-primary-500 hover:text-primary-500 transition-colors">
+      <div id="dtc-side-b" class="space-y-3"></div>
+      <button id="dtc-add-b" type="button" class="mt-3 w-full py-2 rounded-lg border border-dashed border-gray-300 dark:border-white/10 text-sm text-gray-500 hover:border-primary-500 hover:text-primary-500 transition-colors">
         + Add Player / Pick
       </button>
     </div>
   </div>
-  
-  <button id="dtc-evaluate" class="w-full px-4 py-3 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors mb-6">
-    Evaluate Trade
-  </button>
-  
-  <div id="dtc-result" class="hidden rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-6 text-center">
-    <div id="dtc-verdict" class="text-2xl font-bold mb-2"></div>
-    <div class="grid grid-cols-2 gap-4 mt-4">
-      <div class="p-3 rounded-xl bg-gray-50 dark:bg-white/5">
-        <div class="text-xs text-gray-500 dark:text-gray-400">Side A Value</div>
-        <div id="dtc-val-a" class="text-xl font-bold text-gray-800 dark:text-white"></div>
-      </div>
-      <div class="p-3 rounded-xl bg-gray-50 dark:bg-white/5">
-        <div class="text-xs text-gray-500 dark:text-gray-400">Side B Value</div>
-        <div id="dtc-val-b" class="text-xl font-bold text-gray-800 dark:text-white"></div>
-      </div>
-    </div>
+
+  <div id="dtc-result" class="min-h-[10rem] rounded-2xl border border-dashed border-gray-300 dark:border-white/15 bg-gray-50/70 dark:bg-white/[0.03] p-6 flex items-center justify-center text-center text-sm text-gray-500 dark:text-gray-400" aria-live="polite">
+    Add a value to both sides to see the live trade comparison
   </div>
+  <p class="mt-4 text-xs leading-5 text-gray-500 dark:text-gray-400">Player and pick values are user-provided. The result compares the totals you enter; it is not a live ranking or projection database.</p>
 </div>
 
 <script>
   (function() {
-    const sideA = document.getElementById('dtc-side-a');
-    const sideB = document.getElementById('dtc-side-b');
-    const addA = document.getElementById('dtc-add-a');
-    const addB = document.getElementById('dtc-add-b');
-    const evaluateBtn = document.getElementById('dtc-evaluate');
-    const result = document.getElementById('dtc-result');
-    const verdict = document.getElementById('dtc-verdict');
-    const valA = document.getElementById('dtc-val-a');
-    const valB = document.getElementById('dtc-val-b');
-    
-    let itemsA: { name: string; value: number }[] = [];
-    let itemsB: { name: string; value: number }[] = [];
-    
-    function addItem(container: HTMLElement | null, items: typeof itemsA, isPick: boolean) {
-      const name = prompt(isPick ? 'Enter pick (e.g., 2025 1st):' : 'Enter player name:');
-      if (!name) return;
-      const value = parseFloat(prompt('Enter value (1-100):') || '50');
-      items.push({ name, value });
-      render();
+    const root = document.getElementById('dynasty-trade-tool');
+    if (!root || root.dataset.ready === 'true') return;
+    root.dataset.ready = 'true';
+    const sideA = root.querySelector('#dtc-side-a');
+    const sideB = root.querySelector('#dtc-side-b');
+    const result = root.querySelector('#dtc-result');
+    const inputClass = 'w-full px-3 py-2 rounded-lg bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-sm text-gray-800 dark:text-gray-200';
+    const placeholder = 'Add a value to both sides to see the live trade comparison';
+
+    function addItem(container: Element | null) {
+      if (!container) return;
+      const row = document.createElement('div');
+      row.className = 'dtc-row grid grid-cols-[minmax(0,1fr)_5.5rem_2.25rem] gap-2 items-center';
+      row.innerHTML = `<input class="dtc-name ${inputClass}" type="text" placeholder="Player or pick" aria-label="Player or pick"><input class="dtc-value ${inputClass} text-center" type="number" inputmode="decimal" min="0.01" max="1000" step="0.1" placeholder="Value" aria-label="Trade value"><button type="button" class="dtc-del w-9 h-9 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20" aria-label="Remove player or pick">×</button>`;
+      container.appendChild(row);
     }
-    
-    function render() {
-      if (sideA) {
-        sideA.innerHTML = itemsA.map((item, i) => `
-          <div class="flex items-center justify-between p-2 rounded-lg bg-gray-50 dark:bg-white/5 text-sm">
-            <span class="text-gray-800 dark:text-gray-200">${item.name}</span>
-            <div class="flex items-center gap-2">
-              <span class="text-primary-500 font-medium">${item.value}</span>
-              <button data-side="a" data-i="${i}" class="dtc-del text-gray-400 hover:text-red-500">✕</button>
-            </div>
-          </div>
-        `).join('');
-      }
-      if (sideB) {
-        sideB.innerHTML = itemsB.map((item, i) => `
-          <div class="flex items-center justify-between p-2 rounded-lg bg-gray-50 dark:bg-white/5 text-sm">
-            <span class="text-gray-800 dark:text-gray-200">${item.name}</span>
-            <div class="flex items-center gap-2">
-              <span class="text-primary-500 font-medium">${item.value}</span>
-              <button data-side="b" data-i="${i}" class="dtc-del text-gray-400 hover:text-red-500">✕</button>
-            </div>
-          </div>
-        `).join('');
-      }
-      
-      document.querySelectorAll('.dtc-del').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const s = btn.getAttribute('data-side');
-          const i = parseInt(btn.getAttribute('data-i') || '0');
-          if (s === 'a') itemsA.splice(i, 1);
-          else itemsB.splice(i, 1);
-          render();
-        });
-      });
-    }
-    
-    addA?.addEventListener('click', () => addItem(sideA, itemsA, false));
-    addB?.addEventListener('click', () => addItem(sideB, itemsB, false));
-    
-    evaluateBtn?.addEventListener('click', () => {
-      const totalA = itemsA.reduce((sum, item) => sum + item.value, 0);
-      const totalB = itemsB.reduce((sum, item) => sum + item.value, 0);
-      
-      if (valA) valA.textContent = String(totalA);
-      if (valB) valB.textContent = String(totalB);
-      
-      if (verdict) {
-        const diff = Math.abs(totalA - totalB);
-        const pct = Math.max(totalA, totalB) > 0 ? (diff / Math.max(totalA, totalB) * 100) : 0;
-        
-        if (pct < 10) {
-          verdict.textContent = 'Fair Trade';
-          verdict.className = 'text-2xl font-bold text-primary-500 mb-2';
-        } else if (totalA > totalB) {
-          verdict.textContent = 'Favors You';
-          verdict.className = 'text-2xl font-bold text-green-500 mb-2';
-        } else {
-          verdict.textContent = 'Favors Other Side';
-          verdict.className = 'text-2xl font-bold text-amber-500 mb-2';
+
+    function sideTotal(container: Element | null) {
+      let total = 0;
+      let entries = 0;
+      let invalid = false;
+      container?.querySelectorAll<HTMLInputElement>('.dtc-value').forEach(input => {
+        const raw = input.value.trim();
+        if (!raw) return;
+        const value = Number(raw);
+        if (!Number.isFinite(value) || value <= 0) {
+          invalid = true;
+          return;
         }
+        total += value;
+        entries++;
+      });
+      return { total, entries, invalid };
+    }
+
+    function evaluate() {
+      if (!result) return;
+      const a = sideTotal(sideA);
+      const b = sideTotal(sideB);
+      if (a.invalid || b.invalid) {
+        result.className = 'min-h-[10rem] rounded-2xl bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800/40 p-6 flex items-center justify-center text-center text-sm text-amber-800 dark:text-amber-300';
+        result.textContent = 'Trade values must be greater than zero.';
+        return;
       }
-      
-      result?.classList.remove('hidden');
+      if (!a.entries || !b.entries) {
+        result.className = 'min-h-[10rem] rounded-2xl border border-dashed border-gray-300 dark:border-white/15 bg-gray-50/70 dark:bg-white/[0.03] p-6 flex items-center justify-center text-center text-sm text-gray-500 dark:text-gray-400';
+        result.textContent = placeholder;
+        return;
+      }
+      const difference = Math.abs(a.total - b.total);
+      const percentage = Math.max(a.total, b.total) > 0 ? difference / Math.max(a.total, b.total) * 100 : 0;
+      const verdict = percentage < 10 ? 'Fair Trade' : a.total > b.total ? 'Favors You' : 'Favors Other Side';
+      const color = percentage < 10 ? 'text-primary-500' : a.total > b.total ? 'text-green-500' : 'text-amber-500';
+      result.className = 'min-h-[10rem] rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-6 text-center';
+      result.innerHTML = `<div class="text-2xl font-bold ${color} mb-2">${verdict}</div><div class="grid grid-cols-2 gap-4 mt-4"><div class="p-3 rounded-xl bg-gray-50 dark:bg-white/5"><div class="text-xs text-gray-500 dark:text-gray-400">You Give</div><div class="text-xl font-bold text-gray-800 dark:text-white">${a.total.toFixed(1)}</div></div><div class="p-3 rounded-xl bg-gray-50 dark:bg-white/5"><div class="text-xs text-gray-500 dark:text-gray-400">You Get</div><div class="text-xl font-bold text-gray-800 dark:text-white">${b.total.toFixed(1)}</div></div></div>`;
+    }
+
+    root.querySelector('#dtc-add-a')?.addEventListener('click', () => addItem(sideA));
+    root.querySelector('#dtc-add-b')?.addEventListener('click', () => addItem(sideB));
+    root.addEventListener('input', event => {
+      if ((event.target as HTMLElement).matches('.dtc-value')) evaluate();
     });
+    root.addEventListener('click', event => {
+      const button = (event.target as HTMLElement).closest<HTMLButtonElement>('.dtc-del');
+      if (!button) return;
+      const container = button.closest('#dtc-side-a, #dtc-side-b');
+      button.closest('.dtc-row')?.remove();
+      if (container && !container.children.length) addItem(container);
+      evaluate();
+    });
+    addItem(sideA);
+    addItem(sideB);
   })();
 </script>

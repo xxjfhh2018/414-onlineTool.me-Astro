@@ -44,8 +44,8 @@ howToUse:
     title: "Enter MCQ and FRQ Points"
     description: "Add correct answers and rubric-scored free-response points."
   - step: 3
-    title: "Calculate the AP Stats Prediction"
-    description: "Review the weighted composite and estimated score."
+    title: "Review the Live AP Stats Prediction"
+    description: "The weighted composite and estimated score update automatically as you change an input."
 faq:
   - question: "How do I calculate an AP Statistics score?"
     answer: "Convert MCQ and FRQ raw totals to percentages, weight both sections 50%, and add them."

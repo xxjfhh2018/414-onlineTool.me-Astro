@@ -46,8 +46,8 @@ howToUse:
     title: "Enter APY"
     description: "Input the annual percentage yield offered by your bank."
   - step: 4
-    title: "Calculate Returns"
-    description: "See your total interest earned and maturity value instantly."
+    title: "Review the Live Returns"
+    description: "The maturity value, interest earned, and effective APY update automatically as you change an input."
 faq:
   - question: "What is a Certificate of Deposit (CD)?"
     answer: "A CD is a savings product that earns interest on a lump sum for a fixed period of time."

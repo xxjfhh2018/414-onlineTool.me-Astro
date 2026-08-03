@@ -46,8 +46,8 @@ howToUse:
     title: "Enter the Commission Rate"
     description: "Enter the annual percentage rate, such as 1.5 for 1.5%."
   - step: 4
-    title: "Review the Estimate"
-    description: "Calculate the estimated commission and compare it with the bank's quote."
+    title: "Review the Live Estimate"
+    description: "The estimated commission updates automatically as you change the principal, term, or annual commission rate."
 faq:
   - question: "What is a Banker's Acceptance?"
     answer: "A banker's acceptance is a short-term debt instrument guaranteed by a bank, commonly used in international trade."

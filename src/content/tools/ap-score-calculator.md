@@ -49,8 +49,8 @@ howToUse:
     title: "Adjust Cut Scores"
     description: "Optionally copy a conversion table from your practice-test source."
   - step: 4
-    title: "Calculate the Estimate"
-    description: "Review the composite percentage, section contributions, and predicted 1–5 score."
+    title: "Review the Live Estimate"
+    description: "The composite percentage, section contributions, and predicted 1–5 score update automatically as you change an input."
 faq:
   - question: "How is an AP score calculated?"
     answer: "Results from the scored exam components are combined using course-specific weights and then translated to the 1–5 scale through College Board's score-setting process."

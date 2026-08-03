@@ -46,8 +46,8 @@ howToUse:
     title: "Set Dependency Status"
     description: "Indicate whether you have dependents."
   - step: 4
-    title: "View BAH Rate"
-    description: "Get your current monthly Basic Allowance for Housing rate instantly."
+    title: "Review the Live Demonstration"
+    description: "The simplified planning amount updates automatically. It is not a current ZIP-based BAH rate; verify the actual allowance with official DoD data."
 faq:
   - question: "What is BAH?"
     answer: "Basic Allowance for Housing (BAH) is a U.S. military benefit that provides housing compensation to service members."

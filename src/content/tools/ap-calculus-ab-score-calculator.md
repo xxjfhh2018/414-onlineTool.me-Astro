@@ -44,8 +44,8 @@ howToUse:
     title: "Enter FRQ Rubric Points"
     description: "Total points earned across all free-response questions."
   - step: 3
-    title: "Calculate the AB Prediction"
-    description: "Review the weighted composite and estimated AP score."
+    title: "Review the Live AB Prediction"
+    description: "The weighted composite and estimated AP score update automatically as you change an input."
 faq:
   - question: "How do I calculate an AP Calculus AB score?"
     answer: "Convert MCQ and FRQ points to percentages, weight both sections 50%, and add the contributions."

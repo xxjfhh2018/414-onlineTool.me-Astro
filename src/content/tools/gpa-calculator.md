@@ -49,8 +49,8 @@ howToUse:
     title: "Add Prior GPA if Needed"
     description: "Optionally enter your earlier unweighted GPA and completed credits for a cumulative estimate."
   - step: 4
-    title: "Calculate Your GPA"
-    description: "Review the weighted, unweighted, and optional cumulative results."
+    title: "Review Your Live GPA"
+    description: "The weighted, unweighted, and optional cumulative results update automatically as you change a grade, credit value, course level, or prior GPA."
 faq:
   - question: "How do I calculate my GPA?"
     answer: "Convert each letter grade to grade points, multiply by course credits, add the quality points, and divide by total credits."

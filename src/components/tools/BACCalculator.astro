@@ -2,27 +2,22 @@
   <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-6 space-y-5">
     <div>
       <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Principal Amount ($)</label>
-      <input id="bac-amount" type="number" placeholder="100000" 
+      <input id="bac-amount" type="number" min="0.01" step="0.01" placeholder="100000" 
              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200" />
     </div>
     <div>
       <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Term (days)</label>
-      <input id="bac-term" type="number" placeholder="90" 
+      <input id="bac-term" type="number" min="1" step="1" placeholder="90" 
              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200" />
     </div>
     <div>
       <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Commission Rate (%)</label>
-      <input id="bac-rate" type="number" step="0.01" placeholder="1.5" 
+      <input id="bac-rate" type="number" min="0" step="0.01" placeholder="1.5" 
              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200" />
     </div>
     
-    <button id="bac-calc" class="w-full px-4 py-3 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors">
-      Calculate BAC
-    </button>
-    
-    <div id="bac-result" class="hidden p-5 rounded-xl bg-primary-50 dark:bg-primary-900/20 text-center">
-      <div class="text-sm text-gray-500 dark:text-gray-400">Banker's Acceptance Commission</div>
-      <div id="bac-value" class="text-3xl font-bold text-primary-600 dark:text-primary-400 mt-1">$0.00</div>
+    <div id="bac-result" class="min-h-[9rem] rounded-xl border border-dashed border-gray-300 dark:border-white/15 bg-gray-50/70 dark:bg-white/[0.03] p-5 flex items-center justify-center text-center text-sm text-gray-500 dark:text-gray-400" aria-live="polite">
+      Your banker's acceptance commission will appear here
     </div>
   </div>
 </div>
@@ -32,20 +27,31 @@
     const amount = document.getElementById('bac-amount') as HTMLInputElement;
     const term = document.getElementById('bac-term') as HTMLInputElement;
     const rate = document.getElementById('bac-rate') as HTMLInputElement;
-    const calcBtn = document.getElementById('bac-calc');
     const result = document.getElementById('bac-result');
-    const value = document.getElementById('bac-value');
-    
-    calcBtn?.addEventListener('click', () => {
-      const p = parseFloat(amount?.value || '0');
-      const t = parseFloat(term?.value || '0');
-      const r = parseFloat(rate?.value || '0');
-      
-      if (p > 0 && t > 0 && r >= 0) {
-        const bac = p * (r / 100) * (t / 360);
-        if (value) value.textContent = '$' + bac.toFixed(2);
-        result?.classList.remove('hidden');
+    const placeholder = "Your banker's acceptance commission will appear here";
+
+    function calculate() {
+      if (!result) return;
+      const amountRaw = amount?.value.trim() || '';
+      const termRaw = term?.value.trim() || '';
+      const rateRaw = rate?.value.trim() || '';
+      if (!amountRaw || !termRaw || !rateRaw) {
+        result.className = 'min-h-[9rem] rounded-xl border border-dashed border-gray-300 dark:border-white/15 bg-gray-50/70 dark:bg-white/[0.03] p-5 flex items-center justify-center text-center text-sm text-gray-500 dark:text-gray-400';
+        result.textContent = placeholder;
+        return;
       }
-    });
+      const p = parseFloat(amountRaw);
+      const t = parseFloat(termRaw);
+      const r = parseFloat(rateRaw);
+      if (!Number.isFinite(p) || p <= 0 || !Number.isFinite(t) || t <= 0 || !Number.isFinite(r) || r < 0) {
+        result.className = 'min-h-[9rem] rounded-xl bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800/40 p-5 flex items-center justify-center text-center text-sm text-amber-800 dark:text-amber-300';
+        result.textContent = 'Enter a principal and term greater than zero, plus a commission rate of zero or more.';
+        return;
+      }
+      const bac = p * (r / 100) * (t / 360);
+      result.className = 'min-h-[9rem] p-5 rounded-xl bg-primary-50 dark:bg-primary-900/20 text-center flex flex-col items-center justify-center';
+      result.innerHTML = `<div class="text-sm text-gray-500 dark:text-gray-400">Banker's Acceptance Commission</div><div class="text-3xl font-bold text-primary-600 dark:text-primary-400 mt-1">$${bac.toFixed(2)}</div>`;
+    }
+    [amount, term, rate].forEach(control => control?.addEventListener('input', calculate));
   })();
 </script>

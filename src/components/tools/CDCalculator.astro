@@ -2,7 +2,7 @@
   <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-6 space-y-5">
     <div>
       <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Deposit Amount ($)</label>
-      <input id="cd-amount" type="number" placeholder="10000" 
+      <input id="cd-amount" type="number" min="0.01" step="0.01" placeholder="10000" 
              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200" />
     </div>
     <div>
@@ -17,7 +17,7 @@
     </div>
     <div>
       <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">APY (%)</label>
-      <input id="cd-apy" type="number" step="0.01" placeholder="4.5" 
+      <input id="cd-apy" type="number" min="0" step="0.01" placeholder="4.5" 
              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200" />
     </div>
     <div>
@@ -30,25 +30,8 @@
       </select>
     </div>
     
-    <button id="cd-calc" class="w-full px-4 py-3 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors">
-      Calculate CD Returns
-    </button>
-    
-    <div id="cd-result" class="hidden space-y-3">
-      <div class="p-4 rounded-xl bg-primary-50 dark:bg-primary-900/20 text-center">
-        <div class="text-sm text-gray-500 dark:text-gray-400">Total at Maturity</div>
-        <div id="cd-total" class="text-3xl font-bold text-primary-600 dark:text-primary-400 mt-1">$0</div>
-      </div>
-      <div class="grid grid-cols-2 gap-3">
-        <div class="p-4 rounded-xl bg-gray-50 dark:bg-white/5 text-center">
-          <div class="text-xs text-gray-500 dark:text-gray-400">Interest Earned</div>
-          <div id="cd-interest" class="text-xl font-bold text-gray-800 dark:text-white mt-1">$0</div>
-        </div>
-        <div class="p-4 rounded-xl bg-gray-50 dark:bg-white/5 text-center">
-          <div class="text-xs text-gray-500 dark:text-gray-400">Effective APY</div>
-          <div id="cd-effective" class="text-xl font-bold text-gray-800 dark:text-white mt-1">0%</div>
-        </div>
-      </div>
+    <div id="cd-result" class="min-h-[9rem]" aria-live="polite">
+      <div class="min-h-[9rem] rounded-xl border border-dashed border-gray-300 dark:border-white/15 bg-gray-50/70 dark:bg-white/[0.03] p-5 flex items-center justify-center text-center text-sm text-gray-500 dark:text-gray-400">Your CD maturity value and interest will appear here</div>
     </div>
   </div>
 </div>
@@ -59,29 +42,35 @@
     const term = document.getElementById('cd-term') as HTMLSelectElement;
     const apy = document.getElementById('cd-apy') as HTMLInputElement;
     const compound = document.getElementById('cd-compound') as HTMLSelectElement;
-    const calcBtn = document.getElementById('cd-calc');
     const result = document.getElementById('cd-result');
-    const totalEl = document.getElementById('cd-total');
-    const interestEl = document.getElementById('cd-interest');
-    const effectiveEl = document.getElementById('cd-effective');
-    
-    calcBtn?.addEventListener('click', () => {
-      const p = parseFloat(amount?.value || '0');
-      const months = parseInt(term?.value || '60');
-      const r = parseFloat(apy?.value || '0') / 100;
-      const n = parseInt(compound?.value || '12');
-      
-      if (p > 0 && r >= 0) {
-        const years = months / 12;
-        const total = p * Math.pow(1 + r / n, n * years);
-        const interest = total - p;
-        const effectiveApy = (Math.pow(total / p, 1 / years) - 1) * 100;
-        
-        if (totalEl) totalEl.textContent = '$' + total.toFixed(2);
-        if (interestEl) interestEl.textContent = '$' + interest.toFixed(2);
-        if (effectiveEl) effectiveEl.textContent = effectiveApy.toFixed(2) + '%';
-        result?.classList.remove('hidden');
+    const placeholder = '<div class="min-h-[9rem] rounded-xl border border-dashed border-gray-300 dark:border-white/15 bg-gray-50/70 dark:bg-white/[0.03] p-5 flex items-center justify-center text-center text-sm text-gray-500 dark:text-gray-400">Your CD maturity value and interest will appear here</div>';
+
+    function calculate() {
+      const amountRaw = amount?.value.trim() || '';
+      const apyRaw = apy?.value.trim() || '';
+      if (!result) return;
+      if (!amountRaw || !apyRaw) {
+        result.innerHTML = placeholder;
+        return;
       }
+      const p = parseFloat(amountRaw);
+      const months = parseInt(term?.value || '60');
+      const rateValue = parseFloat(apyRaw);
+      const n = parseInt(compound?.value || '12');
+      if (!Number.isFinite(p) || p <= 0 || !Number.isFinite(rateValue) || rateValue < 0) {
+        result.innerHTML = '<div class="min-h-[9rem] rounded-xl bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800/40 p-4 flex items-center justify-center text-center text-sm text-amber-800 dark:text-amber-300">Enter a deposit greater than zero and an APY of zero or more.</div>';
+        return;
+      }
+      const r = rateValue / 100;
+      const years = months / 12;
+      const total = p * Math.pow(1 + r / n, n * years);
+      const interest = total - p;
+      const effectiveApy = (Math.pow(total / p, 1 / years) - 1) * 100;
+      result.innerHTML = `<div class="space-y-3"><div class="p-4 rounded-xl bg-primary-50 dark:bg-primary-900/20 text-center"><div class="text-sm text-gray-500 dark:text-gray-400">Total at Maturity</div><div class="text-3xl font-bold text-primary-600 dark:text-primary-400 mt-1">$${total.toFixed(2)}</div></div><div class="grid grid-cols-2 gap-3"><div class="p-4 rounded-xl bg-gray-50 dark:bg-white/5 text-center"><div class="text-xs text-gray-500 dark:text-gray-400">Interest Earned</div><div class="text-xl font-bold text-gray-800 dark:text-white mt-1">$${interest.toFixed(2)}</div></div><div class="p-4 rounded-xl bg-gray-50 dark:bg-white/5 text-center"><div class="text-xs text-gray-500 dark:text-gray-400">Effective APY</div><div class="text-xl font-bold text-gray-800 dark:text-white mt-1">${effectiveApy.toFixed(2)}%</div></div></div></div>`;
+    }
+    [amount, term, apy, compound].forEach(control => {
+      control?.addEventListener('input', calculate);
+      control?.addEventListener('change', calculate);
     });
   })();
 </script>

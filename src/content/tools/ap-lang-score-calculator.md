@@ -44,8 +44,8 @@ howToUse:
     title: "Score Each Essay"
     description: "Enter synthesis, rhetorical analysis, and argument rubric points."
   - step: 3
-    title: "Calculate the Prediction"
-    description: "Review the weighted composite and estimated AP score."
+    title: "Review the Live Prediction"
+    description: "The weighted composite and estimated AP score update automatically as you change an input."
 faq:
   - question: "How is the AP Lang exam score calculated?"
     answer: "Multiple choice is 45% and the three free-response essays together are 55% of the exam score."

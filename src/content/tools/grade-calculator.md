@@ -47,8 +47,8 @@ howToUse:
     title: "Enter Your Scores"
     description: "Add earned and possible points, category grades and weights, or your current grade and final exam details."
   - step: 3
-    title: "Calculate Your Grade"
-    description: "Run the calculation to see your percentage, weighted contribution, or required final exam score."
+    title: "Review the Live Result"
+    description: "Your percentage, weighted contribution, or required final exam score updates automatically as you change the inputs."
   - step: 4
     title: "Check Your Course Policy"
     description: "Compare the result with your syllabus for rounding, extra credit, dropped assignments, and letter-grade cutoffs."

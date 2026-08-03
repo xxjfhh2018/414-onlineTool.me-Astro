@@ -39,32 +39,35 @@
       </select>
     </div>
     
-    <button id="bah-calc" class="w-full px-4 py-3 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors">
-      Calculate BAH
-    </button>
-    
-    <div id="bah-result" class="hidden p-5 rounded-xl bg-primary-50 dark:bg-primary-900/20 text-center">
-      <div class="text-sm text-gray-500 dark:text-gray-400">Estimated Monthly BAH</div>
-      <div id="bah-value" class="text-3xl font-bold text-primary-600 dark:text-primary-400 mt-1">$0</div>
-      <p class="text-xs text-gray-400 mt-2">Note: For estimation only. Verify with official DoD rates.</p>
+    <div id="bah-result" class="min-h-[10rem] rounded-xl border border-dashed border-gray-300 dark:border-white/15 bg-gray-50/70 dark:bg-white/[0.03] p-5 flex items-center justify-center text-center text-sm text-gray-500 dark:text-gray-400" aria-live="polite">
+      Your rough monthly planning estimate will appear here
     </div>
   </div>
 </div>
 
 <script>
   (function() {
-    const calcBtn = document.getElementById('bah-calc');
+    const zip = document.getElementById('bah-zip') as HTMLInputElement;
+    const rankInput = document.getElementById('bah-rank') as HTMLSelectElement;
+    const dependentInput = document.getElementById('bah-dependent') as HTMLSelectElement;
     const result = document.getElementById('bah-result');
-    const value = document.getElementById('bah-value');
-    
-    // Simplified demo calculation
-    calcBtn?.addEventListener('click', () => {
-      const rank = (document.getElementById('bah-rank') as HTMLSelectElement)?.value;
-      const dependent = (document.getElementById('bah-dependent') as HTMLSelectElement)?.value;
-      
-      if (!rank) return;
-      
-      // Base rates for demo (very simplified)
+    const placeholder = 'Your rough monthly planning estimate will appear here';
+
+    function calculate() {
+      if (!result) return;
+      const zipValue = zip?.value.trim() || '';
+      const rank = rankInput?.value || '';
+      const dependent = dependentInput?.value || 'with';
+      if (!zipValue || !rank) {
+        result.className = 'min-h-[10rem] rounded-xl border border-dashed border-gray-300 dark:border-white/15 bg-gray-50/70 dark:bg-white/[0.03] p-5 flex items-center justify-center text-center text-sm text-gray-500 dark:text-gray-400';
+        result.textContent = placeholder;
+        return;
+      }
+      if (!/^\d{5}$/.test(zipValue)) {
+        result.className = 'min-h-[10rem] rounded-xl bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800/40 p-5 flex items-center justify-center text-center text-sm text-amber-800 dark:text-amber-300';
+        result.textContent = 'Enter a valid 5-digit duty-station ZIP code.';
+        return;
+      }
       const baseRates: Record<string, number> = {
         'E-1': 800, 'E-2': 850, 'E-3': 900, 'E-4': 1000, 'E-5': 1100,
         'E-6': 1250, 'E-7': 1400, 'E-8': 1550, 'E-9': 1700,
@@ -74,9 +77,12 @@
       
       let rate = baseRates[rank] || 1000;
       if (dependent === 'with') rate *= 1.2;
-      
-      if (value) value.textContent = '$' + Math.round(rate).toLocaleString();
-      result?.classList.remove('hidden');
+      result.className = 'min-h-[10rem] p-5 rounded-xl bg-primary-50 dark:bg-primary-900/20 text-center flex flex-col items-center justify-center';
+      result.innerHTML = `<div class="text-sm text-gray-500 dark:text-gray-400">Rough Monthly Planning Estimate</div><div class="text-3xl font-bold text-primary-600 dark:text-primary-400 mt-1">$${Math.round(rate).toLocaleString()}</div><p class="max-w-md text-xs leading-5 text-gray-500 dark:text-gray-400 mt-3">This simplified estimate varies by pay grade and dependency status only. The ZIP code is validated but is not mapped to current Military Housing Area rates. Verify the actual amount with the official DoD BAH lookup.</p>`;
+    }
+    [zip, rankInput, dependentInput].forEach(control => {
+      control?.addEventListener('input', calculate);
+      control?.addEventListener('change', calculate);
     });
   })();
 </script>

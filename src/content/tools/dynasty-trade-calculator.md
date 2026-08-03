@@ -38,16 +38,16 @@ relatedTools:
 howToUse:
   - step: 1
     title: "Add Players"
-    description: "Search for and add players from both sides of the trade."
+    description: "Type each player name and a value from your preferred ranking source on the appropriate side."
   - step: 2
     title: "Add Draft Picks"
     description: "Include any future draft picks being exchanged."
   - step: 3
-    title: "Review Values"
-    description: "See the calculated value for each side of the trade."
+    title: "Review the Live Comparison"
+    description: "Both totals and the trade verdict update automatically whenever you add, edit, or remove a value."
   - step: 4
     title: "Make Your Decision"
-    description: "Use the unbiased evaluation to decide if the trade is fair."
+    description: "Use the numerical comparison alongside league settings, roster needs, and market context."
 faq:
   - question: "What is a dynasty fantasy league?"
     answer: "A dynasty league is a fantasy format in which managers retain most or all of their roster between seasons, making age and future value more important."

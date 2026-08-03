@@ -44,8 +44,8 @@ howToUse:
     title: "Score the Written Sections"
     description: "Use the relevant rubrics to enter SAQ, DBQ, and LEQ points."
   - step: 3
-    title: "Calculate the Composite"
-    description: "Review the weighted result and predicted AP score."
+    title: "Review the Live Composite"
+    description: "The weighted result and predicted AP score update automatically as you change an input."
 faq:
   - question: "How do I calculate an APUSH score?"
     answer: "Convert each section to a percentage, apply the 40/20/25/15 weights, and add the weighted contributions."

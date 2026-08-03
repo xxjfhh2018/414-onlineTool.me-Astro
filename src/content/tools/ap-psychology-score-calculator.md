@@ -44,8 +44,8 @@ howToUse:
     title: "Enter AAQ and EBQ Points"
     description: "Combine earned rubric points from the two free-response questions."
   - step: 3
-    title: "Calculate the AP Psych Estimate"
-    description: "Review the composite and predicted 1–5 score."
+    title: "Review the Live AP Psych Estimate"
+    description: "The composite and predicted 1–5 score update automatically as you change an input."
 faq:
   - question: "How do I calculate an AP Psychology score?"
     answer: "Weight the MCQ percentage 66.7% and the combined FRQ percentage 33.3%, then add the contributions."

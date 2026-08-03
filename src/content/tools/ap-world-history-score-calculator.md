@@ -44,8 +44,8 @@ howToUse:
     title: "Enter Essay Scores"
     description: "Score the DBQ and LEQ using the relevant practice-test rubrics."
   - step: 3
-    title: "Review the Prediction"
-    description: "Calculate the composite and inspect every weighted contribution."
+    title: "Review the Live Prediction"
+    description: "The composite and every weighted contribution update automatically as you change an input."
 faq:
   - question: "How do I calculate an AP World score?"
     answer: "Convert each component to a percentage and apply the published MCQ, SAQ, DBQ, and LEQ weights."

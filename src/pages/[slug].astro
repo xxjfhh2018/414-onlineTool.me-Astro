@@ -23,6 +23,8 @@ import PalworldBreedingCalculator from '../components/tools/PalworldBreedingCalc
 import GradeCalculator from '../components/tools/GradeCalculator.astro';
 import GPACalculator from '../components/tools/GPACalculator.astro';
 import APScoreCalculator from '../components/tools/APScoreCalculator.astro';
+import MaterialCalculatorHub from '../components/tools/MaterialCalculatorHub.astro';
+import MaterialQuantityCalculator from '../components/tools/MaterialQuantityCalculator.astro';
 
 export async function getStaticPaths() {
   const tools = await getCollection('tools');
@@ -73,7 +75,7 @@ const categoryLabels: Record<string, string> = {
 const calculatorSubcategoryLabels: Record<string, string> = {
   'education': 'Education Calculators',
   'games': 'Game Calculators',
-  'engineering': 'Engineering Calculators',
+  'engineering': 'Material Calculator',
   'everyday': 'Everyday Calculators',
   'finance': 'Financial Calculators',
 };
@@ -111,6 +113,12 @@ const toolComponents: Record<string, any> = {
   'ap-statistics-score-calculator': APScoreCalculator,
   'ap-psychology-score-calculator': APScoreCalculator,
   'ap-world-history-score-calculator': APScoreCalculator,
+  'material-calculator': MaterialCalculatorHub,
+  'asphalt-calculator': MaterialQuantityCalculator,
+  'sand-calculator': MaterialQuantityCalculator,
+  'gravel-calculator': MaterialQuantityCalculator,
+  'topsoil-calculator': MaterialQuantityCalculator,
+  'concrete-calculator': MaterialQuantityCalculator,
 };
 
 const ToolComponent = toolComponents[tool.slug];
