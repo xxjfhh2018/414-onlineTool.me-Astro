@@ -1,0 +1,468 @@
+<div class="max-w-5xl mx-auto" id="palworld-breeding-tool">
+  <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 overflow-hidden">
+    <div class="px-5 py-4 border-b border-gray-100 dark:border-white/5 flex flex-wrap items-center justify-between gap-3">
+      <div>
+        <div class="text-sm font-semibold text-gray-900 dark:text-white">Palworld 1.0 breeding data</div>
+        <div id="pw-data-status" class="text-xs text-gray-500 dark:text-gray-400 mt-1">Loading the verified breeding table…</div>
+      </div>
+      <span class="inline-flex items-center rounded-full bg-primary-50 dark:bg-primary-900/30 px-3 py-1 text-xs font-medium text-primary-700 dark:text-primary-300">
+        Local browser calculation
+      </span>
+    </div>
+
+    <div class="p-4 sm:p-6">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-6" role="tablist" aria-label="Breeding calculator modes">
+        <button type="button" class="pw-mode rounded-xl px-4 py-3 text-sm font-semibold bg-primary-500 text-white" data-mode="child" role="tab" aria-selected="true">
+          Parents → Child
+        </button>
+        <button type="button" class="pw-mode rounded-xl px-4 py-3 text-sm font-semibold bg-gray-100 dark:bg-white/5 text-gray-700 dark:text-gray-300" data-mode="parents" role="tab" aria-selected="false">
+          Target → Parents
+        </button>
+        <button type="button" class="pw-mode rounded-xl px-4 py-3 text-sm font-semibold bg-gray-100 dark:bg-white/5 text-gray-700 dark:text-gray-300" data-mode="path" role="tab" aria-selected="false">
+          Shortest Path
+        </button>
+      </div>
+
+      <section class="pw-panel" data-panel="child">
+        <div class="grid md:grid-cols-[1fr_auto_1fr] gap-4 items-end">
+          <div>
+            <label for="pw-parent-a" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Parent A</label>
+            <select id="pw-parent-a" class="pw-select w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200">
+              <option value="">Choose a Pal…</option>
+            </select>
+          </div>
+          <div class="hidden md:flex h-12 items-center justify-center text-2xl font-light text-gray-400" aria-hidden="true">+</div>
+          <div>
+            <label for="pw-parent-b" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Parent B</label>
+            <select id="pw-parent-b" class="pw-select w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200">
+              <option value="">Choose a Pal…</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="pw-gender-controls" class="hidden mt-4 grid sm:grid-cols-2 gap-4 rounded-xl bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800/40 p-4">
+          <div>
+            <label for="pw-gender-a" class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Parent A gender</label>
+            <select id="pw-gender-a" class="w-full px-3 py-2 rounded-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-white/10 text-sm text-gray-800 dark:text-gray-200">
+              <option value="">Show both outcomes</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+          <div>
+            <label for="pw-gender-b" class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Parent B gender</label>
+            <select id="pw-gender-b" class="w-full px-3 py-2 rounded-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-white/10 text-sm text-gray-800 dark:text-gray-200">
+              <option value="">Show both outcomes</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+          <p class="sm:col-span-2 text-xs text-amber-800 dark:text-amber-300">This pair has gender-dependent results in the 1.0 dataset.</p>
+        </div>
+
+        <div id="pw-child-result" class="mt-6" aria-live="polite">
+          <div class="rounded-xl bg-gray-50 dark:bg-white/5 p-6 text-center text-sm text-gray-500 dark:text-gray-400">
+            Choose two parents to predict their offspring.
+          </div>
+        </div>
+      </section>
+
+      <section class="pw-panel hidden" data-panel="parents">
+        <div class="max-w-xl">
+          <label for="pw-target" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Desired child</label>
+          <select id="pw-target" class="pw-select w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200">
+            <option value="">Choose a target Pal…</option>
+          </select>
+        </div>
+        <div id="pw-parent-results" class="mt-6" aria-live="polite">
+          <div class="rounded-xl bg-gray-50 dark:bg-white/5 p-6 text-center text-sm text-gray-500 dark:text-gray-400">
+            Choose a target to list every parent combination in the dataset.
+          </div>
+        </div>
+      </section>
+
+      <section class="pw-panel hidden" data-panel="path">
+        <div class="grid lg:grid-cols-2 gap-5">
+          <div>
+            <label for="pw-owned-input" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Pals you already own</label>
+            <div class="flex gap-2">
+              <input id="pw-owned-input" list="pw-pal-list" autocomplete="off" placeholder="Type a Pal name…" class="min-w-0 flex-1 px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200" />
+              <button id="pw-add-owned" type="button" class="px-4 py-3 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-semibold hover:opacity-90">Add</button>
+            </div>
+            <datalist id="pw-pal-list"></datalist>
+            <div id="pw-owned-list" class="mt-3 flex flex-wrap gap-2"></div>
+            <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">Add at least two available species. The planner assumes you can supply the required opposite genders.</p>
+          </div>
+          <div class="space-y-4">
+            <div>
+              <label for="pw-path-target" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Target Pal</label>
+              <select id="pw-path-target" class="pw-select w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200">
+                <option value="">Choose a target Pal…</option>
+              </select>
+            </div>
+            <div>
+              <label for="pw-max-depth" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Maximum generations</label>
+              <select id="pw-max-depth" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-800 dark:text-gray-200">
+                <option value="3">3 generations</option>
+                <option value="4">4 generations</option>
+                <option value="5">5 generations</option>
+                <option value="6" selected>6 generations</option>
+                <option value="7">7 generations</option>
+                <option value="8">8 generations</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <button id="pw-find-path" type="button" class="mt-5 w-full px-4 py-3 rounded-xl bg-primary-500 text-white font-semibold hover:bg-primary-600 transition-colors">
+          Find Shortest Breeding Path
+        </button>
+        <div id="pw-path-result" class="mt-6" aria-live="polite">
+          <div class="rounded-xl bg-gray-50 dark:bg-white/5 p-6 text-center text-sm text-gray-500 dark:text-gray-400">
+            Add your available Pals and choose a target to search by the fewest generations.
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="mt-4 rounded-xl border border-gray-200/60 dark:border-white/10 px-4 py-3 text-xs leading-5 text-gray-500 dark:text-gray-400">
+    Dataset: Palworld v1.0.0 snapshot, verified breeding-compatible with public v1.0.1 on July 17, 2026. Species outcomes only; mutations, passives, IVs, egg time, and probabilities are not modeled.
+    <a class="text-primary-600 dark:text-primary-400 hover:underline" href="https://palweave.com/data-methodology" target="_blank" rel="noopener noreferrer">Review the data methodology</a>
+    ·
+    <a class="text-primary-600 dark:text-primary-400 hover:underline" href="/data/palworld-breeding-LICENSE.txt">License and attribution</a>.
+    Palworld is a trademark of Pocketpair, Inc. This independent fan tool is not affiliated with or endorsed by Pocketpair.
+  </div>
+</div>
+
+<script>
+  type PalTuple = [string, string];
+  type RecipeTuple = [string, string, string, number, string, string];
+  type BreedingData = {
+    dataset: {
+      game_version: string;
+      public_game_version: string;
+      compatibility_audited_at: string;
+      pal_count: number;
+      result_count: number;
+      special_result_count: number;
+    };
+    pals: PalTuple[];
+    recipes: RecipeTuple[];
+  };
+
+  (async function () {
+    const root = document.getElementById('palworld-breeding-tool');
+    if (!root) return;
+
+    const status = document.getElementById('pw-data-status');
+    const childResult = document.getElementById('pw-child-result');
+    const parentResults = document.getElementById('pw-parent-results');
+    const pathResult = document.getElementById('pw-path-result');
+    const ownedList = document.getElementById('pw-owned-list');
+    const ownedInput = document.getElementById('pw-owned-input') as HTMLInputElement | null;
+    const addOwnedButton = document.getElementById('pw-add-owned');
+    const findPathButton = document.getElementById('pw-find-path');
+    const genderControls = document.getElementById('pw-gender-controls');
+    const genderA = document.getElementById('pw-gender-a') as HTMLSelectElement | null;
+    const genderB = document.getElementById('pw-gender-b') as HTMLSelectElement | null;
+    const parentA = document.getElementById('pw-parent-a') as HTMLSelectElement | null;
+    const parentB = document.getElementById('pw-parent-b') as HTMLSelectElement | null;
+    const target = document.getElementById('pw-target') as HTMLSelectElement | null;
+    const pathTarget = document.getElementById('pw-path-target') as HTMLSelectElement | null;
+    const maxDepth = document.getElementById('pw-max-depth') as HTMLSelectElement | null;
+    const palList = document.getElementById('pw-pal-list');
+
+    const owned = new Set<string>();
+    let data: BreedingData;
+    let nameById = new Map<string, string>();
+    let idByName = new Map<string, string>();
+    let pairMap = new Map<string, RecipeTuple[]>();
+    let reverseMap = new Map<string, RecipeTuple[]>();
+
+    const escapeHtml = (value: string) => value.replace(/[&<>'"]/g, character => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+    })[character] || character);
+
+    const displayName = (id: string) => nameById.get(id) || id;
+    const pairKey = (left: string, right: string) => left < right ? `${left}|${right}` : `${right}|${left}`;
+    const genderLabel = (gender: string) => gender ? gender.charAt(0).toUpperCase() + gender.slice(1) : 'Any gender';
+
+    const orientRecipe = (recipe: RecipeTuple, left: string): RecipeTuple => {
+      if (recipe[0] === left) return recipe;
+      return [recipe[1], recipe[0], recipe[2], recipe[3], recipe[5], recipe[4]];
+    };
+
+    const resultCard = (recipe: RecipeTuple, left: string) => {
+      const oriented = orientRecipe(recipe, left);
+      const genderNote = oriented[4] || oriented[5]
+        ? `<div class="mt-2 text-xs text-amber-700 dark:text-amber-300">${escapeHtml(displayName(oriented[0]))}: ${genderLabel(oriented[4])} · ${escapeHtml(displayName(oriented[1]))}: ${genderLabel(oriented[5])}</div>`
+        : '';
+      return `<div class="rounded-xl border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/5 p-5 text-center">
+        <div class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Predicted offspring</div>
+        <div class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">${escapeHtml(displayName(oriented[2]))}</div>
+        <span class="mt-3 inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${oriented[3] ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300' : 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300'}">${oriented[3] ? 'Special combination' : 'Standard result'}</span>
+        ${genderNote}
+      </div>`;
+    };
+
+    const populateSelect = (select: HTMLSelectElement | null) => {
+      if (!select) return;
+      const fragment = document.createDocumentFragment();
+      data.pals.forEach(([id, name]) => {
+        const option = document.createElement('option');
+        option.value = id;
+        option.textContent = name;
+        fragment.appendChild(option);
+      });
+      select.appendChild(fragment);
+    };
+
+    function renderDirectResult() {
+      if (!childResult || !parentA || !parentB) return;
+      if (!parentA.value || !parentB.value) {
+        genderControls?.classList.add('hidden');
+        childResult.innerHTML = '<div class="rounded-xl bg-gray-50 dark:bg-white/5 p-6 text-center text-sm text-gray-500 dark:text-gray-400">Choose two parents to predict their offspring.</div>';
+        return;
+      }
+
+      const recipes = pairMap.get(pairKey(parentA.value, parentB.value)) || [];
+      const oriented = recipes.map(recipe => orientRecipe(recipe, parentA.value));
+      const isGenderDependent = oriented.some(recipe => recipe[4] || recipe[5]);
+      genderControls?.classList.toggle('hidden', !isGenderDependent);
+
+      let matches = oriented;
+      if (isGenderDependent && genderA?.value && genderB?.value) {
+        matches = oriented.filter(recipe => recipe[4] === genderA.value && recipe[5] === genderB.value);
+      }
+
+      if (!matches.length) {
+        childResult.innerHTML = '<div class="rounded-xl bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800/40 p-5 text-sm text-amber-800 dark:text-amber-300">No result matches that gender orientation. Swap the genders or show both outcomes.</div>';
+        return;
+      }
+
+      childResult.innerHTML = `<div class="grid ${matches.length > 1 ? 'sm:grid-cols-2' : ''} gap-4">${matches.map(recipe => resultCard(recipe, parentA.value)).join('')}</div>`;
+    }
+
+    function renderParentResults() {
+      if (!parentResults || !target) return;
+      if (!target.value) {
+        parentResults.innerHTML = '<div class="rounded-xl bg-gray-50 dark:bg-white/5 p-6 text-center text-sm text-gray-500 dark:text-gray-400">Choose a target to list every parent combination in the dataset.</div>';
+        return;
+      }
+
+      const recipes = [...(reverseMap.get(target.value) || [])].sort((left, right) => {
+        if (right[3] !== left[3]) return right[3] - left[3];
+        return `${displayName(left[0])}${displayName(left[1])}`.localeCompare(`${displayName(right[0])}${displayName(right[1])}`);
+      });
+
+      const rows = recipes.map(recipe => {
+        const genderText = recipe[4] || recipe[5]
+          ? ` · ${genderLabel(recipe[4])} / ${genderLabel(recipe[5])}`
+          : '';
+        return `<li class="flex flex-wrap items-center justify-between gap-2 px-4 py-3 border-b border-gray-100 dark:border-white/5 last:border-0">
+          <span class="text-sm text-gray-800 dark:text-gray-200"><strong>${escapeHtml(displayName(recipe[0]))}</strong> + <strong>${escapeHtml(displayName(recipe[1]))}</strong><span class="text-xs text-gray-500 dark:text-gray-400">${escapeHtml(genderText)}</span></span>
+          <span class="text-xs ${recipe[3] ? 'text-amber-600 dark:text-amber-300' : 'text-gray-400'}">${recipe[3] ? 'Special' : 'Standard'}</span>
+        </li>`;
+      }).join('');
+
+      parentResults.innerHTML = `<div class="flex items-center justify-between mb-3"><h3 class="font-semibold text-gray-900 dark:text-white">${escapeHtml(displayName(target.value))} parent combinations</h3><span class="text-sm text-gray-500 dark:text-gray-400">${recipes.length} result${recipes.length === 1 ? '' : 's'}</span></div><ul class="max-h-[32rem] overflow-y-auto rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-surface-dark">${rows}</ul>`;
+    }
+
+    function renderOwned() {
+      if (!ownedList) return;
+      if (!owned.size) {
+        ownedList.innerHTML = '<span class="text-xs text-gray-400">No Pals added yet.</span>';
+        return;
+      }
+      ownedList.innerHTML = [...owned]
+        .sort((left, right) => displayName(left).localeCompare(displayName(right)))
+        .map(id => `<button type="button" class="pw-remove-owned inline-flex items-center gap-2 rounded-full bg-primary-50 dark:bg-primary-900/30 px-3 py-1.5 text-xs font-medium text-primary-700 dark:text-primary-300" data-id="${escapeHtml(id)}" title="Remove ${escapeHtml(displayName(id))}">${escapeHtml(displayName(id))}<span aria-hidden="true">×</span></button>`)
+        .join('');
+    }
+
+    function addOwned() {
+      const raw = ownedInput?.value.trim() || '';
+      const id = idByName.get(raw.toLowerCase()) || (nameById.has(raw) ? raw : '');
+      if (!id || !ownedInput) {
+        ownedInput?.setCustomValidity('Choose a Pal name from the list.');
+        ownedInput?.reportValidity();
+        return;
+      }
+      ownedInput.setCustomValidity('');
+      owned.add(id);
+      ownedInput.value = '';
+      renderOwned();
+    }
+
+    function findShortestPath(startIds: string[], destination: string, limit: number) {
+      const depth = new Map<string, number>();
+      const cost = new Map<string, number>();
+      const selectedRecipe = new Map<string, RecipeTuple>();
+      startIds.forEach(id => { depth.set(id, 0); cost.set(id, 0); });
+
+      if (depth.has(destination)) return { depth: 0, steps: [] as RecipeTuple[] };
+
+      for (let generation = 1; generation <= limit; generation++) {
+        const additions = new Map<string, { recipe: RecipeTuple; cost: number }>();
+
+        for (const recipe of data.recipes) {
+          const [left, right, child] = recipe;
+          if (depth.has(child)) continue;
+          const leftDepth = depth.get(left);
+          const rightDepth = depth.get(right);
+          if (leftDepth === undefined || rightDepth === undefined) continue;
+          if (leftDepth >= generation || rightDepth >= generation) continue;
+
+          const candidateCost = (cost.get(left) || 0) + (cost.get(right) || 0) + 1;
+          const existing = additions.get(child);
+          if (!existing || candidateCost < existing.cost || (candidateCost === existing.cost && recipe[3] > existing.recipe[3])) {
+            additions.set(child, { recipe, cost: candidateCost });
+          }
+        }
+
+        if (!additions.size) break;
+        additions.forEach((entry, child) => {
+          depth.set(child, generation);
+          cost.set(child, entry.cost);
+          selectedRecipe.set(child, entry.recipe);
+        });
+
+        if (depth.has(destination)) break;
+      }
+
+      if (!depth.has(destination)) return null;
+
+      const steps: RecipeTuple[] = [];
+      const visited = new Set<string>();
+      const visit = (id: string) => {
+        if (visited.has(id) || startIds.includes(id)) return;
+        const recipe = selectedRecipe.get(id);
+        if (!recipe) return;
+        visit(recipe[0]);
+        visit(recipe[1]);
+        steps.push(recipe);
+        visited.add(id);
+      };
+      visit(destination);
+
+      return { depth: depth.get(destination) || 0, steps };
+    }
+
+    function renderPath() {
+      if (!pathResult || !pathTarget || !maxDepth) return;
+      if (owned.size < 2 || !pathTarget.value) {
+        pathResult.innerHTML = '<div class="rounded-xl bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800/40 p-5 text-sm text-amber-800 dark:text-amber-300">Add at least two available Pal species and choose a target.</div>';
+        return;
+      }
+
+      const result = findShortestPath([...owned], pathTarget.value, parseInt(maxDepth.value, 10));
+      if (!result) {
+        pathResult.innerHTML = `<div class="rounded-xl bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800/40 p-5 text-sm text-amber-800 dark:text-amber-300">No species-level path to <strong>${escapeHtml(displayName(pathTarget.value))}</strong> was found within ${escapeHtml(maxDepth.value)} generations from the selected Pals.</div>`;
+        return;
+      }
+
+      if (!result.steps.length) {
+        pathResult.innerHTML = `<div class="rounded-xl bg-primary-50 dark:bg-primary-900/20 p-5 text-center"><div class="text-lg font-bold text-primary-700 dark:text-primary-300">You already own ${escapeHtml(displayName(pathTarget.value))}</div><p class="mt-1 text-sm text-gray-600 dark:text-gray-400">No breeding steps are required.</p></div>`;
+        return;
+      }
+
+      const rows = result.steps.map((recipe, index) => {
+        const genderText = recipe[4] || recipe[5]
+          ? `<div class="mt-1 text-xs text-amber-700 dark:text-amber-300">Requires ${genderLabel(recipe[4])} ${escapeHtml(displayName(recipe[0]))} + ${genderLabel(recipe[5])} ${escapeHtml(displayName(recipe[1]))}</div>`
+          : '';
+        return `<li class="relative pl-12 pb-5 last:pb-0">
+          <span class="absolute left-0 top-0 w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center text-sm font-bold">${index + 1}</span>
+          ${index < result.steps.length - 1 ? '<span class="absolute left-[15px] top-8 bottom-0 border-l border-dashed border-primary-300 dark:border-primary-700"></span>' : ''}
+          <div class="rounded-xl border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/5 p-4">
+            <div class="text-sm text-gray-800 dark:text-gray-200"><strong>${escapeHtml(displayName(recipe[0]))}</strong> + <strong>${escapeHtml(displayName(recipe[1]))}</strong> → <strong class="text-primary-600 dark:text-primary-400">${escapeHtml(displayName(recipe[2]))}</strong></div>
+            <div class="mt-1 text-xs text-gray-500 dark:text-gray-400">${recipe[3] ? 'Special combination' : 'Standard breeding result'}</div>
+            ${genderText}
+          </div>
+        </li>`;
+      }).join('');
+
+      const copyText = result.steps.map((recipe, index) => `${index + 1}. ${displayName(recipe[0])} + ${displayName(recipe[1])} -> ${displayName(recipe[2])}`).join('\n');
+      pathResult.innerHTML = `<div class="flex flex-wrap items-center justify-between gap-3 mb-4"><div><h3 class="font-semibold text-gray-900 dark:text-white">Shortest route to ${escapeHtml(displayName(pathTarget.value))}</h3><p class="text-sm text-gray-500 dark:text-gray-400">${result.depth} generation${result.depth === 1 ? '' : 's'} · ${result.steps.length} breeding step${result.steps.length === 1 ? '' : 's'}</p></div><button id="pw-copy-path" type="button" class="px-3 py-2 rounded-lg bg-gray-100 dark:bg-white/10 text-sm text-gray-700 dark:text-gray-300" data-copy="${escapeHtml(copyText)}">Copy path</button></div><ol>${rows}</ol>`;
+    }
+
+    try {
+      const response = await fetch('/data/palworld-breeding-1.0.json');
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      data = await response.json();
+      nameById = new Map(data.pals);
+      idByName = new Map(data.pals.flatMap(([id, name]) => [[id.toLowerCase(), id], [name.toLowerCase(), id]]));
+
+      data.recipes.forEach(recipe => {
+        const key = pairKey(recipe[0], recipe[1]);
+        const pairRecipes = pairMap.get(key) || [];
+        pairRecipes.push(recipe);
+        pairMap.set(key, pairRecipes);
+
+        const parentRecipes = reverseMap.get(recipe[2]) || [];
+        parentRecipes.push(recipe);
+        reverseMap.set(recipe[2], parentRecipes);
+      });
+
+      [parentA, parentB, target, pathTarget].forEach(populateSelect);
+      if (palList) {
+        const fragment = document.createDocumentFragment();
+        data.pals.forEach(([, name]) => {
+          const option = document.createElement('option');
+          option.value = name;
+          fragment.appendChild(option);
+        });
+        palList.appendChild(fragment);
+      }
+
+      if (status) status.textContent = `${data.dataset.pal_count} calculation records · ${data.dataset.result_count.toLocaleString()} outcomes · ${data.dataset.special_result_count} special combinations`;
+      renderOwned();
+    } catch (error) {
+      if (status) status.textContent = 'The breeding dataset could not be loaded.';
+      [childResult, parentResults, pathResult].forEach(element => {
+        if (element) element.innerHTML = '<div class="rounded-xl bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-800/40 p-5 text-sm text-red-700 dark:text-red-300">Unable to load the Palworld 1.0 breeding data. Refresh the page and try again.</div>';
+      });
+      return;
+    }
+
+    document.querySelectorAll<HTMLButtonElement>('.pw-mode').forEach(button => {
+      button.addEventListener('click', () => {
+        const mode = button.dataset.mode;
+        document.querySelectorAll<HTMLButtonElement>('.pw-mode').forEach(item => {
+          const active = item === button;
+          item.setAttribute('aria-selected', String(active));
+          item.classList.toggle('bg-primary-500', active);
+          item.classList.toggle('text-white', active);
+          item.classList.toggle('bg-gray-100', !active);
+          item.classList.toggle('dark:bg-white/5', !active);
+          item.classList.toggle('text-gray-700', !active);
+          item.classList.toggle('dark:text-gray-300', !active);
+        });
+        document.querySelectorAll<HTMLElement>('.pw-panel').forEach(panel => panel.classList.toggle('hidden', panel.dataset.panel !== mode));
+      });
+    });
+
+    [parentA, parentB, genderA, genderB].forEach(element => element?.addEventListener('change', renderDirectResult));
+    target?.addEventListener('change', renderParentResults);
+    addOwnedButton?.addEventListener('click', addOwned);
+    ownedInput?.addEventListener('keydown', event => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        addOwned();
+      }
+    });
+    ownedList?.addEventListener('click', event => {
+      const button = (event.target as HTMLElement).closest<HTMLButtonElement>('.pw-remove-owned');
+      if (!button?.dataset.id) return;
+      owned.delete(button.dataset.id);
+      renderOwned();
+    });
+    findPathButton?.addEventListener('click', renderPath);
+    pathResult?.addEventListener('click', async event => {
+      const button = (event.target as HTMLElement).closest<HTMLButtonElement>('#pw-copy-path');
+      if (!button?.dataset.copy) return;
+      await navigator.clipboard.writeText(button.dataset.copy);
+      button.textContent = 'Copied!';
+      setTimeout(() => { button.textContent = 'Copy path'; }, 1500);
+    });
+  })();
+</script>

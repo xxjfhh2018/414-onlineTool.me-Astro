@@ -1,30 +1,32 @@
 ---
 seoTitle: "QR Code Reader Interface Demo | OnlineTool.me"
 title: "QR Code Reader Interface Demo"
-description: "Preview an image-upload QR reader interface. The current demo does not decode the uploaded QR code and returns a sample result."
-intro: "Preview an image-upload workflow for a future QR reader; actual QR decoding is not yet implemented."
+description: "Explore this QR code reader interface demo by uploading an image for preview. The current version does not decode QR content."
+intro: "Preview the upload and result workflow planned for a QR reader; image decoding is not yet implemented."
+keywords: "QR code reader demo, QR scanner interface, upload QR code image"
 category: "qr-code"
 icon: "Scan"
 featured: false
 whatIs:
-  - "This page currently demonstrates the upload, preview, scan-button, result, and copy interface intended for a QR code reader."
-  - "It does not analyze image pixels. Selecting Scan displays a fixed sample URL, regardless of the uploaded image."
+  - "This page demonstrates the interface states planned for an online QR code reader: choose an image, display a local preview, reveal a Scan button, show a result panel, and copy displayed text."
+  - "The current version does not inspect pixels or run a decoding library. Pressing Scan displays the same fixed sample URL for every uploaded image."
 features:
-  - "Accepts common browser-supported image files"
-  - "Displays a local image preview"
-  - "Shows the planned decoded-result interface"
-  - "Copies the displayed sample text"
+  - "Accepts image types supported by the browser file picker"
+  - "Reads the selected file locally for preview"
+  - "Demonstrates scan and result interface states"
+  - "Copies the fixed sample output to the clipboard"
 useCases:
   - title: "Workflow preview"
-    description: "Review the planned steps for uploading an image and copying decoded content."
+    description: "Review the planned upload, preview, scan, result, and copy steps before real decoding is integrated."
   - title: "Development testing"
-    description: "Test interface layout and states before a real decoding library is integrated."
+    description: "Test how the component handles image selection and state transitions during development or design review."
 method:
   title: "How the Current Reader Demo Works"
   description:
-    - "The browser reads the selected file as a data URL for preview. The Scan action then displays a fixed sample address rather than decoding the image."
+    - "After a file is selected, the browser FileReader converts it to a data URL and assigns that URL to the preview image element."
+    - "The Scan action does not access the image data. It reveals a result panel containing a hard-coded OnlineTool.me sample address."
   formula: "Current scan result = fixed demonstration URL"
-  example: "Uploading any image and pressing Scan displays the same OnlineTool.me sample URL."
+  example: "Upload a QR image, photograph, or other supported image and press Scan. The current demo always displays https://onlinetool.me/qr-code-generator rather than content extracted from the file."
 limitations:
   - "Actual QR code detection and decoding are not implemented."
   - "Webcam scanning and drag-and-drop behavior are not implemented."
@@ -52,4 +54,6 @@ faq:
     answer: "The selected image is read locally for preview by the current page. Because decoding is not implemented, no scan analysis occurs."
   - question: "What image formats are supported?"
     answer: "The file picker accepts image formats supported by your browser, but the current demo only previews the selected image."
+  - question: "Can I use my webcam to scan a code?"
+    answer: "No. The current interface accepts file selection only and does not request camera access or implement webcam scanning."
 ---

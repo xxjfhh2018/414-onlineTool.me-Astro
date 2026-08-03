@@ -1,0 +1,113 @@
+<div class="max-w-4xl mx-auto" id="gpa-calculator-tool">
+  <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-4 sm:p-6">
+    <div class="flex flex-wrap items-start justify-between gap-3 mb-5">
+      <div>
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Course Grades</h2>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Add each course, letter grade, credit value, and course level.</p>
+      </div>
+      <button id="gpa-add-course" type="button" class="px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-white/5 text-sm font-medium text-gray-700 dark:text-gray-300">+ Add Course</button>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full min-w-[680px]">
+        <thead>
+          <tr class="text-left text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+            <th class="pb-2 pr-3 font-medium">Course</th>
+            <th class="pb-2 px-3 font-medium w-28">Grade</th>
+            <th class="pb-2 px-3 font-medium w-28">Credits</th>
+            <th class="pb-2 px-3 font-medium w-40">Level</th>
+            <th class="pb-2 pl-3 w-12"><span class="sr-only">Remove</span></th>
+          </tr>
+        </thead>
+        <tbody id="gpa-course-rows"></tbody>
+      </table>
+    </div>
+
+    <details class="mt-5 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200/60 dark:border-white/10 p-4">
+      <summary class="cursor-pointer text-sm font-semibold text-gray-800 dark:text-gray-200">Add prior GPA for a cumulative result</summary>
+      <div class="grid sm:grid-cols-2 gap-4 mt-4">
+        <div>
+          <label for="gpa-prior" class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Prior unweighted GPA</label>
+          <input id="gpa-prior" type="number" inputmode="decimal" min="0" max="4" step="0.01" placeholder="3.45" class="w-full px-3 py-2.5 rounded-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-white/10 text-gray-800 dark:text-gray-200" />
+        </div>
+        <div>
+          <label for="gpa-prior-credits" class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Previously completed credits</label>
+          <input id="gpa-prior-credits" type="number" inputmode="decimal" min="0" step="0.25" placeholder="15" class="w-full px-3 py-2.5 rounded-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-white/10 text-gray-800 dark:text-gray-200" />
+        </div>
+      </div>
+    </details>
+
+    <button id="gpa-calculate" type="button" class="mt-5 w-full px-4 py-3 rounded-xl bg-primary-500 text-white font-semibold hover:bg-primary-600">Calculate My GPA</button>
+    <div id="gpa-result" class="mt-5" aria-live="polite"></div>
+  </div>
+  <p class="mt-4 text-xs leading-5 text-gray-500 dark:text-gray-400">Default scale: A/A+ = 4.0, A− = 3.7, B+ = 3.3, and so on. Honors adds 0.5 and AP/IB adds 1.0 for the weighted estimate. Schools may use different scales or caps.</p>
+</div>
+
+<script>
+  (function () {
+    const root = document.getElementById('gpa-calculator-tool');
+    if (!root || root.dataset.ready === 'true') return;
+    root.dataset.ready = 'true';
+    const rows = root.querySelector('#gpa-course-rows');
+    const result = root.querySelector('#gpa-result');
+    const inputClass = 'w-full px-3 py-2.5 rounded-lg bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-sm text-gray-800 dark:text-gray-200';
+    const gradePoints: Record<string, number> = { 'A+': 4, A: 4, 'A-': 3.7, 'B+': 3.3, B: 3, 'B-': 2.7, 'C+': 2.3, C: 2, 'C-': 1.7, 'D+': 1.3, D: 1, 'D-': 0.7, F: 0 };
+    const bonuses: Record<string, number> = { regular: 0, honors: 0.5, ap: 1 };
+
+    function addRow(name = '', grade = '', credits = '1', level = 'regular') {
+      const row = document.createElement('tr');
+      row.className = 'gpa-row border-t border-gray-100 dark:border-white/5';
+      const gradeOptions = ['','A+','A','A-','B+','B','B-','C+','C','C-','D+','D','D-','F'].map(value => `<option value="${value}" ${value === grade ? 'selected' : ''}>${value || 'Select'}</option>`).join('');
+      row.innerHTML = `<td class="py-2.5 pr-3"><input class="gpa-name ${inputClass}" type="text" placeholder="Course name" value="${name}"></td>
+        <td class="py-2.5 px-3"><select class="gpa-grade ${inputClass}">${gradeOptions}</select></td>
+        <td class="py-2.5 px-3"><input class="gpa-credits ${inputClass}" type="number" inputmode="decimal" min="0.01" step="0.25" value="${credits}"></td>
+        <td class="py-2.5 px-3"><select class="gpa-level ${inputClass}"><option value="regular" ${level === 'regular' ? 'selected' : ''}>Regular</option><option value="honors" ${level === 'honors' ? 'selected' : ''}>Honors (+0.5)</option><option value="ap" ${level === 'ap' ? 'selected' : ''}>AP / IB (+1.0)</option></select></td>
+        <td class="py-2.5 pl-3"><button type="button" class="gpa-remove w-9 h-9 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20" aria-label="Remove course">×</button></td>`;
+      rows?.appendChild(row);
+    }
+
+    function calculate() {
+      let creditsTotal = 0;
+      let unweightedPoints = 0;
+      let weightedPoints = 0;
+      let courses = 0;
+      root.querySelectorAll('.gpa-row').forEach(row => {
+        const grade = (row.querySelector('.gpa-grade') as HTMLSelectElement)?.value;
+        const credits = parseFloat((row.querySelector('.gpa-credits') as HTMLInputElement)?.value);
+        const level = (row.querySelector('.gpa-level') as HTMLSelectElement)?.value || 'regular';
+        if (!(grade in gradePoints) || !Number.isFinite(credits) || credits <= 0) return;
+        creditsTotal += credits;
+        unweightedPoints += gradePoints[grade] * credits;
+        weightedPoints += (gradePoints[grade] + bonuses[level]) * credits;
+        courses++;
+      });
+      if (!result) return;
+      if (!courses || creditsTotal <= 0) {
+        result.innerHTML = '<div class="rounded-xl bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800/40 p-4 text-sm text-amber-800 dark:text-amber-300">Select a grade and enter valid credits for at least one course.</div>';
+        return;
+      }
+      const unweighted = unweightedPoints / creditsTotal;
+      const weighted = weightedPoints / creditsTotal;
+      const priorGpa = parseFloat((root.querySelector('#gpa-prior') as HTMLInputElement)?.value);
+      const priorCredits = parseFloat((root.querySelector('#gpa-prior-credits') as HTMLInputElement)?.value);
+      const cumulative = Number.isFinite(priorGpa) && priorGpa >= 0 && Number.isFinite(priorCredits) && priorCredits > 0
+        ? (priorGpa * priorCredits + unweightedPoints) / (priorCredits + creditsTotal)
+        : null;
+      const card = (label: string, value: number, detail: string) => `<div class="rounded-xl bg-primary-50 dark:bg-primary-900/20 border border-primary-100 dark:border-primary-800/30 p-5 text-center"><div class="text-sm text-gray-600 dark:text-gray-400">${label}</div><div class="mt-1 text-3xl font-bold text-primary-600 dark:text-primary-400">${value.toFixed(3)}</div><div class="mt-2 text-xs text-gray-500 dark:text-gray-400">${detail}</div></div>`;
+      result.innerHTML = `<div class="grid ${cumulative === null ? 'sm:grid-cols-2' : 'sm:grid-cols-3'} gap-3">${card('Unweighted GPA', unweighted, `${creditsTotal.toFixed(2)} current credits`)}${card('Weighted GPA', weighted, 'Default honors/AP bonuses applied')}${cumulative === null ? '' : card('Cumulative GPA', cumulative, `${(priorCredits + creditsTotal).toFixed(2)} total credits`)}</div>`;
+    }
+
+    root.querySelector('#gpa-add-course')?.addEventListener('click', () => addRow());
+    root.querySelector('#gpa-calculate')?.addEventListener('click', calculate);
+    root.addEventListener('click', event => {
+      const button = (event.target as HTMLElement).closest<HTMLButtonElement>('.gpa-remove');
+      if (!button) return;
+      button.closest('tr')?.remove();
+      if (!rows?.children.length) addRow();
+    });
+    addRow('English');
+    addRow('Math');
+    addRow('Science');
+    addRow('History');
+  })();
+</script>

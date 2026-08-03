@@ -1,30 +1,32 @@
 ---
 seoTitle: "Compare Two Lists Online | OnlineTool.me"
 title: "Compare Two Lists"
-description: "Compare two newline-separated lists online to find common entries, items unique to either list, or one combined unique set."
-intro: "Compare two newline-separated lists and display shared items, one-sided differences, or all unique entries."
+description: "Try this list comparison tool to find shared entries, items found only in List A or B, or one combined set of unique lines."
+intro: "Compare two newline-separated lists and switch between shared items, one-sided differences, and a combined unique set."
+keywords: "compare two lists, list comparison tool, find common items, compare text lists"
 category: "text-tools"
 icon: "GitCompare"
 featured: false
 whatIs:
-  - "The Compare Two Lists tool treats every non-empty line as one item. It creates sets for membership checks and displays a result based on the selected comparison mode."
-  - "Items are trimmed before comparison, but matching remains case-sensitive and punctuation-sensitive."
+  - "The Compare Two Lists tool treats each non-empty line as one item. It can show the intersection, entries found on only one side, or one combined list with exact duplicates removed."
+  - "Leading and trailing whitespace is removed before comparison. Matching is still case-sensitive and punctuation-sensitive, so small textual differences create separate items."
 features:
-  - "Common, A-only, B-only, and all-unique modes"
-  - "Updates results as either list changes"
-  - "Preserves source order where applicable"
-  - "Copies results as newline-separated text"
+  - "Common Items, Only in A, Only in B, and All Unique modes"
+  - "Updates the active result whenever either input changes"
+  - "Preserves source order for one-sided comparisons"
+  - "Copies the result as newline-separated text"
 useCases:
   - title: "Inventory comparison"
-    description: "Identify entries present in one exported list but missing from another."
+    description: "Compare inventory codes, IDs, or exported records to identify entries present in one list but missing from another."
   - title: "Roster or keyword review"
-    description: "Find overlap or differences between two lists of names, labels, IDs, or keywords."
+    description: "Review overlap between rosters, keyword sets, labels, filenames, or other one-item-per-line data."
 method:
   title: "How List Comparison Works"
   description:
-    - "Each input is split by line, trimmed, and filtered. Common and one-sided modes test set membership; All Unique combines both inputs and removes duplicates."
+    - "Each input is split at newline characters. Empty rows are removed and surrounding whitespace is trimmed before two Sets are created for membership checks."
+    - "Common Items filters List A for values found in List B. The one-sided modes filter against the opposite Set, while All Unique combines both lists and removes exact repeats."
   formula: "Common items = List A ∩ List B"
-  example: "If List A contains Apple and Pear while List B contains Pear and Plum, Common Items returns Pear."
+  example: "If List A contains Apple and Pear while List B contains Pear and Plum, Common Items returns Pear, Only in A returns Apple, and Only in B returns Plum."
 limitations:
   - "Comparison is case-sensitive: Apple and apple are different entries."
   - "Duplicate common entries in List A can appear more than once in Common Items."
@@ -51,5 +53,7 @@ faq:
   - question: "Does order matter?"
     answer: "No, the tool compares items regardless of their order in the lists."
   - question: "Is there a limit on list size?"
-    answer: "You can compare lists with thousands of items. All processing is done locally in your browser."
+    answer: "The page sets no fixed item limit. Very large lists are constrained by the memory and processing performance of your browser."
+  - question: "Is the comparison case-sensitive?"
+    answer: "Yes. Apple and apple are treated as different items in the current implementation."
 ---

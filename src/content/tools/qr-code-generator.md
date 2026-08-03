@@ -1,30 +1,32 @@
 ---
 seoTitle: "QR Pattern Generator Demo | OnlineTool.me"
 title: "QR Pattern Generator Demo"
-description: "Create and download a QR-style visual pattern from text. This demo does not yet produce a standards-compliant, scannable QR code."
-intro: "Create a downloadable QR-style visual pattern from text while the standards-compliant encoder is still under development."
+description: "Explore this QR pattern generator demo and download a text-based visual pattern. It does not yet create a standards-compliant QR code."
+intro: "Generate and download a deterministic QR-style pattern while standards-compliant QR encoding remains under development."
+keywords: "QR pattern generator, QR code generator demo, QR style pattern maker"
 category: "qr-code"
 icon: "QrCode"
 featured: true
 whatIs:
-  - "This page is currently a visual QR-pattern demonstration. It draws finder-like markers and a deterministic black-and-white pattern based on the entered text."
-  - "The output is not encoded according to the QR Code standard and should not be used where a scanner must recover the original content."
+  - "This page currently demonstrates the interface and canvas output planned for a QR code generator. It draws three finder-like corner markers and fills the remaining grid from a numeric seed derived from the entered text."
+  - "The image resembles a QR code, but the content is not encoded according to the QR Code standard. A scanner cannot recover the original text, so the download must be treated as a prototype graphic only."
 features:
-  - "Creates repeatable patterns from text"
-  - "Allows a canvas size from 100 to 500 pixels"
-  - "Downloads the displayed canvas as PNG"
-  - "Runs entirely in the browser"
+  - "Creates a repeatable visual pattern from entered text"
+  - "Supports canvas sizes from 100 to 500 pixels"
+  - "Draws the result locally in an HTML canvas"
+  - "Downloads the displayed prototype as a PNG"
 useCases:
   - title: "Interface preview"
-    description: "Preview the layout and download workflow planned for a future functional QR generator."
+    description: "Review the text, size, result, and download flow planned for a future standards-compliant QR generator."
   - title: "Decorative prototype"
-    description: "Create a QR-like placeholder for non-scannable mockups that are clearly marked as prototypes."
+    description: "Create a QR-like placeholder for a wireframe or design mockup when the asset is clearly identified as non-scannable."
 method:
   title: "How the QR-Style Pattern Is Drawn"
   description:
-    - "The demo converts the text into a numeric seed, draws three finder-like corner shapes, and fills other cells using a deterministic mathematical pattern."
+    - "The demo adds the numeric character codes in the entered text to produce a seed. It draws three finder-like shapes on a 25-by-25 grid."
+    - "For remaining cells, a deterministic sine-based calculation decides whether each square is black or white. The error-correction selection is not part of that calculation."
   formula: "Pattern seed = sum of the entered characters' numeric codes"
-  example: "Entering the same text and size twice produces the same visual pattern, but a QR reader will not decode it."
+  example: "Entering “https://onlinetool.me/” twice at the same size produces the same prototype pattern. A real QR scanner will not decode that pattern into the URL."
 limitations:
   - "The output is not a valid or scannable QR code."
   - "The Error Correction setting is displayed but is not used by the current drawing logic."
@@ -52,4 +54,6 @@ faq:
     answer: "The current version does not create valid QR codes of any content type. It only creates QR-style visual patterns."
   - question: "Are the QR codes permanent?"
     answer: "The downloaded image remains available like any local PNG, but it is not a scannable QR code."
+  - question: "Does the error-correction setting work?"
+    answer: "No. The control is visible in the current interface, but the selected level is not used by the pattern-generation logic."
 ---

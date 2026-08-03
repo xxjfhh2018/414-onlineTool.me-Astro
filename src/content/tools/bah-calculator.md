@@ -1,31 +1,33 @@
 ---
 seoTitle: "BAH Calculator - Housing Allowance Estimate | OnlineTool.me"
 title: "BAH Calculator"
-description: "Try this BAH calculator to explore a simplified housing allowance estimate by pay grade and dependency status. Verify rates with official sources."
-intro: "Explore a simplified Basic Allowance for Housing estimate by pay grade and dependency status."
+description: "Explore a simplified BAH calculator demo by pay grade and dependency status, then verify your actual housing allowance with official DoD rates."
+intro: "Explore how pay grade and dependency status affect this simplified Basic Allowance for Housing demonstration."
+keywords: "BAH calculator, Basic Allowance for Housing calculator, military housing allowance estimate"
 category: "calculators"
+subcategory: "finance"
 icon: "Home"
 featured: false
 whatIs:
-  - "Basic Allowance for Housing, or BAH, is a U.S. military allowance intended to help eligible service members cover housing costs when government quarters are not provided."
-  - "This page currently provides a simplified demonstration rather than an official location-based rate lookup. The ZIP code field is not used in the calculation, so the result must not be treated as a current entitlement amount."
+  - "Basic Allowance for Housing, or BAH, is a U.S. military allowance for eligible service members who do not receive government housing. Official rates depend on pay grade, dependency status, and the duty station's Military Housing Area."
+  - "This page demonstrates the input and result workflow with simplified values. It is not connected to official annual BAH tables, and the ZIP code field does not currently change the result."
 features:
-  - "Includes enlisted, warrant officer, and officer pay-grade options"
-  - "Compares with-dependent and without-dependent estimates"
-  - "Displays an immediate monthly demonstration amount"
-  - "Clearly identifies the result as an estimate"
+  - "Includes enlisted, warrant officer, and officer grades through O-6"
+  - "Provides with-dependent and without-dependent selections"
+  - "Shows the simplified monthly amount immediately"
+  - "Labels the output as an estimate for verification"
 useCases:
   - title: "Interface demonstration"
-    description: "Preview how pay grade and dependency inputs could be used in a complete BAH lookup tool."
+    description: "Preview the information normally required for a location-aware BAH lookup before using an official calculator."
   - title: "Early planning"
-    description: "Create a rough placeholder for planning before checking an official location-specific rate."
+    description: "Use the demonstration amount only as a placeholder, then replace it with the official rate for the correct year and location."
 method:
   title: "How This BAH Estimate Works"
   description:
-    - "The current version selects a fixed demonstration amount for the chosen pay grade. It increases that amount by 20% when With Dependents is selected."
-    - "It does not contain official annual BAH tables or Military Housing Area mappings."
+    - "The current version looks up a fixed demonstration base amount for the selected pay grade. Choosing With Dependents applies a 1.2 multiplier."
+    - "The entered ZIP code is retained only as part of the interface; it is not mapped to a Military Housing Area or official rate table."
   formula: "Demo estimate = Pay-grade base amount × dependency multiplier"
-  example: "If the demonstration base for a grade is $1,500, selecting With Dependents displays $1,800. This is not an official BAH rate."
+  example: "If a selected grade has a demonstration base of $1,500, choosing With Dependents applies $1,500 × 1.2 and displays $1,800. This is not an official BAH rate."
 limitations:
   - "The entered ZIP code does not currently affect the result."
   - "The calculator does not use official current-year DoD BAH tables."
@@ -50,7 +52,9 @@ faq:
   - question: "What is BAH?"
     answer: "Basic Allowance for Housing (BAH) is a U.S. military benefit that provides housing compensation to service members."
   - question: "How often are BAH rates updated?"
-    answer: "BAH rates are typically updated annually at the beginning of the calendar year."
+    answer: "Official BAH rates are generally published for each calendar year. Always use the rate table for the year in which the allowance applies."
+  - question: "Does the ZIP code affect this estimate?"
+    answer: "No. The ZIP code field is not connected to a location database in the current demonstration."
   - question: "Does this calculator reflect current rates?"
     answer: "No. The current version uses simplified demonstration values and is not an official current-rate lookup. Always verify rates with official DoD sources."
 ---

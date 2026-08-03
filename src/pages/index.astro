@@ -13,6 +13,14 @@ const categoryConfig = [
   { id: 'timers', label: 'Timers & Counters', icon: 'Timer' },
 ];
 
+const calculatorSubcategoryConfig = [
+  { id: 'education', label: 'Education Calculators' },
+  { id: 'games', label: 'Game Calculators' },
+  { id: 'engineering', label: 'Engineering Calculators' },
+  { id: 'everyday', label: 'Everyday Calculators' },
+  { id: 'finance', label: 'Financial Calculators' },
+];
+
 // Group tools by category, preserving config order
 const grouped = categoryConfig.map(cat => ({
   ...cat,
@@ -23,17 +31,17 @@ const featuredCount = allTools.filter(t => t.data.featured).length;
 ---
 
 <BaseLayout 
-  title="Home" 
-  description="Explore the best free online tools at OnlineTool.me! Word counters, calculators, QR code generators, and more."
+  title="Free Online Calculators & Tools | OnlineTool.me" 
+  description="Explore free online calculators for games, school, finance, engineering, and everyday tasks, plus useful generators, converters, and other tools."
 >
   <!-- Hero Section -->
   <section class="pt-16 pb-12 text-center">
     <div class="max-w-3xl mx-auto px-4">
       <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-        Best Free Online Tools
+        Free Online Calculators for Everyday Tasks
       </h1>
       <p class="text-lg text-gray-500 dark:text-gray-400 mb-10">
-        Simple, fast, and free tools for everyday tasks. No signup required.
+        Explore practical calculators for games, school, finance, engineering, and everyday life — plus useful generators, converters, and more.
       </p>
       
       <!-- Search Box -->
@@ -124,12 +132,44 @@ const featuredCount = allTools.filter(t => t.data.featured).length;
             <div class="w-20 md:w-32 border-t border-dashed border-gray-300 dark:border-white/20"></div>
           </div>
           
-          <!-- Tool Grid for this category -->
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {cat.tools.map(tool => (
-              <ToolCard tool={tool} />
-            ))}
-          </div>
+          {cat.id === 'calculators' ? (
+            <>
+              <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 mb-7" aria-label="Calculator subcategories">
+                {calculatorSubcategoryConfig.map(subcategory => {
+                  const count = cat.tools.filter(tool => tool.data.subcategory === subcategory.id).length;
+                  return (
+                    <div class="rounded-xl border border-gray-200/60 dark:border-white/10 bg-white dark:bg-surface-dark px-3 py-3 text-center">
+                      <div class="text-sm font-medium text-gray-700 dark:text-gray-300">{subcategory.label}</div>
+                      <div class="mt-1 text-xs text-gray-400 dark:text-gray-500">{count} {count === 1 ? 'tool' : 'tools'}</div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div class="space-y-8">
+                {calculatorSubcategoryConfig.map(subcategory => {
+                  const tools = cat.tools.filter(tool => tool.data.subcategory === subcategory.id);
+                  if (!tools.length) return null;
+                  return (
+                    <div class="calculator-subsection" data-calculator-subcategory={subcategory.id}>
+                      <div class="flex items-center gap-3 mb-4">
+                        <h3 class="text-sm font-semibold text-gray-800 dark:text-gray-200">{subcategory.label}</h3>
+                        <span class="text-xs text-gray-400 dark:text-gray-500">({tools.length})</span>
+                        <div class="flex-1 border-t border-dashed border-gray-200 dark:border-white/10"></div>
+                      </div>
+                      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {tools.map(tool => <ToolCard tool={tool} />)}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </>
+          ) : (
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {cat.tools.map(tool => <ToolCard tool={tool} />)}
+            </div>
+          )}
           
           <!-- Subtle section divider (except last) -->
           {idx < grouped.length - 1 && (
@@ -193,6 +233,11 @@ const featuredCount = allTools.filter(t => t.data.featured).length;
         } else {
           section.style.display = '';
         }
+      });
+
+      document.querySelectorAll('.calculator-subsection').forEach(function(subsection) {
+        const visibleCards = subsection.querySelectorAll('.grid > a:not([style*="display: none"])');
+        subsection.style.display = visibleCards.length === 0 ? 'none' : '';
       });
       
       if (resultCount) resultCount.textContent = String(totalVisible);

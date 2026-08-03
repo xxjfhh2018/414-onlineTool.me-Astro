@@ -29,6 +29,16 @@
             "timers"
           ]
         },
+        "subcategory": {
+          "type": "string",
+          "enum": [
+            "education",
+            "games",
+            "engineering",
+            "everyday",
+            "finance"
+          ]
+        },
         "icon": {
           "type": "string"
         },

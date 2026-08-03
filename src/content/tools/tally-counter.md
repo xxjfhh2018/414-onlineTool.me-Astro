@@ -1,30 +1,32 @@
 ---
 seoTitle: "Online Tally Counter - Count Items | OnlineTool.me"
 title: "Online Tally Counter"
-description: "Use a free online tally counter to add, subtract, reset, or create multiple browser-based counts during your current session."
-intro: "Increment, decrement, reset, or create multiple counters for quick session-based counting."
+description: "Try this online tally counter to add, subtract, reset, or create multiple non-negative counts during your current browser session."
+intro: "Track one or more non-negative counts with quick increment, decrement, reset, and delete controls."
+keywords: "online tally counter, click counter, multiple tally counters, counting tool"
 category: "timers"
 icon: "ListOrdered"
 featured: false
 whatIs:
-  - "An online tally counter replaces a mechanical clicker for simple counting tasks. The main counter starts at zero, and additional counters can be created for separate totals."
-  - "Counts remain in memory only while the current page is open."
+  - "An online tally counter provides a simple alternative to a handheld mechanical clicker. The primary counter starts at zero, and additional independent counters can be created below it."
+  - "Every counter accepts one-step increases and decreases but never drops below zero. Values exist only in the current page memory and are not saved between visits."
 features:
-  - "Large increment and decrement controls"
-  - "Reset for the primary counter"
-  - "Multiple independent counters"
-  - "Prevents counts from dropping below zero"
+  - "Large plus and minus controls for the primary count"
+  - "One-click reset of the primary counter"
+  - "Multiple additional counters with individual controls"
+  - "Zero floor that prevents negative values"
 useCases:
   - title: "Attendance and events"
-    description: "Count arrivals, participants, laps, repetitions, or observed events during one session."
+    description: "Count arrivals, participants, laps, repetitions, responses, or observed events during one uninterrupted session."
   - title: "Manual categorization"
-    description: "Create separate counters for several categories while reviewing items one at a time."
+    description: "Create separate counters for categories while sorting objects or reviewing records one item at a time."
 method:
   title: "How the Tally Counter Works"
   description:
-    - "Each plus press adds one to the selected count. Each minus press subtracts one when the value is above zero."
+    - "Each Plus press adds exactly one to the selected counter. Minus subtracts one only when the current value is greater than zero."
+    - "Reset affects the primary counter only. Additional counters can be created and deleted independently."
   formula: "New count = Current count ± 1"
-  example: "Starting at zero and pressing plus five times displays 5; pressing minus once changes it to 4."
+  example: "Starting at zero, pressing Plus five times displays 5. Pressing Minus once changes it to 4, while Reset returns the primary counter to 0."
 limitations:
   - "Counters cannot be named in the current version."
   - "Counts reset when the page is refreshed or closed."
@@ -52,4 +54,6 @@ faq:
     answer: "Yes, you can create and track multiple counters at the same time."
   - question: "Is my count saved?"
     answer: "Counts are maintained during your session. Refreshing the page will reset the counter."
+  - question: "Can the counter go below zero?"
+    answer: "No. The current tool ignores a decrement when a counter is already at zero."
 ---

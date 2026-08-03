@@ -1,30 +1,32 @@
 ---
 seoTitle: "Random Team Generator - Split Names | OnlineTool.me"
 title: "Random Team Generator"
-description: "Paste one name per line and use this random team generator to shuffle participants into a selected number of balanced groups."
-intro: "Shuffle a newline-separated list of names and distribute participants across a selected number of teams."
+description: "Try this random team generator to shuffle one-name-per-line participants into a selected number of teams with balanced group sizes."
+intro: "Paste one participant per line, choose the number of teams, and create a shuffled assignment with balanced group sizes."
+keywords: "random team generator, random group generator, split names into teams, team picker"
 category: "generators"
 icon: "UsersRound"
 featured: true
 whatIs:
-  - "A random team generator shuffles a list of participants and assigns them to groups. This tool distributes shuffled names in rotation so team sizes differ by no more than one when the inputs are valid."
-  - "Generating again creates another arrangement using the browser's standard random-number function."
+  - "A random team generator removes the manual bias and effort from casual group assignment. This tool shuffles every non-empty line, then distributes names across the requested number of teams."
+  - "Round-robin distribution keeps group sizes as even as possible: when the participant count does not divide evenly, some teams receive one additional person."
 features:
-  - "Accepts one participant per line"
-  - "Creates a user-selected number of teams"
-  - "Balances team sizes through round-robin assignment"
-  - "Copies the displayed assignments"
+  - "Accepts one participant name per line"
+  - "Creates a user-selected number of groups"
+  - "Balances group sizes through rotating assignment"
+  - "Regenerates or copies the displayed teams"
 useCases:
   - title: "Classrooms and workshops"
-    description: "Split students or attendees into small discussion, activity, or project groups."
+    description: "Divide students or attendees into discussion, activity, workshop, or short-term project groups."
   - title: "Games and activities"
-    description: "Create quick recreational teams when skill-based seeding is not required."
+    description: "Create casual sports, party, or game-night teams when skill ratings and seeded placement are not required."
 method:
   title: "How Random Teams Are Created"
   description:
-    - "The tool shuffles the submitted names with the Fisher–Yates method, then assigns each name to teams in rotating order."
+    - "The tool trims each line, removes empty rows, and shuffles the remaining entries with the Fisher–Yates method using the browser's standard random-number generator."
+    - "It assigns the shuffled names to teams in rotating order, which keeps the difference between the largest and smallest teams to at most one person for valid inputs."
   formula: "Assigned team index = shuffled position mod number of teams"
-  example: "With 10 names and 3 teams, the generated sizes will be 4, 3, and 3."
+  example: "With 10 names and 3 teams, round-robin assignment creates team sizes of 4, 3, and 3. Generate again to produce another shuffled arrangement."
 limitations:
   - "The generator does not account for skill, role, preference, or prior assignments."
   - "Duplicate names are treated as separate entries."
@@ -51,5 +53,7 @@ faq:
   - question: "Can I generate more than one set of teams?"
     answer: "Yes, you can click generate multiple times to get different random team combinations."
   - question: "Is there a limit on the number of names?"
-    answer: "No, you can enter as many names as you need."
+    answer: "The page sets no fixed name limit. Very large lists are constrained by browser memory and may be harder to review or copy."
+  - question: "Are the teams balanced by skill?"
+    answer: "No. The tool balances only the number of participants; it does not know skill, role, age, preference, or scheduling constraints."
 ---

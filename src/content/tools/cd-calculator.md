@@ -1,30 +1,33 @@
 ---
 seoTitle: "CD Calculator - Estimate Deposit Returns | OnlineTool.me"
 title: "CD Calculator"
-description: "Try this CD calculator to estimate maturity value and interest from your deposit, term, rate, and compounding frequency."
-intro: "Estimate the maturity value and interest earned on a certificate of deposit using your amount, term, rate, and compounding schedule."
+description: "Try this CD calculator to estimate interest earned and maturity value from your deposit, term, annual rate, and compounding frequency."
+intro: "Project a certificate of deposit balance from the opening deposit, term, entered annual rate, and compounding schedule."
+keywords: "CD calculator, certificate of deposit calculator, CD interest calculator, maturity value calculator"
 category: "calculators"
+subcategory: "finance"
 icon: "PiggyBank"
 featured: false
 whatIs:
-  - "A CD calculator estimates how a certificate of deposit may grow over a fixed term. It combines the initial deposit, entered annual rate, compounding frequency, and time to show a projected balance."
-  - "Use the result to compare scenarios, then confirm whether the bank quotes an APY or a nominal annual rate because those terms are not interchangeable."
+  - "A certificate of deposit is a bank deposit held for a defined term, usually in exchange for a stated return. This CD calculator projects the ending balance and separates the original deposit from estimated interest."
+  - "The current formula compounds the entered annual percentage at the selected frequency. Although the input is labeled APY, this implementation treats it as a nominal annual rate, so compare the result carefully with a bank's official disclosure."
 features:
-  - "Supports terms from 6 months to 5 years"
-  - "Offers daily, monthly, quarterly, and annual compounding"
-  - "Shows projected maturity value and interest earned"
-  - "Keeps calculations in the browser"
+  - "Includes preset terms from 6 months through 5 years"
+  - "Supports daily, monthly, quarterly, and annual compounding"
+  - "Separates estimated interest from total maturity value"
+  - "Shows the effective annualized return implied by the calculation"
 useCases:
   - title: "Compare CD offers"
-    description: "Enter different rates and terms to compare projected maturity values before opening an account."
+    description: "Test the same deposit across different terms, rates, and compounding schedules before reviewing official offers."
   - title: "Set a savings target"
-    description: "Estimate whether a fixed deposit could reach a planned balance by the maturity date."
+    description: "Estimate the opening deposit or term needed to approach a future cash target, without modeling additional contributions."
 method:
   title: "How CD Returns Are Calculated"
   description:
-    - "The calculator applies periodic compound interest to the initial deposit for the selected number of months."
+    - "The calculator converts the selected term from months to years, divides the annual rate by the number of compounding periods, and applies compound growth to the opening deposit."
+    - "Interest earned is the projected maturity value minus the original principal. The displayed effective rate is derived from the total growth over the selected term."
   formula: "Maturity value = Principal × (1 + Rate ÷ Periods)^(Periods × Years)"
-  example: "A $10,000 deposit at an entered 4.5% annual rate compounded monthly for one year produces a projected value of about $10,459."
+  example: "A $10,000 deposit at an entered 4.5% annual rate compounded monthly for 12 months produces a projected maturity value of about $10,459.40 and about $459.40 in interest."
 limitations:
   - "The tool treats the entered percentage as a nominal annual rate even though the field is labeled APY."
   - "Taxes, early-withdrawal penalties, fees, and additional deposits are not included."
@@ -51,5 +54,7 @@ faq:
   - question: "Can I withdraw early from a CD?"
     answer: "Early withdrawal typically incurs a penalty. Check with your bank for specific terms."
   - question: "Is CD interest taxable?"
-    answer: "Yes, interest earned on CDs is generally taxable as ordinary income."
+    answer: "CD interest may be taxable depending on your jurisdiction and account type. Consult current tax guidance or a qualified adviser for your situation."
+  - question: "Is APY the same as the rate used by this calculator?"
+    answer: "Not exactly. The current input is labeled APY, but the implemented formula treats the percentage as a nominal annual rate combined with the selected compounding frequency."
 ---

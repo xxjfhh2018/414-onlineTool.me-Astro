@@ -1,30 +1,33 @@
 ---
 seoTitle: "Dynasty Trade Calculator - Compare Values | OnlineTool.me"
 title: "Dynasty Trade Calculator"
-description: "Compare user-entered player and pick values with this dynasty trade calculator. Total both sides and review the percentage difference."
-intro: "Add your own player or pick values to compare both sides of a dynasty fantasy trade."
+description: "Try this dynasty trade calculator with your own player and pick values. Compare both totals and see whether their difference falls within 10%."
+intro: "Enter your own values for players or draft picks, then compare the two sides of a dynasty fantasy trade."
+keywords: "dynasty trade calculator, fantasy football trade calculator, dynasty player value comparison"
 category: "calculators"
+subcategory: "games"
 icon: "TrendingUp"
 featured: false
 whatIs:
-  - "A dynasty trade calculator compares the assigned values of assets exchanged in a long-term fantasy league. This version totals the numbers you enter for each side and measures the difference."
-  - "It does not provide a live player database or proprietary rankings. The quality of the result depends entirely on the values you supply."
+  - "A dynasty trade calculator helps compare packages containing players and draft picks in a keeper-style fantasy league. Unlike a redraft league, dynasty decisions may account for future seasons, age, roster construction, and pick value."
+  - "This calculator is a neutral arithmetic workspace: you supply every asset name and value. It totals both sides and reports whether the percentage gap is below its 10% fair-trade threshold."
 features:
-  - "Adds multiple players or picks to either side"
-  - "Totals user-entered values"
-  - "Labels trades within a 10% difference as fair"
-  - "Lets you remove and revise individual assets"
+  - "Accepts multiple named assets on both sides"
+  - "Uses values from your preferred ranking source"
+  - "Totals each package and measures the percentage gap"
+  - "Allows assets to be removed before reevaluation"
 useCases:
   - title: "Compare your rankings"
-    description: "Turn values from your preferred ranking source into a quick side-by-side trade comparison."
+    description: "Paste values from a ranking source you trust and compare packages without mixing different scoring scales."
   - title: "Test package trades"
-    description: "Explore whether several lower-value assets approach the entered value of one premium asset."
+    description: "Test two-for-one, player-plus-pick, or multi-pick packages while keeping the same valuation assumptions on both sides."
 method:
   title: "How the Dynasty Trade Comparison Works"
   description:
-    - "The calculator adds the numeric values on each side, then divides the absolute difference by the larger total. A difference below 10% is labeled Fair Trade."
+    - "The calculator adds all entered values on Side A and Side B. It divides the absolute difference by the larger total to create a percentage comparison."
+    - "A gap below 10% is labeled Fair Trade. Larger gaps favor the side receiving the higher entered total."
   formula: "Difference % = |Side A − Side B| ÷ max(Side A, Side B) × 100"
-  example: "A side totaling 100 and a side totaling 94 differ by 6%, so this tool labels the trade as fair."
+  example: "If Side A totals 100 and Side B totals 94, the difference is 6 ÷ 100 = 6%. Because that is below 10%, the tool labels the trade Fair Trade."
 limitations:
   - "Player and pick values are entered by the user and are not supplied or updated by the site."
   - "League size, scoring, roster format, positional needs, and market context are not modeled."
@@ -47,7 +50,9 @@ howToUse:
     description: "Use the unbiased evaluation to decide if the trade is fair."
 faq:
   - question: "What is a dynasty fantasy league?"
-    answer: "A dynasty league is a fantasy sports format where you keep most or all of your roster from year to year."
+    answer: "A dynasty league is a fantasy format in which managers retain most or all of their roster between seasons, making age and future value more important."
+  - question: "What value scale should I use?"
+    answer: "Use one consistent ranking or valuation scale for every player and pick on both sides. Mixing sources can make the comparison misleading."
   - question: "How are player values calculated?"
     answer: "This tool does not calculate player values. You enter values from your own rankings or another source, and the calculator totals them."
   - question: "Does this support all fantasy platforms?"

@@ -1,30 +1,32 @@
 ---
 seoTitle: "Remove Empty Lines from Text | OnlineTool.me"
 title: "Remove Empty Lines"
-description: "Remove empty and whitespace-only lines from text online. Paste content, clean it in your browser, and copy the compact result."
-intro: "Delete empty and whitespace-only lines from pasted text while preserving the remaining line order."
+description: "Try this remove empty lines tool to delete blank and whitespace-only rows while preserving the text and order of every remaining line."
+intro: "Delete blank and whitespace-only rows from pasted text while preserving every non-empty line in its original order."
+keywords: "remove empty lines, delete blank lines, remove whitespace lines, text cleanup tool"
 category: "text-tools"
 icon: "AlignJustify"
 featured: false
 whatIs:
-  - "The Remove Empty Lines tool filters blank rows from plain text. A line is considered empty when it contains no visible characters after surrounding whitespace is ignored."
-  - "Non-empty lines stay in their original order and are joined with standard line breaks in the output."
+  - "The Remove Empty Lines tool cleans plain text by deleting rows that contain nothing or contain only whitespace. It is useful when copied content includes unwanted gaps between every item."
+  - "The tool checks trimmed lines only to decide whether they are empty. It keeps the original characters of non-empty lines, preserves their order, and joins them with standard newline characters."
 features:
-  - "Removes blank and whitespace-only rows"
-  - "Preserves the order and content of non-empty lines"
-  - "Provides separate input and output areas"
-  - "Processes text locally in the browser"
+  - "Removes completely blank and whitespace-only rows"
+  - "Keeps non-empty line content and ordering unchanged"
+  - "Provides a read-only result with a Copy action"
+  - "Processes pasted text locally in the browser"
 useCases:
   - title: "Clean copied lists"
-    description: "Remove gaps introduced when copying rows from documents, emails, or spreadsheets."
+    description: "Remove unwanted gaps introduced when copying rows from documents, email messages, webpages, or spreadsheet exports."
   - title: "Compact plain text"
-    description: "Prepare notes, data, or code snippets that should contain no blank lines."
+    description: "Compact notes, simple datasets, or code snippets when the receiving system expects one non-empty row after another."
 method:
   title: "How Empty Lines Are Removed"
   description:
-    - "The tool splits the input at newline characters, trims each line only for the emptiness check, removes lines whose trimmed value is empty, and rejoins the retained original lines."
+    - "The browser splits the input wherever it finds a newline. For each row, it temporarily removes surrounding whitespace to test whether any visible content remains."
+    - "Rows with no remaining content are discarded. Every retained original row is joined into the output with a newline."
   formula: "Keep line when line.trim() is not empty"
-  example: "Input containing “Alpha”, a blank row, and “Beta” becomes two adjacent lines: “Alpha” and “Beta”."
+  example: "If the input contains “Alpha”, two blank rows, and “Beta”, the result contains two adjacent rows: “Alpha” followed by “Beta”."
 limitations:
   - "All empty lines are removed; there is no option to keep one blank line between sections."
   - "Spaces on non-empty lines are preserved rather than trimmed."
@@ -52,4 +54,6 @@ faq:
     answer: "Yes. Lines containing only whitespace characters are always removed by the current tool."
   - question: "Is my text stored?"
     answer: "No, all processing is done locally in your browser. Your text is never uploaded."
+  - question: "Does the tool trim non-empty lines?"
+    answer: "No. Whitespace is ignored when deciding whether a row is empty, but the original content of each retained line is preserved."
 ---

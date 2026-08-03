@@ -19,6 +19,10 @@ import ScoreBoard from '../components/tools/ScoreBoard.astro';
 import QRCodeGenerator from '../components/tools/QRCodeGenerator.astro';
 import QRCodeReader from '../components/tools/QRCodeReader.astro';
 import TI84Calculator from '../components/tools/TI84Calculator.astro';
+import PalworldBreedingCalculator from '../components/tools/PalworldBreedingCalculator.astro';
+import GradeCalculator from '../components/tools/GradeCalculator.astro';
+import GPACalculator from '../components/tools/GPACalculator.astro';
+import APScoreCalculator from '../components/tools/APScoreCalculator.astro';
 
 export async function getStaticPaths() {
   const tools = await getCollection('tools');
@@ -35,6 +39,7 @@ const {
   description,
   intro,
   category,
+  subcategory,
   icon,
   whatIs,
   features,
@@ -65,6 +70,18 @@ const categoryLabels: Record<string, string> = {
   'timers': 'Timers & Counters',
 };
 
+const calculatorSubcategoryLabels: Record<string, string> = {
+  'education': 'Education Calculators',
+  'games': 'Game Calculators',
+  'engineering': 'Engineering Calculators',
+  'everyday': 'Everyday Calculators',
+  'finance': 'Financial Calculators',
+};
+
+const displayCategory = category === 'calculators' && subcategory
+  ? calculatorSubcategoryLabels[subcategory]
+  : categoryLabels[category] || category;
+
 const toolComponents: Record<string, any> = {
   'word-counter': WordCounter,
   'remove-empty-lines': RemoveEmptyLines,
@@ -81,6 +98,19 @@ const toolComponents: Record<string, any> = {
   'qr-code-generator': QRCodeGenerator,
   'qr-code-reader': QRCodeReader,
   'ti-84-calculator': TI84Calculator,
+  'palworld-breeding-calculator': PalworldBreedingCalculator,
+  'grade-calculator': GradeCalculator,
+  'gpa-calculator': GPACalculator,
+  'ap-score-calculator': APScoreCalculator,
+  'apush-score-calculator': APScoreCalculator,
+  'ap-lang-score-calculator': APScoreCalculator,
+  'ap-biology-score-calculator': APScoreCalculator,
+  'ap-chemistry-score-calculator': APScoreCalculator,
+  'ap-calculus-ab-score-calculator': APScoreCalculator,
+  'ap-calculus-bc-score-calculator': APScoreCalculator,
+  'ap-statistics-score-calculator': APScoreCalculator,
+  'ap-psychology-score-calculator': APScoreCalculator,
+  'ap-world-history-score-calculator': APScoreCalculator,
 };
 
 const ToolComponent = toolComponents[tool.slug];
@@ -91,7 +121,13 @@ const webApplicationJsonLd = {
   name: title,
   description,
   url: canonical,
-  applicationCategory: category === 'calculators' ? 'FinanceApplication' : 'UtilitiesApplication',
+  applicationCategory: tool.slug === 'palworld-breeding-calculator'
+    ? 'GameApplication'
+    : subcategory === 'education'
+      ? 'EducationalApplication'
+      : ['bac-calculator', 'bah-calculator', 'cd-calculator'].includes(tool.slug)
+        ? 'FinanceApplication'
+        : 'UtilitiesApplication',
   operatingSystem: 'Any',
   offers: {
     '@type': 'Offer',
@@ -154,9 +190,20 @@ const faqJsonLd = faq?.length ? {
       </p>
       <div class="mt-4">
         <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400">
-          {categoryLabels[category] || category}
+          {displayCategory}
         </span>
       </div>
+    </div>
+  </section>
+
+  <!-- Tool Function Area -->
+  <section class="pb-12">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      {ToolComponent ? <ToolComponent course={tool.slug} /> : (
+        <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-8 text-center">
+          <p class="text-sm text-gray-500 dark:text-gray-400">Tool interface coming soon.</p>
+        </div>
+      )}
     </div>
   </section>
 
@@ -167,17 +214,6 @@ const faqJsonLd = faq?.length ? {
       <div class="space-y-4 text-gray-600 dark:text-gray-400 leading-7">
         {whatIs.map(paragraph => <p>{paragraph}</p>)}
       </div>
-    </div>
-  </section>
-
-  <!-- Tool Function Area -->
-  <section class="pb-12">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      {ToolComponent ? <ToolComponent /> : (
-        <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-8 text-center">
-          <p class="text-sm text-gray-500 dark:text-gray-400">Tool interface coming soon.</p>
-        </div>
-      )}
     </div>
   </section>
 

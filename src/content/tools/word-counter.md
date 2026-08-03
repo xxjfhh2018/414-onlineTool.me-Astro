@@ -1,30 +1,32 @@
 ---
 seoTitle: "Word Counter and Character Counter | OnlineTool.me"
 title: "Word Counter and Character Counter"
-description: "Try this free word counter online to measure words, characters, non-space characters, and sentences as you type or paste text."
-intro: "Count words, characters, non-space characters, and sentences in real time as you type or paste text."
+description: "Try this word counter to measure words, characters, characters without spaces, and estimated sentences while you type or paste text."
+intro: "Measure words, characters, non-space characters, and estimated sentences as your text changes."
+keywords: "word counter, character counter, online word count tool, sentence counter"
 category: "text-tools"
 icon: "Type"
 featured: true
 whatIs:
-  - "A word counter measures the length and structure of text without requiring manual counting. This tool updates four basic statistics whenever the input changes."
-  - "All counting happens in the browser. The result is designed for quick drafting checks rather than language-aware editorial analysis."
+  - "A word counter provides a quick measurement of text length for drafts, forms, assignments, and publishing fields. This tool updates four visible totals whenever you type, paste, or delete content."
+  - "Words are identified by whitespace, while the character totals show both the complete input length and the length after all whitespace is removed. Sentence counting is a punctuation-based estimate."
 features:
-  - "Real-time word and character totals"
-  - "Separate count with whitespace removed"
-  - "Basic sentence estimate"
-  - "No account or text upload required"
+  - "Live word and total-character counts"
+  - "Separate character count with whitespace removed"
+  - "Estimated sentence count from ending punctuation"
+  - "Local browser processing with no account required"
 useCases:
   - title: "Writing limits"
-    description: "Check drafts for assignment, form, listing, or social-post length requirements."
+    description: "Check whether an essay, application field, product listing, or social post fits a stated word or character limit."
   - title: "Editing checks"
-    description: "Compare text before and after revisions to see how much content changed."
+    description: "Measure a draft before and after editing to confirm that cuts or additions moved it toward the required length."
 method:
   title: "How Text Is Counted"
   description:
-    - "Words are groups separated by whitespace. Characters include every typed character, while the no-spaces total removes all whitespace. Sentences are estimated by splitting at periods, exclamation marks, and question marks."
+    - "After trimming the outside of the input, the tool treats each non-empty group separated by one or more whitespace characters as a word."
+    - "Characters include letters, numbers, punctuation, spaces, and line breaks. The no-spaces total removes every whitespace character. Sentence estimates split the text after periods, exclamation marks, or question marks."
   formula: "Words = non-empty groups separated by whitespace"
-  example: "The text “Tools save time.” contains 3 words, 16 characters including spaces, and 1 estimated sentence."
+  example: "The text “Tools save time.” contains 3 words, 16 characters including spaces, 14 characters without spaces, and 1 estimated sentence."
 limitations:
   - "Hyphenated terms and contractions are normally counted as one whitespace-separated word."
   - "Sentence detection is approximate and can misread abbreviations or repeated punctuation."
@@ -52,4 +54,6 @@ faq:
     answer: "The page does not set a fixed character limit, but very large text can be constrained by browser memory and performance."
   - question: "Is my text stored or shared?"
     answer: "No, all processing happens in your browser. Your text is never sent to our servers."
+  - question: "Are spaces included in the character count?"
+    answer: "The Characters total includes whitespace. The No Spaces total removes spaces, tabs, and line breaks so you can compare both measurements."
 ---

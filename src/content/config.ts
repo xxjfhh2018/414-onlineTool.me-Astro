@@ -9,6 +9,7 @@ const tools = defineCollection({
     intro: z.string(),
     keywords: z.string().optional(),
     category: z.enum(['calculators', 'text-tools', 'qr-code', 'generators', 'timers']),
+    subcategory: z.enum(['education', 'games', 'engineering', 'everyday', 'finance']).optional(),
     icon: z.string(),
     featured: z.boolean().default(false),
     whatIs: z.array(z.string()),

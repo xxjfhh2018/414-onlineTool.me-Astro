@@ -1,0 +1,225 @@
+---
+interface SectionConfig {
+  label: string;
+  possible: number;
+  weight: number;
+}
+
+interface CourseConfig {
+  name: string;
+  format: string;
+  sections: SectionConfig[];
+  cutScores: [number, number, number, number];
+  source: string;
+}
+
+const configs: Record<string, CourseConfig> = {
+  'ap-score-calculator': {
+    name: 'AP Exam',
+    format: 'General two-section model. Adjust the possible points, weights, and estimated cut scores for your practice exam.',
+    sections: [
+      { label: 'Multiple Choice', possible: 100, weight: 50 },
+      { label: 'Free Response', possible: 100, weight: 50 },
+    ],
+    cutScores: [75, 60, 45, 30],
+    source: 'https://apcentral.collegeboard.org/courses/how-ap-develops-courses-and-exams/score-setting-and-scoring',
+  },
+  'apush-score-calculator': {
+    name: 'AP U.S. History',
+    format: 'Uses the published 40% MCQ, 20% SAQ, 25% DBQ, and 15% LEQ structure. Verify 2027 rubric changes against your practice test.',
+    sections: [
+      { label: 'Multiple Choice', possible: 55, weight: 40 },
+      { label: 'Short Answer', possible: 9, weight: 20 },
+      { label: 'Document-Based Question', possible: 7, weight: 25 },
+      { label: 'Long Essay', possible: 6, weight: 15 },
+    ],
+    cutScores: [75, 60, 45, 30],
+    source: 'https://apcentral.collegeboard.org/courses/ap-united-states-history/exam',
+  },
+  'ap-lang-score-calculator': {
+    name: 'AP English Language',
+    format: 'Uses the published 45% multiple-choice and 55% free-response weighting. The three essays split the FRQ weight equally.',
+    sections: [
+      { label: 'Multiple Choice', possible: 45, weight: 45 },
+      { label: 'Synthesis Essay', possible: 6, weight: 18.3333 },
+      { label: 'Rhetorical Analysis Essay', possible: 6, weight: 18.3333 },
+      { label: 'Argument Essay', possible: 6, weight: 18.3334 },
+    ],
+    cutScores: [72, 57, 42, 27],
+    source: 'https://apcentral.collegeboard.org/courses/ap-english-language-and-composition/exam',
+  },
+  'ap-biology-score-calculator': {
+    name: 'AP Biology',
+    format: 'Uses the published 50% multiple-choice and 50% free-response weighting. The FRQ possible-points field is editable for the scoring guide you use.',
+    sections: [
+      { label: 'Multiple Choice', possible: 60, weight: 50 },
+      { label: 'Free Response', possible: 36, weight: 50 },
+    ],
+    cutScores: [78, 63, 48, 34],
+    source: 'https://apcentral.collegeboard.org/courses/ap-biology/exam',
+  },
+  'ap-chemistry-score-calculator': {
+    name: 'AP Chemistry',
+    format: 'Uses the published 50% multiple-choice and 50% free-response weighting, with 60 MCQs and 46 total FRQ rubric points as defaults.',
+    sections: [
+      { label: 'Multiple Choice', possible: 60, weight: 50 },
+      { label: 'Free Response', possible: 46, weight: 50 },
+    ],
+    cutScores: [75, 60, 45, 30],
+    source: 'https://apcentral.collegeboard.org/courses/ap-chemistry/exam',
+  },
+  'ap-calculus-ab-score-calculator': {
+    name: 'AP Calculus AB',
+    format: 'Uses the published 50% multiple-choice and 50% free-response weighting. Possible points remain editable for updated practice formats.',
+    sections: [
+      { label: 'Multiple Choice', possible: 45, weight: 50 },
+      { label: 'Free Response', possible: 54, weight: 50 },
+    ],
+    cutScores: [70, 58, 43, 32],
+    source: 'https://apcentral.collegeboard.org/courses/ap-calculus-ab/exam',
+  },
+  'ap-calculus-bc-score-calculator': {
+    name: 'AP Calculus BC',
+    format: 'Uses the published 50% multiple-choice and 50% free-response weighting. This predicts the overall BC score, not the separate AB subscore.',
+    sections: [
+      { label: 'Multiple Choice', possible: 45, weight: 50 },
+      { label: 'Free Response', possible: 54, weight: 50 },
+    ],
+    cutScores: [65, 53, 40, 28],
+    source: 'https://apcentral.collegeboard.org/courses/ap-calculus-bc/exam',
+  },
+  'ap-statistics-score-calculator': {
+    name: 'AP Statistics',
+    format: 'Defaults to the revised May 2027 format: 42 MCQs and four 10-point FRQs, weighted 50% each.',
+    sections: [
+      { label: 'Multiple Choice', possible: 42, weight: 50 },
+      { label: 'Free Response', possible: 40, weight: 50 },
+    ],
+    cutScores: [70, 55, 40, 25],
+    source: 'https://apcentral.collegeboard.org/courses/ap-statistics/future-revisions',
+  },
+  'ap-psychology-score-calculator': {
+    name: 'AP Psychology',
+    format: 'Uses the current 66.7% multiple-choice and 33.3% free-response structure: 75 MCQs and two 7-point FRQs.',
+    sections: [
+      { label: 'Multiple Choice', possible: 75, weight: 66.7 },
+      { label: 'Free Response', possible: 14, weight: 33.3 },
+    ],
+    cutScores: [75, 60, 45, 30],
+    source: 'https://apcentral.collegeboard.org/courses/ap-psychology/exam',
+  },
+  'ap-world-history-score-calculator': {
+    name: 'AP World History: Modern',
+    format: 'Uses the published 40% MCQ, 20% SAQ, 25% DBQ, and 15% LEQ structure. Possible points are editable for 2027 practice materials.',
+    sections: [
+      { label: 'Multiple Choice', possible: 55, weight: 40 },
+      { label: 'Short Answer', possible: 9, weight: 20 },
+      { label: 'Document-Based Question', possible: 7, weight: 25 },
+      { label: 'Long Essay', possible: 6, weight: 15 },
+    ],
+    cutScores: [75, 60, 45, 30],
+    source: 'https://apcentral.collegeboard.org/courses/ap-world-history/exam',
+  },
+};
+
+const { course = 'ap-score-calculator' } = Astro.props;
+const config = configs[course] || configs['ap-score-calculator'];
+---
+
+<div class="max-w-4xl mx-auto ap-score-tool" data-course={course} data-config={JSON.stringify(config)}>
+  <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-4 sm:p-6">
+    <div class="mb-5">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{config.name} Practice Score</h2>
+      <p class="mt-1 text-sm leading-6 text-gray-500 dark:text-gray-400">{config.format}</p>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full min-w-[600px]">
+        <thead>
+          <tr class="text-left text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+            <th class="pb-2 pr-3 font-medium">Exam section</th>
+            <th class="pb-2 px-3 font-medium w-32">Points earned</th>
+            <th class="pb-2 px-3 font-medium w-32">Points possible</th>
+            <th class="pb-2 pl-3 font-medium w-28">Weight</th>
+          </tr>
+        </thead>
+        <tbody>
+          {config.sections.map(section => (
+            <tr class="aps-row border-t border-gray-100 dark:border-white/5">
+              <td class="py-3 pr-3 text-sm font-medium text-gray-800 dark:text-gray-200">{section.label}</td>
+              <td class="py-3 px-3"><input class="aps-earned w-full px-3 py-2.5 rounded-lg bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-800 dark:text-gray-200" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0" /></td>
+              <td class="py-3 px-3"><input class="aps-possible w-full px-3 py-2.5 rounded-lg bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-800 dark:text-gray-200" type="number" inputmode="decimal" min="0.01" step="0.01" value={section.possible} /></td>
+              <td class="py-3 pl-3"><div class="px-3 py-2.5 rounded-lg bg-gray-50 dark:bg-white/5 text-sm text-gray-600 dark:text-gray-400"><span class="aps-weight">{section.weight}</span>%</div></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <details class="mt-5 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200/60 dark:border-white/10 p-4">
+      <summary class="cursor-pointer text-sm font-semibold text-gray-800 dark:text-gray-200">Adjust estimated 1–5 cut scores</summary>
+      <p class="mt-2 text-xs leading-5 text-gray-500 dark:text-gray-400">These defaults are planning estimates, not official College Board cut scores. Change them when your teacher or practice test provides a conversion chart.</p>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4">
+        {[5, 4, 3, 2].map((score, index) => (
+          <div>
+            <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Minimum for {score}</label>
+            <input class="aps-cut w-full px-3 py-2 rounded-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-white/10 text-gray-800 dark:text-gray-200" type="number" inputmode="decimal" min="0" max="100" step="0.1" value={config.cutScores[index]} data-score={score} />
+          </div>
+        ))}
+      </div>
+    </details>
+
+    <button type="button" class="aps-calculate mt-5 w-full px-4 py-3 rounded-xl bg-primary-500 text-white font-semibold hover:bg-primary-600">Calculate AP Score</button>
+    <div class="aps-result mt-5" aria-live="polite"></div>
+  </div>
+
+  <div class="mt-4 rounded-xl border border-gray-200/60 dark:border-white/10 px-4 py-3 text-xs leading-5 text-gray-500 dark:text-gray-400">
+    This independent practice calculator is not affiliated with or endorsed by College Board. Official AP scores use secure exam-specific scoring and standard setting.
+    <a href={config.source} target="_blank" rel="noopener noreferrer" class="text-primary-600 dark:text-primary-400 hover:underline">Review the official exam structure</a>.
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.ap-score-tool').forEach(root => {
+    if (root.dataset.ready === 'true') return;
+    root.dataset.ready = 'true';
+    const result = root.querySelector('.aps-result');
+    root.querySelector('.aps-calculate')?.addEventListener('click', () => {
+      let composite = 0;
+      let completedWeight = 0;
+      const contributions: string[] = [];
+      let valid = true;
+      root.querySelectorAll('.aps-row').forEach(row => {
+        const label = row.querySelector('td')?.textContent?.trim() || 'Section';
+        const earned = parseFloat((row.querySelector('.aps-earned') as HTMLInputElement)?.value);
+        const possible = parseFloat((row.querySelector('.aps-possible') as HTMLInputElement)?.value);
+        const weight = parseFloat(row.querySelector('.aps-weight')?.textContent || '0');
+        if (!Number.isFinite(earned) || earned < 0 || !Number.isFinite(possible) || possible <= 0 || earned > possible) {
+          valid = false;
+          return;
+        }
+        const contribution = earned / possible * weight;
+        composite += contribution;
+        completedWeight += weight;
+        contributions.push(`${label}: ${contribution.toFixed(2)} of ${weight.toFixed(1)} weighted points`);
+      });
+      if (!result) return;
+      if (!valid || completedWeight <= 0) {
+        result.innerHTML = '<div class="rounded-xl bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800/40 p-4 text-sm text-amber-800 dark:text-amber-300">Enter valid points for every section. Earned points cannot exceed points possible.</div>';
+        return;
+      }
+      const normalized = composite / completedWeight * 100;
+      const cuts = [...root.querySelectorAll<HTMLInputElement>('.aps-cut')]
+        .map(input => ({ score: parseInt(input.dataset.score || '1'), minimum: parseFloat(input.value) }))
+        .sort((left, right) => right.score - left.score);
+      let predicted = 1;
+      for (const cut of cuts) {
+        if (Number.isFinite(cut.minimum) && normalized >= cut.minimum) {
+          predicted = cut.score;
+          break;
+        }
+      }
+      result.innerHTML = `<div class="grid sm:grid-cols-[1fr_1fr] gap-3"><div class="rounded-xl bg-primary-50 dark:bg-primary-900/20 border border-primary-100 dark:border-primary-800/30 p-5 text-center"><div class="text-sm text-gray-600 dark:text-gray-400">Estimated AP score</div><div class="mt-1 text-5xl font-bold text-primary-600 dark:text-primary-400">${predicted}</div><div class="mt-2 text-xs text-gray-500 dark:text-gray-400">Planning estimate using the cut scores above</div></div><div class="rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200/60 dark:border-white/10 p-5 text-center"><div class="text-sm text-gray-600 dark:text-gray-400">Weighted composite</div><div class="mt-1 text-3xl font-bold text-gray-900 dark:text-white">${normalized.toFixed(2)}%</div><div class="mt-2 text-xs text-gray-500 dark:text-gray-400">Official section weights applied</div></div></div><ul class="mt-3 rounded-xl border border-gray-200/60 dark:border-white/10 divide-y divide-gray-100 dark:divide-white/5">${contributions.map(item => `<li class="px-4 py-2.5 text-xs text-gray-600 dark:text-gray-400">${item}</li>`).join('')}</ul>`;
+    });
+  });
+</script>

@@ -1,0 +1,234 @@
+<div class="max-w-4xl mx-auto" id="grade-calculator-tool">
+  <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 overflow-hidden">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 p-4 sm:p-6 border-b border-gray-100 dark:border-white/5" role="tablist" aria-label="Grade calculator modes">
+      <button type="button" class="gc-tab rounded-xl px-4 py-3 text-sm font-semibold bg-primary-500 text-white" data-mode="points" role="tab" aria-selected="true">Points Grade</button>
+      <button type="button" class="gc-tab rounded-xl px-4 py-3 text-sm font-semibold bg-gray-100 dark:bg-white/5 text-gray-700 dark:text-gray-300" data-mode="weighted" role="tab" aria-selected="false">Weighted Grade</button>
+      <button type="button" class="gc-tab rounded-xl px-4 py-3 text-sm font-semibold bg-gray-100 dark:bg-white/5 text-gray-700 dark:text-gray-300" data-mode="final" role="tab" aria-selected="false">Final Grade Needed</button>
+    </div>
+
+    <section class="gc-panel p-4 sm:p-6" data-panel="points">
+      <div class="mb-5">
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Calculate a Grade by Points</h2>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Enter the points earned and points possible for each assignment or exam.</p>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full min-w-[520px]">
+          <thead>
+            <tr class="text-left text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+              <th class="pb-2 pr-3 font-medium">Item</th>
+              <th class="pb-2 px-3 font-medium w-32">Earned</th>
+              <th class="pb-2 px-3 font-medium w-32">Possible</th>
+              <th class="pb-2 pl-3 w-12"><span class="sr-only">Remove</span></th>
+            </tr>
+          </thead>
+          <tbody id="gc-points-rows"></tbody>
+        </table>
+      </div>
+      <div class="mt-4 flex flex-wrap gap-3">
+        <button id="gc-add-points" type="button" class="px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-white/5 text-sm font-medium text-gray-700 dark:text-gray-300">+ Add Item</button>
+        <button id="gc-calc-points" type="button" class="flex-1 min-w-48 px-4 py-2.5 rounded-xl bg-primary-500 text-white font-semibold hover:bg-primary-600">Calculate Grade</button>
+      </div>
+      <div id="gc-points-result" class="mt-5" aria-live="polite"></div>
+    </section>
+
+    <section class="gc-panel hidden p-4 sm:p-6" data-panel="weighted">
+      <div class="mb-5">
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Weighted Grade Calculator</h2>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Enter each category grade and its share of the course grade.</p>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full min-w-[520px]">
+          <thead>
+            <tr class="text-left text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+              <th class="pb-2 pr-3 font-medium">Category</th>
+              <th class="pb-2 px-3 font-medium w-36">Grade (%)</th>
+              <th class="pb-2 px-3 font-medium w-36">Weight (%)</th>
+              <th class="pb-2 pl-3 w-12"><span class="sr-only">Remove</span></th>
+            </tr>
+          </thead>
+          <tbody id="gc-weight-rows"></tbody>
+        </table>
+      </div>
+      <div class="mt-4 flex flex-wrap gap-3">
+        <button id="gc-add-weight" type="button" class="px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-white/5 text-sm font-medium text-gray-700 dark:text-gray-300">+ Add Category</button>
+        <button id="gc-calc-weight" type="button" class="flex-1 min-w-48 px-4 py-2.5 rounded-xl bg-primary-500 text-white font-semibold hover:bg-primary-600">Calculate Weighted Grade</button>
+      </div>
+      <div id="gc-weight-result" class="mt-5" aria-live="polite"></div>
+    </section>
+
+    <section class="gc-panel hidden p-4 sm:p-6" data-panel="final">
+      <div class="mb-5">
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white">What Grade Do I Need on My Final?</h2>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Use your current grade, target grade, and the final exam weight to find the required exam score.</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-4">
+        <div>
+          <label for="gc-current-grade" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Current grade (%)</label>
+          <input id="gc-current-grade" type="number" inputmode="decimal" min="0" step="0.01" placeholder="87" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200" />
+        </div>
+        <div>
+          <label for="gc-target-grade" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Desired course grade (%)</label>
+          <input id="gc-target-grade" type="number" inputmode="decimal" min="0" step="0.01" placeholder="90" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200" />
+        </div>
+        <div>
+          <label for="gc-final-weight" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Final exam weight (%)</label>
+          <input id="gc-final-weight" type="number" inputmode="decimal" min="0.01" max="100" step="0.01" placeholder="30" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200" />
+        </div>
+      </div>
+      <button id="gc-calc-final" type="button" class="mt-5 w-full px-4 py-3 rounded-xl bg-primary-500 text-white font-semibold hover:bg-primary-600">Calculate Final Grade Needed</button>
+      <div id="gc-final-result" class="mt-5" aria-live="polite"></div>
+    </section>
+  </div>
+
+  <p class="mt-4 text-xs leading-5 text-gray-500 dark:text-gray-400">Results use the percentages you enter. Letter-grade cutoffs, rounding, dropped assignments, extra credit, and course policies vary, so confirm the result against your syllabus or gradebook.</p>
+</div>
+
+<script>
+  (function () {
+    const root = document.getElementById('grade-calculator-tool');
+    if (!root || root.dataset.ready === 'true') return;
+    root.dataset.ready = 'true';
+
+    const pointsRows = root.querySelector('#gc-points-rows');
+    const weightRows = root.querySelector('#gc-weight-rows');
+    const pointsResult = root.querySelector('#gc-points-result');
+    const weightResult = root.querySelector('#gc-weight-result');
+    const finalResult = root.querySelector('#gc-final-result');
+
+    const inputClass = 'w-full px-3 py-2.5 rounded-lg bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-sm text-gray-800 dark:text-gray-200';
+    const emptyMessage = (message: string) => `<div class="rounded-xl border border-amber-200 dark:border-amber-800/40 bg-amber-50 dark:bg-amber-900/10 p-4 text-sm text-amber-800 dark:text-amber-300">${message}</div>`;
+    const letterGrade = (value: number) => value >= 90 ? 'A' : value >= 80 ? 'B' : value >= 70 ? 'C' : value >= 60 ? 'D' : 'F';
+
+    function addPointsRow(name = '', earned = '', possible = '') {
+      const row = document.createElement('tr');
+      row.className = 'gc-row border-t border-gray-100 dark:border-white/5';
+      row.innerHTML = `<td class="py-2.5 pr-3"><input class="gc-item-name ${inputClass}" type="text" placeholder="Assignment" value="${name}"></td>
+        <td class="py-2.5 px-3"><input class="gc-earned ${inputClass}" type="number" inputmode="decimal" min="0" step="0.01" placeholder="85" value="${earned}"></td>
+        <td class="py-2.5 px-3"><input class="gc-possible ${inputClass}" type="number" inputmode="decimal" min="0.01" step="0.01" placeholder="100" value="${possible}"></td>
+        <td class="py-2.5 pl-3"><button type="button" class="gc-remove w-9 h-9 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20" aria-label="Remove item">×</button></td>`;
+      pointsRows?.appendChild(row);
+    }
+
+    function addWeightRow(name = '', grade = '', weight = '') {
+      const row = document.createElement('tr');
+      row.className = 'gc-row border-t border-gray-100 dark:border-white/5';
+      row.innerHTML = `<td class="py-2.5 pr-3"><input class="gc-category-name ${inputClass}" type="text" placeholder="Homework" value="${name}"></td>
+        <td class="py-2.5 px-3"><input class="gc-category-grade ${inputClass}" type="number" inputmode="decimal" min="0" step="0.01" placeholder="92" value="${grade}"></td>
+        <td class="py-2.5 px-3"><input class="gc-category-weight ${inputClass}" type="number" inputmode="decimal" min="0.01" step="0.01" placeholder="30" value="${weight}"></td>
+        <td class="py-2.5 pl-3"><button type="button" class="gc-remove w-9 h-9 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20" aria-label="Remove category">×</button></td>`;
+      weightRows?.appendChild(row);
+    }
+
+    function summaryCard(label: string, value: string, details: string) {
+      return `<div class="rounded-xl bg-primary-50 dark:bg-primary-900/20 border border-primary-100 dark:border-primary-800/30 p-5 text-center">
+        <div class="text-sm text-gray-600 dark:text-gray-400">${label}</div>
+        <div class="mt-1 text-3xl font-bold text-primary-600 dark:text-primary-400">${value}</div>
+        <div class="mt-2 text-xs text-gray-500 dark:text-gray-400">${details}</div>
+      </div>`;
+    }
+
+    function calculatePoints() {
+      let earnedTotal = 0;
+      let possibleTotal = 0;
+      let validRows = 0;
+      root.querySelectorAll('#gc-points-rows .gc-row').forEach(row => {
+        const earned = parseFloat((row.querySelector('.gc-earned') as HTMLInputElement)?.value);
+        const possible = parseFloat((row.querySelector('.gc-possible') as HTMLInputElement)?.value);
+        if (Number.isFinite(earned) && earned >= 0 && Number.isFinite(possible) && possible > 0) {
+          earnedTotal += earned;
+          possibleTotal += possible;
+          validRows++;
+        }
+      });
+      if (!pointsResult) return;
+      if (!validRows) {
+        pointsResult.innerHTML = emptyMessage('Enter at least one valid earned-points and possible-points pair.');
+        return;
+      }
+      const grade = earnedTotal / possibleTotal * 100;
+      pointsResult.innerHTML = summaryCard('Overall grade', `${grade.toFixed(2)}%`, `${earnedTotal.toFixed(2)} of ${possibleTotal.toFixed(2)} points · common scale estimate: ${letterGrade(grade)}`);
+    }
+
+    function calculateWeighted() {
+      let weightedPoints = 0;
+      let totalWeight = 0;
+      let validRows = 0;
+      root.querySelectorAll('#gc-weight-rows .gc-row').forEach(row => {
+        const grade = parseFloat((row.querySelector('.gc-category-grade') as HTMLInputElement)?.value);
+        const weight = parseFloat((row.querySelector('.gc-category-weight') as HTMLInputElement)?.value);
+        if (Number.isFinite(grade) && grade >= 0 && Number.isFinite(weight) && weight > 0) {
+          weightedPoints += grade * weight / 100;
+          totalWeight += weight;
+          validRows++;
+        }
+      });
+      if (!weightResult) return;
+      if (!validRows || totalWeight <= 0) {
+        weightResult.innerHTML = emptyMessage('Enter at least one valid category grade and weight.');
+        return;
+      }
+      const normalized = weightedPoints / totalWeight * 100;
+      const status = Math.abs(totalWeight - 100) < 0.001
+        ? 'Weights total 100%, so this is the complete weighted grade.'
+        : `Weights total ${totalWeight.toFixed(2)}%. The normalized grade covers only the categories entered.`;
+      weightResult.innerHTML = `<div class="grid sm:grid-cols-2 gap-3">${summaryCard('Normalized weighted grade', `${normalized.toFixed(2)}%`, `Common scale estimate: ${letterGrade(normalized)}`)}${summaryCard('Contribution to course grade', `${weightedPoints.toFixed(2)} pts`, status)}</div>`;
+    }
+
+    function calculateFinal() {
+      const current = parseFloat((root.querySelector('#gc-current-grade') as HTMLInputElement)?.value);
+      const target = parseFloat((root.querySelector('#gc-target-grade') as HTMLInputElement)?.value);
+      const weightPercent = parseFloat((root.querySelector('#gc-final-weight') as HTMLInputElement)?.value);
+      if (!finalResult) return;
+      if (![current, target, weightPercent].every(Number.isFinite) || current < 0 || target < 0 || weightPercent <= 0 || weightPercent > 100) {
+        finalResult.innerHTML = emptyMessage('Enter valid percentages. Final exam weight must be greater than 0% and no more than 100%.');
+        return;
+      }
+      const weight = weightPercent / 100;
+      const required = (target - current * (1 - weight)) / weight;
+      const maximum = current * (1 - weight) + 100 * weight;
+      const displayedRequired = Math.max(0, required);
+      let note = `A 100% final would produce a maximum course grade of ${maximum.toFixed(2)}%.`;
+      if (required <= 0) note = 'Your target is already secured even with a 0% on the final, assuming these inputs and no other work remains.';
+      else if (required > 100) note = `This target requires more than 100%. A perfect final would produce ${maximum.toFixed(2)}%. Extra credit or another policy adjustment would be needed.`;
+      finalResult.innerHTML = summaryCard('Grade needed on the final', `${displayedRequired.toFixed(2)}%`, note);
+    }
+
+    root.querySelectorAll<HTMLButtonElement>('.gc-tab').forEach(button => {
+      button.addEventListener('click', () => {
+        const mode = button.dataset.mode;
+        root.querySelectorAll<HTMLButtonElement>('.gc-tab').forEach(tab => {
+          const active = tab === button;
+          tab.setAttribute('aria-selected', String(active));
+          tab.classList.toggle('bg-primary-500', active);
+          tab.classList.toggle('text-white', active);
+          tab.classList.toggle('bg-gray-100', !active);
+          tab.classList.toggle('dark:bg-white/5', !active);
+          tab.classList.toggle('text-gray-700', !active);
+          tab.classList.toggle('dark:text-gray-300', !active);
+        });
+        root.querySelectorAll<HTMLElement>('.gc-panel').forEach(panel => panel.classList.toggle('hidden', panel.dataset.panel !== mode));
+      });
+    });
+
+    root.addEventListener('click', event => {
+      const remove = (event.target as HTMLElement).closest<HTMLButtonElement>('.gc-remove');
+      if (!remove) return;
+      const body = remove.closest('tbody');
+      remove.closest('tr')?.remove();
+      if (body && !body.children.length) body === pointsRows ? addPointsRow() : addWeightRow();
+    });
+
+    root.querySelector('#gc-add-points')?.addEventListener('click', () => addPointsRow());
+    root.querySelector('#gc-add-weight')?.addEventListener('click', () => addWeightRow());
+    root.querySelector('#gc-calc-points')?.addEventListener('click', calculatePoints);
+    root.querySelector('#gc-calc-weight')?.addEventListener('click', calculateWeighted);
+    root.querySelector('#gc-calc-final')?.addEventListener('click', calculateFinal);
+
+    addPointsRow('Assignment 1');
+    addPointsRow('Assignment 2');
+    addPointsRow('Exam');
+    addWeightRow('Homework');
+    addWeightRow('Midterm');
+    addWeightRow('Final Exam');
+  })();
+</script>
