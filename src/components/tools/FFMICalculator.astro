@@ -1,0 +1,88 @@
+<div class="max-w-4xl mx-auto" id="ffmi-calculator-tool">
+  <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-4 sm:p-6">
+    <div class="mb-5">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Calculate Your FFMI</h2>
+      <p class="mt-1 text-sm leading-6 text-gray-500 dark:text-gray-400">Enter weight, height, and an estimated body-fat percentage. Results update as you type.</p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div>
+        <label for="ffmi-units" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Unit system</label>
+        <select id="ffmi-units" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-800 dark:text-gray-200">
+          <option value="metric">Metric</option><option value="us">US customary</option>
+        </select>
+      </div>
+      <div>
+        <label for="ffmi-weight" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Weight (<span data-weight-unit>kg</span>)</label>
+        <input id="ffmi-weight" type="number" inputmode="decimal" min="1" max="700" step="0.1" placeholder="82" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200" />
+      </div>
+      <div>
+        <label for="ffmi-height" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Height (<span data-height-unit>cm</span>)</label>
+        <input id="ffmi-height" type="number" inputmode="decimal" min="50" max="280" step="0.1" placeholder="180" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200" />
+      </div>
+      <div>
+        <label for="ffmi-fat" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Body fat (%)</label>
+        <input id="ffmi-fat" type="number" inputmode="decimal" min="0" max="75" step="0.1" placeholder="15" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200" />
+      </div>
+    </div>
+    <div id="ffmi-result" class="mt-5 min-h-[11rem]" aria-live="polite">
+      <div class="min-h-[11rem] rounded-xl border border-dashed border-gray-300 dark:border-white/15 bg-gray-50/70 dark:bg-white/[0.03] p-5 flex flex-col items-center justify-center text-center">
+        <div class="text-sm font-medium text-gray-700 dark:text-gray-300">Your FFMI result will appear here</div>
+        <div class="mt-1 text-xs text-gray-500 dark:text-gray-400">Complete all three measurements to calculate automatically.</div>
+      </div>
+    </div>
+  </div>
+  <p class="mt-4 text-xs leading-5 text-gray-500 dark:text-gray-400">FFMI depends strongly on body-fat measurement accuracy. The optional height normalization follows the male-athlete model reported by Kouri et al. and is not a diagnosis or proof of drug use. <a class="text-primary-600 dark:text-primary-400 underline" href="https://pubmed.ncbi.nlm.nih.gov/7496846/" target="_blank" rel="noopener">Review the original study</a>.</p>
+</div>
+
+<script>
+  (function () {
+    const root = document.getElementById('ffmi-calculator-tool');
+    if (!root || root.dataset.ready === 'true') return;
+    root.dataset.ready = 'true';
+    const units = root.querySelector('#ffmi-units') as HTMLSelectElement;
+    const weight = root.querySelector('#ffmi-weight') as HTMLInputElement;
+    const height = root.querySelector('#ffmi-height') as HTMLInputElement;
+    const fat = root.querySelector('#ffmi-fat') as HTMLInputElement;
+    const result = root.querySelector('#ffmi-result') as HTMLElement;
+    const placeholder = result.innerHTML;
+    const warning = (message: string) => `<div class="min-h-[11rem] rounded-xl border border-amber-200 dark:border-amber-800/40 bg-amber-50 dark:bg-amber-900/10 p-5 flex items-center justify-center text-center text-sm text-amber-800 dark:text-amber-300">${message}</div>`;
+
+    function updateUnits(convert = false) {
+      const metric = units.value === 'metric';
+      root.querySelector('[data-weight-unit]')!.textContent = metric ? 'kg' : 'lb';
+      root.querySelector('[data-height-unit]')!.textContent = metric ? 'cm' : 'in';
+      weight.max = metric ? '350' : '770';
+      height.min = metric ? '50' : '20';
+      height.max = metric ? '280' : '110';
+      weight.placeholder = metric ? '82' : '181';
+      height.placeholder = metric ? '180' : '70.9';
+      if (convert && weight.value && height.value) {
+        const oldWeight = Number(weight.value); const oldHeight = Number(height.value);
+        weight.value = (metric ? oldWeight / 2.2046226218 : oldWeight * 2.2046226218).toFixed(1);
+        height.value = (metric ? oldHeight * 2.54 : oldHeight / 2.54).toFixed(1);
+      }
+    }
+
+    function calculate() {
+      if (!weight.value || !height.value || !fat.value) { result.innerHTML = placeholder; return; }
+      const enteredWeight = Number(weight.value); const enteredHeight = Number(height.value); const bodyFat = Number(fat.value);
+      const metric = units.value === 'metric';
+      const maxWeight = metric ? 350 : 770; const minHeight = metric ? 50 : 20; const maxHeight = metric ? 280 : 110;
+      if (![enteredWeight, enteredHeight, bodyFat].every(Number.isFinite) || enteredWeight <= 0 || enteredWeight > maxWeight || enteredHeight < minHeight || enteredHeight > maxHeight || bodyFat < 0 || bodyFat > 75) {
+        result.innerHTML = warning(`Enter a positive weight up to ${maxWeight} ${metric ? 'kg' : 'lb'}, height from ${minHeight} to ${maxHeight} ${metric ? 'cm' : 'in'}, and body fat from 0% to 75%.`); return;
+      }
+      const kilograms = metric ? enteredWeight : enteredWeight / 2.2046226218;
+      const metres = metric ? enteredHeight / 100 : enteredHeight * 0.0254;
+      const leanKg = kilograms * (1 - bodyFat / 100);
+      const ffmi = leanKg / (metres * metres);
+      const normalized = ffmi + 6.3 * (1.8 - metres);
+      const leanDisplay = metric ? `${leanKg.toFixed(1)} kg` : `${(leanKg * 2.2046226218).toFixed(1)} lb`;
+      result.innerHTML = `<div class="min-h-[11rem] rounded-xl bg-primary-50 dark:bg-primary-900/20 border border-primary-100 dark:border-primary-800/30 p-5">
+        <div class="grid sm:grid-cols-3 gap-4 text-center"><div><div class="text-sm text-gray-600 dark:text-gray-400">FFMI</div><div class="mt-1 text-3xl font-bold text-primary-600 dark:text-primary-400">${ffmi.toFixed(2)}</div></div><div><div class="text-sm text-gray-600 dark:text-gray-400">Lean mass</div><div class="mt-1 text-xl font-semibold text-gray-900 dark:text-white">${leanDisplay}</div></div><div><div class="text-sm text-gray-600 dark:text-gray-400">Height-normalized FFMI</div><div class="mt-1 text-xl font-semibold text-gray-900 dark:text-white">${normalized.toFixed(2)}</div></div></div>
+        <p class="mt-4 text-center text-xs text-gray-500 dark:text-gray-400">Normalized FFMI = FFMI + 6.3 × (1.80 − height in metres). Values are rounded to two decimals.</p></div>`;
+    }
+    units.addEventListener('change', () => { updateUnits(true); calculate(); });
+    root.addEventListener('input', calculate);
+    updateUnits();
+  })();
+</script>

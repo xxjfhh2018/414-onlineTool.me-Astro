@@ -25,6 +25,9 @@ import GPACalculator from '../components/tools/GPACalculator.astro';
 import APScoreCalculator from '../components/tools/APScoreCalculator.astro';
 import MaterialCalculatorHub from '../components/tools/MaterialCalculatorHub.astro';
 import MaterialQuantityCalculator from '../components/tools/MaterialQuantityCalculator.astro';
+import FFMICalculator from '../components/tools/FFMICalculator.astro';
+import BodyTypeCalculator from '../components/tools/BodyTypeCalculator.astro';
+import PuppyWeightCalculator from '../components/tools/PuppyWeightCalculator.astro';
 
 export async function getStaticPaths() {
   const tools = await getCollection('tools');
@@ -119,6 +122,9 @@ const toolComponents: Record<string, any> = {
   'gravel-calculator': MaterialQuantityCalculator,
   'topsoil-calculator': MaterialQuantityCalculator,
   'concrete-calculator': MaterialQuantityCalculator,
+  'ffmi-calculator': FFMICalculator,
+  'body-type-calculator': BodyTypeCalculator,
+  'puppy-weight-calculator': PuppyWeightCalculator,
 };
 
 const ToolComponent = toolComponents[tool.slug];

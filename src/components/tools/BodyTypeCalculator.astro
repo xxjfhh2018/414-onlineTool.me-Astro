@@ -1,0 +1,34 @@
+<div class="max-w-4xl mx-auto" id="body-type-calculator-tool">
+  <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-4 sm:p-6">
+    <div class="mb-5">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Estimate Body Shape from Measurements</h2>
+      <p class="mt-1 text-sm leading-6 text-gray-500 dark:text-gray-400">Use three measurements taken in the same unit. This is a clothing-style shape estimate, not a medical or somatotype test.</p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div><label for="bt-units" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Measurement unit</label><select id="bt-units" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-800 dark:text-gray-200"><option>inches</option><option>centimetres</option></select></div>
+      <div><label for="bt-bust" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Bust or chest</label><input id="bt-bust" type="number" inputmode="decimal" min="1" max="300" step="0.1" placeholder="36" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200" /></div>
+      <div><label for="bt-waist" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Waist</label><input id="bt-waist" type="number" inputmode="decimal" min="1" max="300" step="0.1" placeholder="27" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200" /></div>
+      <div><label for="bt-hips" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Hips</label><input id="bt-hips" type="number" inputmode="decimal" min="1" max="300" step="0.1" placeholder="36" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200" /></div>
+    </div>
+    <div id="bt-result" class="mt-5 min-h-[11rem]" aria-live="polite"><div class="min-h-[11rem] rounded-xl border border-dashed border-gray-300 dark:border-white/15 bg-gray-50/70 dark:bg-white/[0.03] p-5 flex flex-col items-center justify-center text-center"><div class="text-sm font-medium text-gray-700 dark:text-gray-300">Your body-shape estimate will appear here</div><div class="mt-1 text-xs text-gray-500 dark:text-gray-400">Complete all three measurements to compare their proportions.</div></div></div>
+  </div>
+  <p class="mt-4 text-xs leading-5 text-gray-500 dark:text-gray-400">Rule set used: oval when waist is at least 95% of the larger torso measurement; hourglass when bust and hips are within 5% and waist is at most 75% of the smaller; otherwise a 5% bust–hip difference identifies triangle or inverted triangle, with remaining results labeled rectangle.</p>
+</div>
+<script>
+  (function () {
+    const root = document.getElementById('body-type-calculator-tool'); if (!root || root.dataset.ready === 'true') return; root.dataset.ready = 'true';
+    const bust = root.querySelector('#bt-bust') as HTMLInputElement; const waist = root.querySelector('#bt-waist') as HTMLInputElement; const hips = root.querySelector('#bt-hips') as HTMLInputElement; const result = root.querySelector('#bt-result') as HTMLElement; const placeholder = result.innerHTML;
+    function calculate() {
+      if (!bust.value || !waist.value || !hips.value) { result.innerHTML = placeholder; return; }
+      const b = Number(bust.value), w = Number(waist.value), h = Number(hips.value);
+      if (![b,w,h].every(v => Number.isFinite(v) && v > 0 && v <= 300)) { result.innerHTML = '<div class="min-h-[11rem] rounded-xl border border-amber-200 dark:border-amber-800/40 bg-amber-50 dark:bg-amber-900/10 p-5 flex items-center justify-center text-center text-sm text-amber-800 dark:text-amber-300">Enter three positive measurements no greater than 300.</div>'; return; }
+      const maxTorso = Math.max(b,h); let shape = 'Rectangle'; let reason = 'Bust and hips are not separated by 5%, and the waist does not meet the hourglass or oval rule.';
+      if (w >= .95 * maxTorso) { shape = 'Oval'; reason = 'Waist is at least 95% of the larger bust/chest or hip measurement.'; }
+      else if (Math.abs(b-h) / maxTorso <= .05 && w <= .75 * Math.min(b,h)) { shape = 'Hourglass'; reason = 'Bust and hips are within 5%, while waist is no more than 75% of the smaller measurement.'; }
+      else if (h >= 1.05 * b) { shape = 'Triangle'; reason = 'Hips are at least 5% larger than bust or chest.'; }
+      else if (b >= 1.05 * h) { shape = 'Inverted triangle'; reason = 'Bust or chest is at least 5% larger than hips.'; }
+      result.innerHTML = `<div class="min-h-[11rem] rounded-xl bg-primary-50 dark:bg-primary-900/20 border border-primary-100 dark:border-primary-800/30 p-5 text-center"><div class="text-sm text-gray-600 dark:text-gray-400">Measurement-based shape</div><div class="mt-1 text-3xl font-bold text-primary-600 dark:text-primary-400">${shape}</div><p class="mt-3 text-sm text-gray-700 dark:text-gray-300">${reason}</p><p class="mt-2 text-xs text-gray-500 dark:text-gray-400">Bust-to-waist ratio: ${(b/w).toFixed(2)} · Waist-to-hip ratio: ${(w/h).toFixed(2)}</p></div>`;
+    }
+    root.addEventListener('input', calculate); root.addEventListener('change', calculate);
+  })();
+</script>

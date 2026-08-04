@@ -1,0 +1,37 @@
+<div class="max-w-4xl mx-auto" id="puppy-weight-calculator-tool">
+  <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-4 sm:p-6">
+    <div class="mb-5"><h2 class="text-lg font-semibold text-gray-900 dark:text-white">Estimate Adult Puppy Weight</h2><p class="mt-1 text-sm leading-6 text-gray-500 dark:text-gray-400">Choose the expected adult size group, then enter current age and weight. The result is a rough planning range.</p></div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div><label for="pw-units" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Weight unit</label><select id="pw-units" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-800 dark:text-gray-200"><option value="lb">pounds (lb)</option><option value="kg">kilograms (kg)</option></select></div>
+      <div><label for="pw-weight" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Current weight (<span data-pw-unit>lb</span>)</label><input id="pw-weight" type="number" inputmode="decimal" min="0.1" max="500" step="0.1" placeholder="10" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200" /></div>
+      <div><label for="pw-age" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Age (weeks)</label><input id="pw-age" type="number" inputmode="decimal" min="8" max="104" step="1" placeholder="12" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200" /></div>
+      <div><label for="pw-size" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Expected adult size</label><select id="pw-size" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-800 dark:text-gray-200"><option value="small">Small: under 6.5 kg</option><option value="small-medium">Small-medium: 6.5–9 kg</option><option value="medium" selected>Medium: 9–15 kg</option><option value="large">Large: 15–30 kg</option><option value="giant">Very large: over 30 kg</option></select></div>
+    </div>
+    <div id="pw-result" class="mt-5 min-h-[12rem]" aria-live="polite"><div class="min-h-[12rem] rounded-xl border border-dashed border-gray-300 dark:border-white/15 bg-gray-50/70 dark:bg-white/[0.03] p-5 flex flex-col items-center justify-center text-center"><div class="text-sm font-medium text-gray-700 dark:text-gray-300">Your puppy weight estimate will appear here</div><div class="mt-1 text-xs text-gray-500 dark:text-gray-400">Enter current weight and age to calculate automatically.</div></div></div>
+  </div>
+  <p class="mt-4 text-xs leading-5 text-gray-500 dark:text-gray-400">This tool uses a disclosed OnlineTool.me planning curve, not a veterinary prediction model or statistical confidence interval. Published growth standards are breed-, sex-, and size-specific and begin at 12 weeks. Compare serial weights with the <a class="text-primary-600 dark:text-primary-400 underline" href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0182064" target="_blank" rel="noopener">peer-reviewed puppy growth standards</a> and ask your veterinarian about unusual growth.</p>
+</div>
+<script>
+  (function () {
+    const root = document.getElementById('puppy-weight-calculator-tool'); if (!root || root.dataset.ready === 'true') return; root.dataset.ready = 'true';
+    const units = root.querySelector('#pw-units') as HTMLSelectElement; const weight = root.querySelector('#pw-weight') as HTMLInputElement; const age = root.querySelector('#pw-age') as HTMLInputElement; const size = root.querySelector('#pw-size') as HTMLSelectElement; const result = root.querySelector('#pw-result') as HTMLElement; const placeholder = result.innerHTML;
+    const curves: Record<string, [number, number][]> = {
+      small:[[8,.35],[12,.50],[16,.65],[24,.85],[36,.95],[52,1]],
+      'small-medium':[[8,.28],[12,.42],[16,.57],[24,.78],[36,.92],[52,1]],
+      medium:[[8,.23],[12,.36],[16,.50],[24,.70],[36,.86],[52,.96],[60,1]],
+      large:[[8,.18],[12,.29],[16,.41],[24,.60],[36,.78],[52,.91],[72,1]],
+      giant:[[8,.14],[12,.23],[16,.33],[24,.50],[36,.68],[52,.82],[72,.93],[96,1]]
+    };
+    function fraction(points: [number,number][], weeks: number) { if (weeks <= points[0][0]) return points[0][1]; for (let i=1;i<points.length;i++) { if (weeks <= points[i][0]) { const [a,fa]=points[i-1], [b,fb]=points[i]; return fa+(fb-fa)*(weeks-a)/(b-a); } } return 1; }
+    function updateUnit(convert = false) { const kg = units.value === 'kg'; root.querySelector('[data-pw-unit]')!.textContent = kg ? 'kg' : 'lb'; weight.max = kg ? '225' : '500'; weight.placeholder = kg ? '4.5' : '10'; if (convert && weight.value) weight.value = (kg ? Number(weight.value)/2.2046226218 : Number(weight.value)*2.2046226218).toFixed(1); }
+    function calculate() {
+      if (!weight.value || !age.value) { result.innerHTML = placeholder; return; }
+      const current = Number(weight.value), weeks = Number(age.value), max = units.value === 'kg' ? 225 : 500;
+      if (!Number.isFinite(current) || current <= 0 || current > max || !Number.isFinite(weeks) || weeks < 8 || weeks > 104) { result.innerHTML = `<div class="min-h-[12rem] rounded-xl border border-amber-200 dark:border-amber-800/40 bg-amber-50 dark:bg-amber-900/10 p-5 flex items-center justify-center text-center text-sm text-amber-800 dark:text-amber-300">Enter a positive weight up to ${max} ${units.value} and an age from 8 to 104 weeks.</div>`; return; }
+      const pct = fraction(curves[size.value], weeks); const estimate = current / pct; const margin = size.value === 'giant' ? .20 : .15; const low = estimate*(1-margin), high=estimate*(1+margin); const unit = units.value;
+      const note = weeks < 12 ? 'Published growth charts begin at 12 weeks, so estimates for younger puppies are especially uncertain.' : weeks >= curves[size.value][curves[size.value].length-1][0] ? 'This size group is expected to be near mature weight; current weight is usually more informative than projection.' : `Planning curve assumes about ${(pct*100).toFixed(0)}% of adult weight at this age.`;
+      result.innerHTML = `<div class="min-h-[12rem] rounded-xl bg-primary-50 dark:bg-primary-900/20 border border-primary-100 dark:border-primary-800/30 p-5 text-center"><div class="text-sm text-gray-600 dark:text-gray-400">Rough adult-weight estimate</div><div class="mt-1 text-3xl font-bold text-primary-600 dark:text-primary-400">${estimate.toFixed(1)} ${unit}</div><div class="mt-2 text-sm font-medium text-gray-700 dark:text-gray-300">Planning range: ${low.toFixed(1)}–${high.toFixed(1)} ${unit}</div><p class="mt-3 text-xs text-gray-500 dark:text-gray-400">${note} The range is a practical uncertainty band, not a statistical confidence interval.</p></div>`;
+    }
+    units.addEventListener('change', () => { updateUnit(true); calculate(); }); root.addEventListener('input', calculate); root.addEventListener('change', calculate); updateUnit();
+  })();
+</script>
