@@ -28,6 +28,9 @@ import MaterialQuantityCalculator from '../components/tools/MaterialQuantityCalc
 import FFMICalculator from '../components/tools/FFMICalculator.astro';
 import BodyTypeCalculator from '../components/tools/BodyTypeCalculator.astro';
 import PuppyWeightCalculator from '../components/tools/PuppyWeightCalculator.astro';
+import CDInterestCalculator from '../components/tools/CDInterestCalculator.astro';
+import PaycheckCalculator from '../components/tools/PaycheckCalculator.astro';
+import MoneyLastCalculator from '../components/tools/MoneyLastCalculator.astro';
 
 export async function getStaticPaths() {
   const tools = await getCollection('tools');
@@ -125,6 +128,17 @@ const toolComponents: Record<string, any> = {
   'ffmi-calculator': FFMICalculator,
   'body-type-calculator': BodyTypeCalculator,
   'puppy-weight-calculator': PuppyWeightCalculator,
+  'cd-interest-calculator': CDInterestCalculator,
+  'paycheck-calculator': PaycheckCalculator,
+  'arkansas-paycheck-calculator': PaycheckCalculator,
+  'michigan-paycheck-calculator': PaycheckCalculator,
+  'washington-paycheck-calculator': PaycheckCalculator,
+  'indiana-paycheck-calculator': PaycheckCalculator,
+  'maryland-paycheck-calculator': PaycheckCalculator,
+  'virginia-paycheck-calculator': PaycheckCalculator,
+  'illinois-paycheck-calculator': PaycheckCalculator,
+  'missouri-paycheck-calculator': PaycheckCalculator,
+  'money-last-calculator': MoneyLastCalculator,
 };
 
 const ToolComponent = toolComponents[tool.slug];
@@ -139,7 +153,7 @@ const webApplicationJsonLd = {
     ? 'GameApplication'
     : subcategory === 'education'
       ? 'EducationalApplication'
-      : ['bac-calculator', 'bah-calculator', 'cd-calculator'].includes(tool.slug)
+      : subcategory === 'finance'
         ? 'FinanceApplication'
         : 'UtilitiesApplication',
   operatingSystem: 'Any',

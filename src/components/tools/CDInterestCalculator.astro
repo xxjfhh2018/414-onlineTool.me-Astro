@@ -1,0 +1,27 @@
+<div class="max-w-4xl mx-auto" id="cd-interest-tool">
+  <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-4 sm:p-6">
+    <div class="mb-5"><h2 class="text-lg font-semibold text-gray-900 dark:text-white">Calculate CD Interest from APY</h2><p class="mt-1 text-sm leading-6 text-gray-500 dark:text-gray-400">APY already includes compounding. Enter the quoted APY, deposit, and term to estimate maturity value.</p></div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div><label for="cdi-deposit" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Opening deposit ($)</label><input id="cdi-deposit" type="number" inputmode="decimal" min="0.01" max="100000000" step="0.01" placeholder="10000" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200" /></div>
+      <div><label for="cdi-apy" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Quoted APY (%)</label><input id="cdi-apy" type="number" inputmode="decimal" min="0" max="100" step="0.01" placeholder="4.50" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200" /></div>
+      <div><label for="cdi-term" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Term (months)</label><input id="cdi-term" type="number" inputmode="numeric" min="1" max="120" step="1" placeholder="12" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200" /></div>
+      <div><label for="cdi-penalty" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Early penalty (months’ interest)</label><input id="cdi-penalty" type="number" inputmode="decimal" min="0" max="36" step="0.5" value="0" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200" /></div>
+    </div>
+    <div id="cdi-result" class="mt-5 min-h-[11rem]" aria-live="polite"><div class="min-h-[11rem] rounded-xl border border-dashed border-gray-300 dark:border-white/15 bg-gray-50/70 dark:bg-white/[0.03] p-5 flex flex-col items-center justify-center text-center"><div class="text-sm font-medium text-gray-700 dark:text-gray-300">Your CD interest estimate will appear here</div><div class="mt-1 text-xs text-gray-500 dark:text-gray-400">Enter a deposit, APY, and term; results update automatically.</div></div></div>
+  </div>
+  <p class="mt-4 text-xs leading-5 text-gray-500 dark:text-gray-400">This is a projection, not a bank quote. APY, withdrawal rules, penalty calculation, rounding, taxes, and renewal terms vary by institution. Confirm the account disclosure before depositing or withdrawing.</p>
+</div>
+<script>
+  (function(){
+    const root=document.getElementById('cd-interest-tool'); if(!root||root.dataset.ready==='true')return; root.dataset.ready='true';
+    const deposit=root.querySelector('#cdi-deposit') as HTMLInputElement, apy=root.querySelector('#cdi-apy') as HTMLInputElement, term=root.querySelector('#cdi-term') as HTMLInputElement, penalty=root.querySelector('#cdi-penalty') as HTMLInputElement, result=root.querySelector('#cdi-result') as HTMLElement; const placeholder=result.innerHTML;
+    function calc(){
+      if(!deposit.value||!apy.value||!term.value){result.innerHTML=placeholder;return;}
+      const p=Number(deposit.value), y=Number(apy.value)/100, months=Number(term.value), penaltyMonths=Number(penalty.value||0);
+      if(!Number.isFinite(p)||p<=0||p>100000000||!Number.isFinite(y)||y<0||y>1||!Number.isFinite(months)||months<1||months>120||!Number.isFinite(penaltyMonths)||penaltyMonths<0||penaltyMonths>36){result.innerHTML='<div class="min-h-[11rem] rounded-xl border border-amber-200 dark:border-amber-800/40 bg-amber-50 dark:bg-amber-900/10 p-5 flex items-center justify-center text-center text-sm text-amber-800 dark:text-amber-300">Enter a positive deposit, APY from 0% to 100%, term from 1 to 120 months, and penalty from 0 to 36 months.</div>';return;}
+      const maturity=p*Math.pow(1+y,months/12), interest=maturity-p, penaltyValue=p*y*penaltyMonths/12, after=Math.max(0,maturity-penaltyValue);
+      result.innerHTML=`<div class="min-h-[11rem] rounded-xl bg-primary-50 dark:bg-primary-900/20 border border-primary-100 dark:border-primary-800/30 p-5"><div class="grid sm:grid-cols-3 gap-4 text-center"><div><div class="text-sm text-gray-600 dark:text-gray-400">Value at maturity</div><div class="mt-1 text-2xl font-bold text-primary-600 dark:text-primary-400">$${maturity.toFixed(2)}</div></div><div><div class="text-sm text-gray-600 dark:text-gray-400">Interest earned</div><div class="mt-1 text-xl font-semibold text-gray-900 dark:text-white">$${interest.toFixed(2)}</div></div><div><div class="text-sm text-gray-600 dark:text-gray-400">After entered penalty</div><div class="mt-1 text-xl font-semibold text-gray-900 dark:text-white">$${after.toFixed(2)}</div></div></div><p class="mt-4 text-center text-xs text-gray-500 dark:text-gray-400">APY growth: principal × (1 + APY)^(months ÷ 12). Penalty estimate: principal × APY × penalty months ÷ 12.</p></div>`;
+    }
+    root.addEventListener('input',calc);
+  })();
+</script>
