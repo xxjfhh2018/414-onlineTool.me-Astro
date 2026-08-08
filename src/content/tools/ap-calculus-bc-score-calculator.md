@@ -27,11 +27,11 @@ method:
     - "MCQ and FRQ raw scores are each converted to percentages and multiplied by 50%."
     - "The combined composite is compared with editable planning thresholds for the estimated 1–5 result."
   formula: "Composite = MCQ% × 0.50 + FRQ% × 0.50"
-  example: "33 of 45 MCQs and 38 of 54 FRQ points produce a composite of about 71.85%."
+  example: "31 of 42 MCQs and 38 of 54 FRQ points produce a composite of about 72.06%."
 limitations:
   - "The result is an unofficial practice estimate."
   - "It does not calculate the separate Calculus AB subscore."
-  - "The May 2027 exam updates the MCQ count and timing, so verify current possible points."
+  - "Defaults follow the announced May 2027 MCQ count; change points possible when using an older or custom practice test."
 relatedTools:
   - "ap-calculus-ab-score-calculator"
   - "ap-statistics-score-calculator"

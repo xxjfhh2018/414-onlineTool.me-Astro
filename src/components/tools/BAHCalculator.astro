@@ -1,12 +1,12 @@
 <div class="max-w-lg mx-auto">
   <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-6 space-y-5">
     <div>
-      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Duty Station ZIP Code</label>
+      <label for="bah-zip" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Duty Station ZIP Code</label>
       <input id="bah-zip" type="text" placeholder="90210" maxlength="5"
              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200" />
     </div>
     <div>
-      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Pay Grade</label>
+      <label for="bah-rank" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Pay Grade</label>
       <select id="bah-rank" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200">
         <option value="">Select rank...</option>
         <option value="E-1">E-1</option>
@@ -32,7 +32,7 @@
       </select>
     </div>
     <div>
-      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Dependency Status</label>
+      <label for="bah-dependent" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Dependency Status</label>
       <select id="bah-dependent" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200">
         <option value="with">With Dependents</option>
         <option value="without">Without Dependents</option>
@@ -78,7 +78,7 @@
       let rate = baseRates[rank] || 1000;
       if (dependent === 'with') rate *= 1.2;
       result.className = 'min-h-[10rem] p-5 rounded-xl bg-primary-50 dark:bg-primary-900/20 text-center flex flex-col items-center justify-center';
-      result.innerHTML = `<div class="text-sm text-gray-500 dark:text-gray-400">Rough Monthly Planning Estimate</div><div class="text-3xl font-bold text-primary-600 dark:text-primary-400 mt-1">$${Math.round(rate).toLocaleString()}</div><p class="max-w-md text-xs leading-5 text-gray-500 dark:text-gray-400 mt-3">This simplified estimate varies by pay grade and dependency status only. The ZIP code is validated but is not mapped to current Military Housing Area rates. Verify the actual amount with the official DoD BAH lookup.</p>`;
+      result.innerHTML = `<div class="text-sm text-gray-500 dark:text-gray-400">Demonstration Result — Not an Official BAH Rate</div><div class="text-3xl font-bold text-primary-600 dark:text-primary-400 mt-1">$${Math.round(rate).toLocaleString()}</div><p class="max-w-md text-xs leading-5 text-gray-600 dark:text-gray-300 mt-3"><strong>Calculation:</strong> $${baseRates[rank].toLocaleString()} model base${dependent === 'with' ? ' × 1.20 dependent factor' : ''}. The ZIP is validated but excluded from the calculation because no current MHA table is connected. Use the official DoD lookup for an actual entitlement.</p>`;
     }
     [zip, rankInput, dependentInput].forEach(control => {
       control?.addEventListener('input', calculate);

@@ -27,7 +27,7 @@ method:
     - "The calculator converts MCQ and FRQ raw points to percentages and assigns 50% of the composite to each section."
     - "The composite is evaluated against visible, editable planning boundaries for AP scores 2 through 5."
   formula: "Composite = MCQ% × 0.50 + FRQ% × 0.50"
-  example: "48 of 60 MCQs and 25 of 36 FRQ points produce a composite of about 74.72%."
+  example: "48 of 60 MCQs and 25 of 34 FRQ points produce a composite of about 76.76%."
 limitations:
   - "The predicted AP Biology score is unofficial and may differ from the released score."
   - "FRQ point totals and scoring details should match the scoring guide for the specific practice exam."

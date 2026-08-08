@@ -2,6 +2,8 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
+import ToolVerificationPanel from '../components/ToolVerificationPanel.astro';
+import { toolVerification } from '../data/toolVerification';
 
 // Import all tool components
 import WordCounter from '../components/tools/WordCounter.astro';
@@ -142,6 +144,7 @@ const toolComponents: Record<string, any> = {
 };
 
 const ToolComponent = toolComponents[tool.slug];
+const verification = toolVerification[tool.slug];
 
 const webApplicationJsonLd = {
   '@context': 'https://schema.org',
@@ -162,6 +165,7 @@ const webApplicationJsonLd = {
     price: '0',
     priceCurrency: 'USD',
   },
+  ...(verification ? { dateModified: verification.lastReviewed } : {}),
 };
 
 const breadcrumbJsonLd = {
@@ -234,6 +238,15 @@ const faqJsonLd = faq?.length ? {
       )}
     </div>
   </section>
+
+  <!-- Calculator Data Status -->
+  {verification && (
+    <section class="pb-12">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <ToolVerificationPanel verification={verification} />
+      </div>
+    </section>
+  )}
 
   <!-- What Is It -->
   <section class="pb-12">

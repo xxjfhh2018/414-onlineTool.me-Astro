@@ -10,7 +10,7 @@ icon: "Calculator"
 featured: false
 whatIs:
   - "The AP Calculus AB Score Calculator converts practice-test MCQ and FRQ raw points into a weighted composite. Both sections contribute 50% of the overall exam score."
-  - "Defaults reflect the familiar 45-question MCQ and six 9-point FRQ structure, but possible points are editable because College Board has announced multiple-choice format updates beginning with the May 2027 exam."
+  - "Defaults reflect the May 2027 format of 42 multiple-choice questions and six 9-point free-response questions. Possible points remain editable for older or custom practice materials."
 features:
   - "Separate MCQ and FRQ raw-score inputs"
   - "Published equal section weights"
@@ -27,10 +27,10 @@ method:
     - "The calculator divides earned points by possible points in each section and assigns 50 weighted points to MCQ and 50 to FRQ."
     - "It compares the composite with editable estimated boundaries to display a planning score from 1 to 5."
   formula: "Composite = MCQ% × 0.50 + FRQ% × 0.50"
-  example: "34 of 45 MCQs and 36 of 54 FRQ points produce a composite of about 71.11%."
+  example: "32 of 42 MCQs and 36 of 54 FRQ points produce a composite of about 71.43%."
 limitations:
   - "The prediction is unofficial and cannot guarantee the released AP score."
-  - "The May 2027 exam changes the MCQ count and timing; update points possible to match current materials."
+  - "Defaults follow the announced May 2027 MCQ count; change points possible when using an older or custom practice test."
   - "Score FRQs with the scoring guidelines for the exact practice questions used."
 relatedTools:
   - "ap-calculus-bc-score-calculator"

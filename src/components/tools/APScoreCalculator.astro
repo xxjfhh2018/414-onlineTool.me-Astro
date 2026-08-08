@@ -50,10 +50,10 @@ const configs: Record<string, CourseConfig> = {
   },
   'ap-biology-score-calculator': {
     name: 'AP Biology',
-    format: 'Uses the published 50% multiple-choice and 50% free-response weighting. The FRQ possible-points field is editable for the scoring guide you use.',
+    format: 'Uses the published 50% multiple-choice and 50% free-response weighting, with 60 MCQs and 34 total FRQ rubric points as defaults.',
     sections: [
       { label: 'Multiple Choice', possible: 60, weight: 50 },
-      { label: 'Free Response', possible: 36, weight: 50 },
+      { label: 'Free Response', possible: 34, weight: 50 },
     ],
     cutScores: [78, 63, 48, 34],
     source: 'https://apcentral.collegeboard.org/courses/ap-biology/exam',
@@ -70,9 +70,9 @@ const configs: Record<string, CourseConfig> = {
   },
   'ap-calculus-ab-score-calculator': {
     name: 'AP Calculus AB',
-    format: 'Uses the published 50% multiple-choice and 50% free-response weighting. Possible points remain editable for updated practice formats.',
+    format: 'Defaults to the May 2027 format: 42 multiple-choice questions and six 9-point FRQs, weighted 50% each.',
     sections: [
-      { label: 'Multiple Choice', possible: 45, weight: 50 },
+      { label: 'Multiple Choice', possible: 42, weight: 50 },
       { label: 'Free Response', possible: 54, weight: 50 },
     ],
     cutScores: [70, 58, 43, 32],
@@ -80,9 +80,9 @@ const configs: Record<string, CourseConfig> = {
   },
   'ap-calculus-bc-score-calculator': {
     name: 'AP Calculus BC',
-    format: 'Uses the published 50% multiple-choice and 50% free-response weighting. This predicts the overall BC score, not the separate AB subscore.',
+    format: 'Defaults to the May 2027 format: 42 MCQs and six 9-point FRQs, weighted 50% each. This predicts the overall BC score, not the AB subscore.',
     sections: [
-      { label: 'Multiple Choice', possible: 45, weight: 50 },
+      { label: 'Multiple Choice', possible: 42, weight: 50 },
       { label: 'Free Response', possible: 54, weight: 50 },
     ],
     cutScores: [65, 53, 40, 28],
@@ -202,6 +202,7 @@ const config = configs[course] || configs['ap-score-calculator'];
 </div>
 
 <script>
+  import { calculateWeightedComposite, estimateApScore } from '../../lib/calculatorCore.mjs';
   document.querySelectorAll<HTMLElement>('.ap-score-tool').forEach(root => {
     if (root.dataset.ready === 'true') return;
     root.dataset.ready = 'true';
@@ -222,9 +223,7 @@ const config = configs[course] || configs['ap-score-calculator'];
     }
 
     function calculate(forceValidation = false) {
-      let composite = 0;
-      let completedWeight = 0;
-      const contributions: string[] = [];
+      const sections: Array<{label:string;earned:number;possible:number;weight:number}> = [];
       let valid = true;
       let incomplete = false;
       root.querySelectorAll('.aps-row').forEach(row => {
@@ -240,31 +239,24 @@ const config = configs[course] || configs['ap-score-calculator'];
           valid = false;
           return;
         }
-        const contribution = earned / possible * weight;
-        composite += contribution;
-        completedWeight += weight;
-        contributions.push(`${label}: ${contribution.toFixed(2)} of ${weight.toFixed(1)} weighted points`);
+        sections.push({ label, earned, possible, weight });
       });
       if (!result) return;
       if (incomplete && !forceValidation) {
         result.innerHTML = placeholder;
         return;
       }
-      if (!valid || completedWeight <= 0) {
+      if (!valid || sections.length === 0) {
         result.innerHTML = '<div class="rounded-xl bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800/40 p-4 text-sm text-amber-800 dark:text-amber-300">Enter valid points for every section. Earned points cannot exceed points possible.</div>';
         return;
       }
-      const normalized = composite / completedWeight * 100;
+      const calculation = calculateWeightedComposite(sections);
+      const normalized = calculation.composite / calculation.totalWeight * 100;
+      const contributions = calculation.contributions.map((item, index) => `${item.label}: ${item.contribution.toFixed(2)} of ${sections[index].weight.toFixed(1)} weighted points`);
       const cuts = [...root.querySelectorAll<HTMLInputElement>('.aps-cut')]
         .map(input => ({ score: parseInt(input.dataset.score || '1'), minimum: parseFloat(input.value) }))
         .sort((left, right) => right.score - left.score);
-      let predicted = 1;
-      for (const cut of cuts) {
-        if (Number.isFinite(cut.minimum) && normalized >= cut.minimum) {
-          predicted = cut.score;
-          break;
-        }
-      }
+      const predicted = estimateApScore(normalized, cuts.map(cut => cut.minimum));
       result.innerHTML = `<div class="grid sm:grid-cols-[1fr_1fr] gap-3"><div class="rounded-xl bg-primary-50 dark:bg-primary-900/20 border border-primary-100 dark:border-primary-800/30 p-5 text-center"><div class="text-sm text-gray-600 dark:text-gray-400">Estimated AP score</div><div class="mt-1 text-5xl font-bold text-primary-600 dark:text-primary-400">${predicted}</div><div class="mt-2 text-xs text-gray-500 dark:text-gray-400">Planning estimate using the cut scores above</div></div><div class="rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200/60 dark:border-white/10 p-5 text-center"><div class="text-sm text-gray-600 dark:text-gray-400">Weighted composite</div><div class="mt-1 text-3xl font-bold text-gray-900 dark:text-white">${normalized.toFixed(2)}%</div><div class="mt-2 text-xs text-gray-500 dark:text-gray-400">Official section weights applied</div></div></div><ul class="mt-3 rounded-xl border border-gray-200/60 dark:border-white/10 divide-y divide-gray-100 dark:divide-white/5">${contributions.map(item => `<li class="px-4 py-2.5 text-xs text-gray-600 dark:text-gray-400">${item}</li>`).join('')}</ul>`;
     }
 
