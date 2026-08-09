@@ -1,4 +1,8 @@
 <div class="max-w-3xl mx-auto">
+  <div class="mb-5">
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Remove Blank Rows from Text</h2>
+    <p class="mt-1 text-sm leading-6 text-gray-500 dark:text-gray-400">Cleaning copied articles, code, or spreadsheet text? Paste it here to remove blank and whitespace-only lines.</p>
+  </div>
   <div class="grid md:grid-cols-2 gap-4">
     <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 overflow-hidden">
       <div class="p-3 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
@@ -31,12 +35,16 @@
       Remove Empty Lines
     </button>
   </div>
+  <div id="rel-context" class="mt-4 rounded-xl border border-blue-100 bg-blue-50/70 px-4 py-3 text-center text-xs leading-5 text-blue-800 dark:border-blue-800/30 dark:bg-blue-900/10 dark:text-blue-300" aria-live="polite">
+    Process text to compare the original line count with the cleaned result.
+  </div>
 </div>
 
 <script>
   (function() {
     const input = document.getElementById('rel-input') as HTMLTextAreaElement;
     const output = document.getElementById('rel-output') as HTMLTextAreaElement;
+    const context = document.getElementById('rel-context');
     const processBtn = document.getElementById('rel-process');
     const clearBtn = document.getElementById('rel-clear');
     const copyBtn = document.getElementById('rel-copy');
@@ -45,11 +53,13 @@
       const text = input?.value || '';
       const lines = text.split('\n');
       const cleaned = lines.filter(line => line.trim() !== '').join('\n');
+      const keptCount = lines.filter(line => line.trim() !== '').length;
       if (output) output.value = cleaned;
+      if (context) context.innerHTML = `<strong>Line comparison:</strong> ${lines.length} original line${lines.length === 1 ? '' : 's'} → ${keptCount} kept · ${lines.length - keptCount} blank line${lines.length - keptCount === 1 ? '' : 's'} removed.`;
     }
     
     processBtn?.addEventListener('click', process);
-    clearBtn?.addEventListener('click', () => { if (input) input.value = ''; if (output) output.value = ''; });
+    clearBtn?.addEventListener('click', () => { if (input) input.value = ''; if (output) output.value = ''; if (context) context.textContent = 'Process text to compare the original line count with the cleaned result.'; });
     copyBtn?.addEventListener('click', () => {
       if (output) {
         output.select();

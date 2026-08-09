@@ -1,5 +1,9 @@
 <div class="max-w-md mx-auto text-center">
   <div class="rounded-3xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-8">
+    <div class="mb-6">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Run a Focus and Break Cycle</h2>
+      <p class="mt-1 text-sm leading-6 text-gray-500 dark:text-gray-400">Studying, writing, or working in short blocks? Set the focus and break lengths, then start the countdown.</p>
+    </div>
     <!-- Timer Display -->
     <div class="mb-8">
       <div id="pomo-timer" class="text-7xl font-mono font-bold text-gray-900 dark:text-white tracking-wider">
@@ -21,6 +25,10 @@
           <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
         </svg>
       </div>
+    </div>
+
+    <div id="pomo-context" class="mb-6 rounded-xl border border-blue-100 bg-blue-50/70 px-4 py-3 text-xs leading-5 text-blue-800 dark:border-blue-800/30 dark:bg-blue-900/10 dark:text-blue-300" aria-live="polite">
+      <strong>Session progress:</strong> 0% elapsed · 25:00 remaining in the focus interval.
     </div>
     
     <!-- Controls -->
@@ -57,6 +65,7 @@
     const timerEl = document.getElementById('pomo-timer');
     const statusEl = document.getElementById('pomo-status');
     const progressEl = document.getElementById('pomo-progress');
+    const contextEl = document.getElementById('pomo-context');
     const startBtn = document.getElementById('pomo-start');
     const pauseBtn = document.getElementById('pomo-pause');
     const resetBtn = document.getElementById('pomo-reset');
@@ -81,6 +90,8 @@
       if (timerEl) timerEl.textContent = formatTime(timeLeft);
       const offset = CIRCUMFERENCE - (timeLeft / totalTime) * CIRCUMFERENCE;
       if (progressEl) progressEl.style.strokeDashoffset = String(offset);
+      const elapsedPercent = totalTime > 0 ? (1 - timeLeft / totalTime) * 100 : 0;
+      if (contextEl) contextEl.innerHTML = `<strong>Session progress:</strong> ${Math.max(0, elapsedPercent).toFixed(1)}% elapsed · ${formatTime(timeLeft)} remaining in the ${isBreak ? 'break' : 'focus'} interval.`;
     }
     
     function start() {

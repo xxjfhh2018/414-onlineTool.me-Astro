@@ -2,7 +2,7 @@
 seoTitle: "Pomodoro Timer Online - Focus and Breaks | OnlineTool.me"
 title: "Pomodoro Timer Online"
 description: "Start a free Pomodoro timer with adjustable focus and break intervals. Pause, resume, or reset the current browser session when needed."
-intro: "Alternate adjustable focus and break intervals with a simple countdown you can start, pause, resume, or reset."
+intro: "Set focus and break lengths → Get a controllable countdown for alternating work and rest sessions."
 keywords: "Pomodoro timer, online focus timer, study timer, work break timer"
 category: "timers"
 icon: "Timer"

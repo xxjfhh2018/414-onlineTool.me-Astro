@@ -2,7 +2,7 @@
 seoTitle: "QR Code Reader Interface Demo | OnlineTool.me"
 title: "QR Code Reader Interface Demo"
 description: "Explore this QR code reader interface demo by uploading an image for preview. The current version does not decode QR content."
-intro: "Preview the upload and result workflow planned for a QR reader; image decoding is not yet implemented."
+intro: "Upload a QR image → Preview the planned decode workflow; scanning is not implemented yet."
 keywords: "QR code reader demo, QR scanner interface, upload QR code image"
 category: "qr-code"
 icon: "Scan"

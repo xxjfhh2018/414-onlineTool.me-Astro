@@ -2,7 +2,7 @@
 seoTitle: "AP Statistics Score Calculator | OnlineTool.me"
 title: "AP Statistics Score Calculator"
 description: "Use this AP Statistics score calculator for the revised format to combine MCQ and FRQ points into a weighted composite and predicted AP Stats score."
-intro: "Estimate an AP Statistics score with editable raw points and defaults for the revised May 2027 multiple-choice and free-response format."
+intro: "Enter your AP Statistics practice-exam scores → Get an estimated AP score (1–5)."
 keywords: "ap stats score calculator, ap statistics score calculator, ap statistics calculator, ap stats calculator, calculate ap stats score, ap statistics score predictor"
 category: "calculators"
 subcategory: "education"
@@ -15,7 +15,7 @@ features:
   - "Defaults for the revised 42-MCQ and 40-point FRQ format"
   - "Equal 50% section weighting"
   - "Editable point totals for older practice exams"
-  - "Composite breakdown and adjustable AP score thresholds"
+  - "Weighted composite and adjustable AP score thresholds"
 useCases:
   - title: "Score a revised-format practice exam"
     description: "Combine results from the 42 multiple-choice questions and four free responses."
@@ -30,6 +30,7 @@ method:
   example: "32 of 42 MCQs and 28 of 40 FRQ points produce a composite of about 73.10%."
 limitations:
   - "The predicted score is unofficial and can differ from the released AP score."
+  - "Current default planning cutoffs are 5 ≥ 70%, 4 ≥ 55%, 3 ≥ 40%, and 2 ≥ 25%. They are estimates and can be adjusted in Advanced scoring settings."
   - "The default format targets May 2027; older practice tests use different question counts."
   - "Free-response points must be assigned with the matching scoring guidelines."
 relatedTools:
@@ -46,6 +47,9 @@ howToUse:
   - step: 3
     title: "Review the Live AP Stats Prediction"
     description: "The weighted composite and estimated score update automatically as you change an input."
+  - step: 4
+    title: "Understand the 50/50 Weighting"
+    description: "The calculator converts MCQ and FRQ results to percentages, gives each section up to 50 weighted points, and adds them to form the composite."
 faq:
   - question: "How do I calculate an AP Statistics score?"
     answer: "Convert MCQ and FRQ raw totals to percentages, weight both sections 50%, and add them."

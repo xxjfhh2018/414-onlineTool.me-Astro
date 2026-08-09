@@ -2,7 +2,7 @@
 seoTitle: "Body Type Calculator by Measurements | OnlineTool.me"
 title: "Body Type Calculator"
 description: "Use this body type calculator to compare bust or chest, waist, and hip measurements for a transparent clothing-style body shape estimate."
-intro: "Enter bust or chest, waist, and hip measurements in the same unit to receive an instant, rule-based body-shape estimate with the matching proportions shown."
+intro: "Enter bust or chest, waist, and hip measurements → Get a body-shape estimate, proportion ratios, and boundary context."
 keywords: "body type calculator, body shape calculator, body type test, female body type calculator, male body type calculator, somatotype calculator"
 category: "calculators"
 subcategory: "everyday"
@@ -31,6 +31,7 @@ method:
   formula: "Oval: waist ≥ 95% of max(bust, hips); hourglass: bust and hips within 5% and waist ≤ 75% of min(bust, hips); triangle/inverted: hips or bust ≥ 105% of the other; otherwise rectangle"
   example: "For bust 36, waist 27, and hips 36, bust and hips are equal and the waist is exactly 75% of either measurement. The published rule therefore returns hourglass."
 limitations:
+  - "When comparing clothing proportions or tracking measurements, use the same unit and measuring technique for bust or chest, waist, and hips; the result is a descriptive shape label, not a health assessment."
   - "These are site-defined descriptive thresholds, not medical standards or scientific diagnoses."
   - "Tape placement, posture, clothing, breathing, and rounding can change a result near a 5% or 75% boundary."
   - "A shape label does not determine health, attractiveness, athletic ability, metabolism, or the clothes a person should wear."

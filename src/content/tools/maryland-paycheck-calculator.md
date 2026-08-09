@@ -2,7 +2,7 @@
 seoTitle: "Maryland Paycheck Calculator - 2026 Pay | OnlineTool.me"
 title: "Maryland Paycheck Calculator"
 description: "Try this 2026 Maryland paycheck calculator to estimate federal withholding, FICA, state and local income tax, deductions, and take-home pay."
-intro: "Estimate Maryland take-home pay with 2026 federal schedules and Maryland’s percentage method, including an editable county or local rate."
+intro: "Enter gross pay and withholding details → Get a 2026 Maryland take-home pay estimate."
 keywords: "Maryland paycheck calculator, Maryland salary calculator, Maryland pay calculator, Maryland take home pay calculator"
 category: "calculators"
 subcategory: "finance"

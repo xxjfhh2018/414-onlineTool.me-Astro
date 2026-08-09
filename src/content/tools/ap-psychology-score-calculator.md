@@ -2,7 +2,7 @@
 seoTitle: "AP Psychology Score Calculator | OnlineTool.me"
 title: "AP Psychology Score Calculator"
 description: "Try this AP Psychology score calculator to combine 75 MCQs and two free-response rubric scores into a weighted composite and predicted AP Psych score."
-intro: "Estimate an AP Psychology score from the current 75-question MCQ section and two seven-point free-response questions."
+intro: "Enter your AP Psychology practice-exam scores → Get an estimated AP score (1–5)."
 keywords: "ap psych score calculator, ap psychology score calculator, ap psychology calculator, ap psych calculator, calculate ap psychology score, ap psych score predictor"
 category: "calculators"
 subcategory: "education"
@@ -14,7 +14,7 @@ whatIs:
 features:
   - "Current 75-MCQ and 14-point FRQ defaults"
   - "Published 66.7% and 33.3% weighting"
-  - "Composite and section contribution display"
+  - "Composite percentage and estimated score context"
   - "Editable estimated AP score thresholds"
 useCases:
   - title: "Score a current AP Psychology practice exam"
@@ -30,6 +30,7 @@ method:
   example: "58 of 75 MCQs and 10 of 14 FRQ points produce a composite of about 75.39%."
 limitations:
   - "The predicted AP Psychology score is unofficial."
+  - "Current default planning cutoffs are 5 ≥ 75%, 4 ≥ 60%, 3 ≥ 45%, and 2 ≥ 30%. They are estimates and can be adjusted in Advanced scoring settings."
   - "AAQ and EBQ points must be assigned using the current scoring criteria."
   - "Official form-level scoring and standard setting are not available to this calculator."
 relatedTools:
@@ -46,6 +47,9 @@ howToUse:
   - step: 3
     title: "Review the Live AP Psych Estimate"
     description: "The composite and predicted 1–5 score update automatically as you change an input."
+  - step: 4
+    title: "Understand the Section Weighting"
+    description: "The calculator converts both sections to percentages, applies the published 66.7% MCQ and 33.3% FRQ weights, and adds them to form the composite."
 faq:
   - question: "How do I calculate an AP Psychology score?"
     answer: "Weight the MCQ percentage 66.7% and the combined FRQ percentage 33.3%, then add the contributions."

@@ -1,6 +1,10 @@
 <div class="max-w-lg mx-auto">
   <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-6 space-y-5">
     <div>
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Preview the QR Reader Workflow</h2>
+      <p class="mt-1 text-sm leading-6 text-gray-500 dark:text-gray-400">Testing the planned upload flow? Add an image to preview it; this demo does not decode QR content.</p>
+    </div>
+    <div>
       <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Upload QR Code Image</label>
       <div class="relative">
         <input id="qrr-file" type="file" accept="image/*" class="hidden" />
@@ -16,13 +20,12 @@
     </div>
     
     <button id="qrr-scan" class="w-full px-4 py-3 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors hidden">
-      Scan QR Code
+      Check Demo Status
     </button>
     
-    <div id="qrr-result" class="hidden p-4 rounded-xl bg-primary-50 dark:bg-primary-900/20">
-      <div class="text-xs text-gray-500 dark:text-gray-400 mb-1">Decoded Content</div>
-      <div id="qrr-text" class="text-sm text-gray-800 dark:text-gray-200 break-all font-mono"></div>
-      <button id="qrr-copy" class="mt-2 text-xs text-primary-500 hover:text-primary-600">Copy to clipboard</button>
+    <div id="qrr-result" class="min-h-[8rem] p-4 rounded-xl border border-blue-100 bg-blue-50/70 text-center flex flex-col items-center justify-center dark:border-blue-800/30 dark:bg-blue-900/10" aria-live="polite">
+      <div class="text-xs text-blue-700 dark:text-blue-300 mb-1">Workflow Status</div>
+      <div id="qrr-text" class="text-sm leading-6 text-blue-800 dark:text-blue-200">Upload preview available · QR decoding not implemented.</div>
     </div>
   </div>
 </div>
@@ -33,9 +36,7 @@
     const preview = document.getElementById('qrr-preview');
     const image = document.getElementById('qrr-image') as HTMLImageElement;
     const scanBtn = document.getElementById('qrr-scan');
-    const result = document.getElementById('qrr-result');
     const text = document.getElementById('qrr-text');
-    const copyBtn = document.getElementById('qrr-copy');
     
     fileInput?.addEventListener('change', () => {
       const file = fileInput.files?.[0];
@@ -45,24 +46,14 @@
           if (image) image.src = e.target?.result as string;
           preview?.classList.remove('hidden');
           scanBtn?.classList.remove('hidden');
-          result?.classList.add('hidden');
+          if (text) text.textContent = 'Image preview ready · no QR content has been decoded.';
         };
         reader.readAsDataURL(file);
       }
     });
     
     scanBtn?.addEventListener('click', () => {
-      // Simulate QR scanning - in production, use jsQR library
-      if (text) text.textContent = 'https://onlinetool.me/qr-code-generator';
-      result?.classList.remove('hidden');
-    });
-    
-    copyBtn?.addEventListener('click', () => {
-      if (text) {
-        navigator.clipboard.writeText(text.textContent || '');
-        copyBtn.textContent = 'Copied!';
-        setTimeout(() => copyBtn.textContent = 'Copy to clipboard', 1500);
-      }
+      if (text) text.textContent = 'Demo status: image preview works, but scanning and decoded output are not implemented.';
     });
   })();
 </script>

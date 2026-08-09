@@ -2,7 +2,7 @@
 seoTitle: "AP World History Score Calculator | OnlineTool.me"
 title: "AP World History Score Calculator"
 description: "Use this AP World History score calculator to combine MCQ, SAQ, DBQ, and LEQ practice results into a weighted composite and AP score prediction."
-intro: "Estimate an AP World History: Modern score from MCQ, SAQ, DBQ, and LEQ practice points with published exam weights."
+intro: "Enter your AP World History practice-exam scores → Get an estimated AP score (1–5)."
 keywords: "ap world history score calculator, ap world score calculator, ap world history calculator, ap world history exam calculator, calculate ap world score, ap world score predictor"
 category: "calculators"
 subcategory: "education"
@@ -30,6 +30,7 @@ method:
   example: "Scores of 42/55, 7/9, 5/7, and 4/6 produce a weighted composite of about 73.72%."
 limitations:
   - "The score prediction is unofficial and cannot reproduce secure College Board scoring."
+  - "Current default planning cutoffs are 5 ≥ 75%, 4 ≥ 60%, 3 ≥ 45%, and 2 ≥ 30%. They are estimates and can be adjusted in Advanced scoring settings."
   - "History SAQ and LEQ updates begin with the May 2027 exam; use the possible points shown by your current materials."
   - "DBQ and LEQ points depend on accurate rubric application."
 relatedTools:
@@ -46,6 +47,9 @@ howToUse:
   - step: 3
     title: "Review the Live Prediction"
     description: "The composite and every weighted contribution update automatically as you change an input."
+  - step: 4
+    title: "Open the Section Breakdown"
+    description: "Expand How this score was calculated to compare the weighted MCQ, SAQ, DBQ, and LEQ contributions."
 faq:
   - question: "How do I calculate an AP World score?"
     answer: "Convert each component to a percentage and apply the published MCQ, SAQ, DBQ, and LEQ weights."

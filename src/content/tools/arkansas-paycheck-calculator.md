@@ -2,7 +2,7 @@
 seoTitle: "Arkansas Salary Calculator - 2026 Pay | OnlineTool.me"
 title: "Arkansas Paycheck Calculator"
 description: "Try this 2026 Arkansas paycheck calculator to estimate federal withholding, FICA, Arkansas wage tax, deductions, and take-home pay."
-intro: "Estimate an Arkansas paycheck from regular gross wages using 2026 federal schedules, FICA limits, and a clearly labeled state planning model."
+intro: "Enter gross pay and withholding details → Get a 2026 Arkansas take-home pay estimate."
 keywords: "salary calculator Arkansas, Arkansas paycheck calculator, Arkansas paycheck tax calculator, Arkansas income calculator, Arkansas take home pay calculator"
 category: "calculators"
 subcategory: "finance"

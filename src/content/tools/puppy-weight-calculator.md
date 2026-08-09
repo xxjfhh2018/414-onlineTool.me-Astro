@@ -2,7 +2,7 @@
 seoTitle: "Puppy Weight Calculator - Adult Estimate | OnlineTool.me"
 title: "Puppy Weight Calculator"
 description: "Use this puppy weight calculator to create a rough adult-weight range from current age, weight, and expected size, with assumptions shown clearly."
-intro: "Enter your puppy’s current age and weight, then select an expected adult size group to get a transparent planning estimate and uncertainty range."
+intro: "Enter your puppy’s age, weight, and size group → Get an estimated adult weight and growth range."
 keywords: "puppy weight calculator, puppy growth calculator, dog weight calculator, puppy adult weight calculator, how big will my puppy get calculator, puppy size predictor"
 category: "calculators"
 subcategory: "everyday"
@@ -31,6 +31,7 @@ method:
   formula: "Estimated adult weight = current weight ÷ assumed mature-weight fraction; planning range = estimate × (1 ± 15%, or ±20% for very large dogs)"
   example: "A 12-week, 10 lb puppy in the medium 9–15 kg group uses the disclosed 36% maturity assumption. The estimate is 10 ÷ 0.36 = 27.8 lb, with a 23.6–31.9 lb planning range."
 limitations:
+  - "When planning future crate, bed, or harness sizes, use a recent age and weight plus the most plausible adult-size group, then treat the result as a broad planning range rather than a guaranteed size."
   - "The OnlineTool.me planning curves are simplified assumptions, not a validated veterinary prediction model."
   - "The source growth standards begin at 12 weeks; estimates for younger puppies are especially uncertain."
   - "The published standards grouped dogs up to 40 kg, so the very-large group is an extrapolative planning curve."

@@ -2,7 +2,7 @@
 seoTitle: "Asphalt Calculator - Tons & Volume | OnlineTool.me"
 title: "Asphalt Calculator"
 description: "Try this asphalt calculator to estimate paving volume, weight, required tons, and optional material cost from project dimensions and asphalt density."
-intro: "Estimate asphalt tons for a rectangular or circular paving area using its dimensions, compacted thickness, waste allowance, and material density."
+intro: "Enter paving dimensions and compacted thickness → Get asphalt volume, weight, and optional material cost."
 keywords: "asphalt calculator, asphalt material calculator, asphalt tonnage calculator, asphalt quantity calculator, asphalt driveway calculator, how much asphalt do I need, asphalt cost calculator, hot mix asphalt calculator"
 category: "calculators"
 subcategory: "engineering"
@@ -32,6 +32,7 @@ method:
   formula: "Asphalt tons = Area (ft²) × Thickness (ft) × (1 + Waste %) × Density (lb/ft³) ÷ 2,000"
   example: "A 20 ft by 10 ft driveway at 3 inches thick has 50 ft³ of raw volume. With 10% waste and a density of 145 lb/ft³, the estimate is 55 × 145 ÷ 2,000 = 3.99 tons."
 limitations:
+  - "For a driveway, patch, or paved area, enter the finished dimensions and compacted asphalt thickness before comparing supplier tonnage."
   - "Actual mix density varies with aggregate, binder, temperature, and compaction requirements."
   - "The entered thickness should represent the intended compacted thickness, not uncompacted loose depth."
   - "Base preparation, tack coat, hauling, labor, equipment, taxes, and supplier minimums are not included."
@@ -62,4 +63,3 @@ faq:
   - question: "Does the asphalt cost estimate include installation?"
     answer: "No. It multiplies estimated tons by the optional price per ton and excludes delivery, labor, equipment, base work, and taxes."
 ---
-

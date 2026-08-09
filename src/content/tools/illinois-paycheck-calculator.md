@@ -2,7 +2,7 @@
 seoTitle: "Illinois Paycheck Calculator - 2026 Pay | OnlineTool.me"
 title: "Illinois Paycheck Calculator"
 description: "Try this 2026 Illinois paycheck calculator to estimate federal withholding, FICA, 4.95% Illinois tax, deductions, and take-home pay."
-intro: "Estimate Illinois take-home pay with the 2026 4.95% withholding rate, $2,925 allowances, federal schedules, and FICA thresholds."
+intro: "Enter gross pay and withholding details → Get a 2026 Illinois take-home pay estimate."
 keywords: "Illinois paycheck calculator, Illinois salary calculator, Illinois pay calculator, Illinois take home pay calculator"
 category: "calculators"
 subcategory: "finance"

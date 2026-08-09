@@ -2,7 +2,7 @@
 seoTitle: "FFMI Calculator with Body Fat | OnlineTool.me"
 title: "FFMI Calculator"
 description: "Use this FFMI calculator with body fat to estimate fat-free mass index, lean mass, and height-normalized FFMI in metric or US units."
-intro: "Enter your weight, height, and estimated body-fat percentage to calculate FFMI, lean mass, and a research-based height-normalized value instantly."
+intro: "Enter weight, height, and body fat → Get FFMI, lean mass, and height-normalized results."
 keywords: "ffmi calculator, fat free mass index calculator, FFMI calculator with body fat, calculate FFMI, muscle mass calculator"
 category: "calculators"
 subcategory: "everyday"
@@ -31,6 +31,8 @@ method:
   formula: "Lean mass = weight × (1 − body fat ÷ 100); FFMI = lean mass kg ÷ height m²; normalized FFMI = FFMI + 6.3 × (1.80 − height m)"
   example: "For 82 kg, 180 cm, and 15% body fat, lean mass is 82 × 0.85 = 69.7 kg. FFMI is 69.7 ÷ 1.80² = 21.51. At exactly 1.80 m, normalized FFMI is also 21.51."
 limitations:
+  - "When tracking a body-composition trend, use weight, height, and body-fat estimates measured consistently; compare repeated results instead of treating one FFMI value as a diagnosis or universal rating."
+  - "There is no universal official FFMI pass/fail score; clinical, population, and athletic reference values answer different questions and are not interchangeable."
   - "FFMI is only as accurate as the entered body-fat estimate; consumer scales and field methods can vary substantially."
   - "Hydration, glycogen, recent food intake, and measurement technique can change weight or body-fat estimates."
   - "The height-normalization model came from a study of male athletes and should not be treated as a universal classification system."

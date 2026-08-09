@@ -2,7 +2,7 @@
 seoTitle: "APUSH Score Calculator | OnlineTool.me"
 title: "APUSH Score Calculator"
 description: "Use this APUSH score calculator to combine MCQ, SAQ, DBQ, and LEQ practice points into a weighted composite and predicted AP U.S. History score."
-intro: "Estimate an AP U.S. History score from MCQ, SAQ, DBQ, and LEQ practice results using the published section weights."
+intro: "Enter your APUSH practice-exam scores → Get an estimated AP score (1–5)."
 keywords: "apush score calculator, ap us history score calculator, apush exam score calculator, apush calculator, apush score predictor, calculate apush score"
 category: "calculators"
 subcategory: "education"
@@ -30,6 +30,7 @@ method:
   example: "Section results of 80%, 70%, 75%, and 65% produce a composite of 74.0%."
 limitations:
   - "The predicted AP score is an estimate, not an official College Board conversion."
+  - "Current default planning cutoffs are 5 ≥ 75%, 4 ≥ 60%, 3 ≥ 45%, and 2 ≥ 30%. They are estimates and can be adjusted in Advanced scoring settings."
   - "AP history question and rubric updates apply beginning with the May 2027 exam; match the possible points to your practice materials."
   - "Essay rubric scoring requires judgment, so use the scoring guide supplied with each question."
 relatedTools:
@@ -46,6 +47,9 @@ howToUse:
   - step: 3
     title: "Review the Live Composite"
     description: "The weighted result and predicted AP score update automatically as you change an input."
+  - step: 4
+    title: "Open the Section Breakdown"
+    description: "Expand How this score was calculated to compare the weighted MCQ, SAQ, DBQ, and LEQ contributions."
 faq:
   - question: "How do I calculate an APUSH score?"
     answer: "Convert each section to a percentage, apply the 40/20/25/15 weights, and add the weighted contributions."

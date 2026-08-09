@@ -2,7 +2,7 @@
 seoTitle: "Material Calculator - Project Quantities | OnlineTool.me"
 title: "Material Calculator"
 description: "Explore this material calculator hub to estimate asphalt, sand, gravel, topsoil, or concrete quantities for construction and landscaping projects."
-intro: "Choose a construction material calculator to estimate how much material your project needs from its measured area, depth, and waste allowance."
+intro: "Choose a material and enter project dimensions → Get volume, weight, or concrete bag estimates."
 keywords: "material calculator, construction material calculator, building material calculator, material quantity calculator, material estimator, construction calculator, how much material do I need calculator"
 category: "calculators"
 subcategory: "engineering"
@@ -32,6 +32,7 @@ method:
   formula: "Adjusted volume = Area × Depth × (1 + Waste % ÷ 100)"
   example: "A 20 ft by 10 ft rectangular area at 3 inches deep has a raw volume of 50 ft³. Adding 10% waste produces 55 ft³, or about 2.04 yd³, before material-specific weight or bag calculations."
 limitations:
+  - "Choose paving, loose aggregate, soil, or concrete based on the material you will order—not just the project shape."
   - "Estimates depend on accurate field measurements and a reasonably uniform depth."
   - "Compaction, settlement, moisture, material grading, supplier rounding, and minimum order sizes can change the delivered quantity."
   - "Use project drawings, local specifications, and supplier advice for structural or high-cost work."
@@ -64,4 +65,3 @@ faq:
   - question: "Can a material estimator replace a supplier quote?"
     answer: "No. It provides an initial quantity for planning. Confirm density, compaction, delivery increments, minimum orders, and price with the supplier."
 ---
-

@@ -1,4 +1,8 @@
 <div class="max-w-3xl mx-auto">
+  <div class="mb-5">
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Create Balanced Random Teams</h2>
+    <p class="mt-1 text-sm leading-6 text-gray-500 dark:text-gray-400">Splitting a class, match, or activity group? Add one participant per line and choose how many teams you need.</p>
+  </div>
   <div class="grid md:grid-cols-2 gap-4 mb-6">
     <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 overflow-hidden">
       <div class="p-3 border-b border-gray-100 dark:border-white/5">
@@ -19,6 +23,9 @@
       <div id="rtg-output" class="w-full h-48 p-4 overflow-y-auto text-sm text-gray-800 dark:text-gray-200">
         <p class="text-gray-400 text-center mt-16">Teams will appear here</p>
       </div>
+      <div id="rtg-balance" class="border-t border-blue-100 bg-blue-50/70 px-4 py-3 text-center text-xs leading-5 text-blue-800 dark:border-blue-800/30 dark:bg-blue-900/10 dark:text-blue-300" aria-live="polite">
+        Generate teams to review the size balance.
+      </div>
     </div>
   </div>
   
@@ -38,6 +45,7 @@
     const namesInput = document.getElementById('rtg-names') as HTMLTextAreaElement;
     const countInput = document.getElementById('rtg-count') as HTMLInputElement;
     const output = document.getElementById('rtg-output');
+    const balance = document.getElementById('rtg-balance');
     const generateBtn = document.getElementById('rtg-generate');
     const copyBtn = document.getElementById('rtg-copy');
     
@@ -49,12 +57,16 @@
       }
       return arr;
     }
+
+    function escapeHtml(value: string) {
+      return value.replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character] || character));
+    }
     
     function generate() {
       const names = (namesInput?.value || '').split('\n').map(s => s.trim()).filter(s => s !== '');
       const teamCount = parseInt(countInput?.value || '3');
       
-      if (names.length === 0 || !output) return;
+      if (names.length === 0 || !output || !Number.isInteger(teamCount) || teamCount < 2 || teamCount > 20) return;
       
       const shuffled = shuffle(names);
       const teams: string[][] = Array.from({ length: teamCount }, () => []);
@@ -67,10 +79,14 @@
         <div class="mb-4 p-4 rounded-xl bg-gray-50 dark:bg-white/5">
           <div class="font-semibold text-primary-500 mb-2">Team ${i + 1}</div>
           <div class="space-y-1">
-            ${team.map(name => `<div class="text-gray-700 dark:text-gray-300">${name}</div>`).join('')}
+            ${team.map(name => `<div class="text-gray-700 dark:text-gray-300">${escapeHtml(name)}</div>`).join('')}
           </div>
         </div>
       `).join('');
+      const sizes = teams.map(team => team.length);
+      const largest = Math.max(...sizes);
+      const smallest = Math.min(...sizes);
+      if (balance) balance.innerHTML = `<strong>Balance check:</strong> ${names.length} participants across ${teamCount} teams · sizes ${sizes.join(' / ')} · maximum difference ${largest - smallest}.`;
     }
     
     generateBtn?.addEventListener('click', generate);

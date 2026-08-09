@@ -2,7 +2,7 @@
 seoTitle: "AP Calc BC Score Calculator | OnlineTool.me"
 title: "AP Calculus BC Score Calculator"
 description: "Try this AP Calc BC score calculator to combine multiple-choice and free-response practice points into a weighted composite and predicted BC score."
-intro: "Estimate an AP Calculus BC score from MCQ and FRQ practice points using the published 50/50 weighting for the overall BC exam."
+intro: "Enter your AP Calculus BC practice-exam scores → Get an estimated AP score (1–5)."
 keywords: "ap calc bc score calculator, ap calculus bc score calculator, ap calculus bc calculator, ap calc bc calculator, calculate ap calc bc score, ap calc bc score predictor"
 category: "calculators"
 subcategory: "education"
@@ -30,6 +30,7 @@ method:
   example: "31 of 42 MCQs and 38 of 54 FRQ points produce a composite of about 72.06%."
 limitations:
   - "The result is an unofficial practice estimate."
+  - "Current default planning cutoffs are 5 ≥ 65%, 4 ≥ 53%, 3 ≥ 40%, and 2 ≥ 28%. They are estimates and can be adjusted in Advanced scoring settings."
   - "It does not calculate the separate Calculus AB subscore."
   - "Defaults follow the announced May 2027 MCQ count; change points possible when using an older or custom practice test."
 relatedTools:
@@ -46,6 +47,9 @@ howToUse:
   - step: 3
     title: "Review the Live BC Estimate"
     description: "The overall composite and predicted score update automatically as you change an input."
+  - step: 4
+    title: "Understand the 50/50 Weighting"
+    description: "The calculator converts MCQ and FRQ results to percentages, gives each section up to 50 weighted points, and adds them to form the overall BC composite."
 faq:
   - question: "How do I calculate an AP Calculus BC score?"
     answer: "Convert MCQ and FRQ totals to percentages, give each section 50% weight, and add them."

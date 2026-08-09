@@ -2,7 +2,7 @@
 seoTitle: "Compare Two Lists Online | OnlineTool.me"
 title: "Compare Two Lists"
 description: "Try this list comparison tool to find shared entries, items found only in List A or B, or one combined set of unique lines."
-intro: "Compare two newline-separated lists and switch between shared items, one-sided differences, and a combined unique set."
+intro: "Paste two lists → Get shared items, one-sided differences, or a combined unique list."
 keywords: "compare two lists, list comparison tool, find common items, compare text lists"
 category: "text-tools"
 icon: "GitCompare"

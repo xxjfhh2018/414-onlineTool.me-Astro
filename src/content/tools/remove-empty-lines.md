@@ -2,7 +2,7 @@
 seoTitle: "Remove Empty Lines from Text | OnlineTool.me"
 title: "Remove Empty Lines"
 description: "Try this remove empty lines tool to delete blank and whitespace-only rows while preserving the text and order of every remaining line."
-intro: "Delete blank and whitespace-only rows from pasted text while preserving every non-empty line in its original order."
+intro: "Paste text with blank lines → Get cleaned text with every non-empty line preserved."
 keywords: "remove empty lines, delete blank lines, remove whitespace lines, text cleanup tool"
 category: "text-tools"
 icon: "AlignJustify"

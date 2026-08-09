@@ -2,7 +2,7 @@
 seoTitle: "Washington Paycheck Calculator - 2026 Pay | OnlineTool.me"
 title: "Washington Paycheck Calculator"
 description: "Try this 2026 Washington paycheck calculator to estimate federal withholding, FICA, payroll deductions, and take-home pay with no wage income tax."
-intro: "Estimate Washington take-home pay from regular wages using 2026 federal withholding and FICA, with state wage income tax set to zero."
+intro: "Enter gross pay and withholding details → Get a 2026 Washington take-home pay estimate."
 keywords: "Washington paycheck calculator, Washington salary calculator, Washington pay calculator, Washington take home pay calculator"
 category: "calculators"
 subcategory: "finance"

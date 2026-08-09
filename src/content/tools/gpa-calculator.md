@@ -2,7 +2,7 @@
 seoTitle: "GPA Calculator - Weighted & Unweighted | OnlineTool.me"
 title: "GPA Calculator"
 description: "Use this GPA calculator to estimate weighted, unweighted, semester, or cumulative GPA from your letter grades, course credits, and class levels."
-intro: "Calculate your weighted and unweighted GPA from letter grades, credits, and regular, honors, AP, or IB course levels."
+intro: "Enter grades, credits, and course levels → Get your weighted and unweighted GPA."
 keywords: "gpa calculator, high school gpa calculator, middle school gpa calculator, college gpa calculator, weighted gpa calculator, unweighted gpa calculator, calculate my gpa"
 category: "calculators"
 subcategory: "education"

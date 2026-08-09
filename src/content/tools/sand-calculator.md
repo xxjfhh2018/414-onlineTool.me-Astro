@@ -2,7 +2,7 @@
 seoTitle: "Sand Calculator - Cubic Yards & Weight | OnlineTool.me"
 title: "Sand Calculator"
 description: "Try this sand calculator to estimate cubic yards, cubic feet, weight, tons, and optional material cost for landscaping, play areas, or pools."
-intro: "Estimate how much sand a rectangular or circular area needs from its dimensions, fill depth, waste allowance, and expected bulk density."
+intro: "Enter area, fill depth, and bulk density → Get sand volume and weight estimates."
 keywords: "sand calculator, sand quantity calculator, sand volume calculator, sand estimator, how much sand do I need, sand cubic yard calculator, sand weight calculator, play sand calculator, pool sand calculator"
 category: "calculators"
 subcategory: "engineering"
@@ -32,6 +32,7 @@ method:
   formula: "Sand volume = Area × Depth × (1 + Waste %); weight = Volume × Bulk density"
   example: "A 10 ft by 10 ft area filled 2 inches deep has 16.67 ft³ of raw volume. With 10% waste, it requires about 18.33 ft³ or 0.68 yd³ and weighs about 0.92 tons at 100 lb/ft³."
 limitations:
+  - "For a play area, paver base, or landscape section, measure the usable area and enter the intended finished sand depth."
   - "Moisture content, grain size, compaction, and the specific sand product affect bulk density and delivered volume."
   - "Pool filters and engineered bases may require manufacturer or project specifications beyond a simple volume estimate."
   - "Delivery minimums, bags, labor, taxes, and site losses beyond the selected allowance are not included."
@@ -62,4 +63,3 @@ faq:
   - question: "Does wet sand weigh more than dry sand?"
     answer: "Usually yes. Moisture raises the bulk weight, which is why a supplier-specific density gives a better tonnage estimate."
 ---
-

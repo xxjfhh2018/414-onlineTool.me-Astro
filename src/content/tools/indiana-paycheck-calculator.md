@@ -2,7 +2,7 @@
 seoTitle: "Indiana Paycheck Calculator - 2026 Net Pay | OnlineTool.me"
 title: "Indiana Paycheck Calculator"
 description: "Try this 2026 Indiana paycheck calculator to estimate federal withholding, FICA, 2.95% state tax, an entered county rate, and take-home pay."
-intro: "Estimate Indiana take-home pay with the 2026 2.95% state rate, personal exemptions, an editable county rate, federal withholding, and FICA."
+intro: "Enter gross pay and withholding details → Get a 2026 Indiana take-home pay estimate."
 keywords: "Indiana paycheck calculator, Indiana salary calculator, Indiana pay calculator, Indiana take home pay calculator"
 category: "calculators"
 subcategory: "finance"

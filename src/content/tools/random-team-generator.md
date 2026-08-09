@@ -2,7 +2,7 @@
 seoTitle: "Random Team Generator - Split Names | OnlineTool.me"
 title: "Random Team Generator"
 description: "Try this random team generator to shuffle one-name-per-line participants into a selected number of teams with balanced group sizes."
-intro: "Paste one participant per line, choose the number of teams, and create a shuffled assignment with balanced group sizes."
+intro: "Paste participant names and choose a team count → Get shuffled teams with balanced sizes."
 keywords: "random team generator, random group generator, split names into teams, team picker"
 category: "generators"
 icon: "UsersRound"

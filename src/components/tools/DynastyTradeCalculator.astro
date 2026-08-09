@@ -24,6 +24,8 @@
 </div>
 
 <script>
+  import { evaluateDynastyTrade } from '../../lib/calculatorCore.mjs';
+
   (function() {
     const root = document.getElementById('dynasty-trade-tool');
     if (!root || root.dataset.ready === 'true') return;
@@ -74,12 +76,10 @@
         result.textContent = placeholder;
         return;
       }
-      const difference = Math.abs(a.total - b.total);
-      const percentage = Math.max(a.total, b.total) > 0 ? difference / Math.max(a.total, b.total) * 100 : 0;
-      const verdict = percentage < 10 ? 'Fair Trade' : a.total > b.total ? 'Favors You' : 'Favors Other Side';
-      const color = percentage < 10 ? 'text-primary-500' : a.total > b.total ? 'text-green-500' : 'text-amber-500';
+      const { percentage, verdict, gapContext } = evaluateDynastyTrade(a.total, b.total);
+      const color = percentage < 10 ? 'text-primary-500' : b.total > a.total ? 'text-green-500' : 'text-amber-500';
       result.className = 'min-h-[10rem] rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-6 text-center';
-      result.innerHTML = `<div class="text-2xl font-bold ${color} mb-2">${verdict}</div><div class="grid grid-cols-2 gap-4 mt-4"><div class="p-3 rounded-xl bg-gray-50 dark:bg-white/5"><div class="text-xs text-gray-500 dark:text-gray-400">You Give</div><div class="text-xl font-bold text-gray-800 dark:text-white">${a.total.toFixed(1)}</div></div><div class="p-3 rounded-xl bg-gray-50 dark:bg-white/5"><div class="text-xs text-gray-500 dark:text-gray-400">You Get</div><div class="text-xl font-bold text-gray-800 dark:text-white">${b.total.toFixed(1)}</div></div></div>`;
+      result.innerHTML = `<div class="text-2xl font-bold ${color} mb-2">${verdict}</div><div class="grid grid-cols-2 gap-4 mt-4"><div class="p-3 rounded-xl bg-gray-50 dark:bg-white/5"><div class="text-xs text-gray-500 dark:text-gray-400">You Give</div><div class="text-xl font-bold text-gray-800 dark:text-white">${a.total.toFixed(1)}</div></div><div class="p-3 rounded-xl bg-gray-50 dark:bg-white/5"><div class="text-xs text-gray-500 dark:text-gray-400">You Get</div><div class="text-xl font-bold text-gray-800 dark:text-white">${b.total.toFixed(1)}</div></div></div><div class="mt-4 rounded-xl border border-blue-100 bg-blue-50/70 px-4 py-3 text-xs leading-5 text-blue-800 dark:border-blue-800/30 dark:bg-blue-900/10 dark:text-blue-300"><strong>Trade gap:</strong> ${percentage.toFixed(1)}% · ${gapContext}<span class="mt-1 block">Under 10%: numerically close · 10–20%: noticeable difference · Over 20%: strong difference</span><span class="mt-1 block text-blue-700/80 dark:text-blue-300/80">Also consider league format, roster needs, player age, and market conditions.</span></div>`;
     }
 
     root.querySelector('#dtc-add-a')?.addEventListener('click', () => addItem(sideA));

@@ -2,7 +2,7 @@
 seoTitle: "QR Pattern Generator Demo | OnlineTool.me"
 title: "QR Pattern Generator Demo"
 description: "Explore this QR pattern generator demo and download a text-based visual pattern. It does not yet create a standards-compliant QR code."
-intro: "Generate and download a deterministic QR-style pattern while standards-compliant QR encoding remains under development."
+intro: "Enter text and image size → Get a downloadable QR-style pattern demo—not a scannable QR code."
 keywords: "QR pattern generator, QR code generator demo, QR style pattern maker"
 category: "qr-code"
 icon: "QrCode"

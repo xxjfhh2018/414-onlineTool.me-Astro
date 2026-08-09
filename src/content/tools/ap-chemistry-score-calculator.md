@@ -2,7 +2,7 @@
 seoTitle: "AP Chemistry Score Calculator | OnlineTool.me"
 title: "AP Chemistry Score Calculator"
 description: "Try this AP Chemistry score calculator to combine 60 MCQs and free-response rubric points into a weighted composite and predicted AP Chem score."
-intro: "Calculate an AP Chemistry practice composite from multiple-choice and free-response points with the published equal section weighting."
+intro: "Enter your AP Chemistry practice-exam scores → Get an estimated AP score (1–5)."
 keywords: "ap chemistry score calculator, ap chem score calculator, ap chemistry exam score calculator, ap chem calculator, calculate ap chemistry score, ap chemistry score predictor"
 category: "calculators"
 subcategory: "education"
@@ -14,7 +14,7 @@ whatIs:
 features:
   - "Defaults for 60 MCQs and 46 FRQ rubric points"
   - "Official 50/50 section weights"
-  - "Weighted composite and contribution details"
+  - "Weighted composite and estimated score result"
   - "Editable predicted 1–5 boundaries"
 useCases:
   - title: "Score a complete AP Chemistry practice test"
@@ -30,6 +30,7 @@ method:
   example: "45 of 60 MCQs and 32 of 46 FRQ points produce a composite of about 72.28%."
 limitations:
   - "The predicted AP Chemistry score is not an official College Board conversion."
+  - "Current default planning cutoffs are 5 ≥ 75%, 4 ≥ 60%, 3 ≥ 45%, and 2 ≥ 30%. They are estimates and can be adjusted in Advanced scoring settings."
   - "Use the exact rubric totals from the practice exam when they differ from the defaults."
   - "Official scoring can account for exam-specific performance data unavailable to this tool."
 relatedTools:
@@ -46,6 +47,9 @@ howToUse:
   - step: 3
     title: "Review the Live AP Chem Prediction"
     description: "The estimated 1–5 score and weighted composite update automatically as you change an input."
+  - step: 4
+    title: "Understand the 50/50 Weighting"
+    description: "The calculator converts MCQ and FRQ results to percentages, gives each section up to 50 weighted points, and adds them to form the composite."
 faq:
   - question: "How do I calculate an AP Chemistry score?"
     answer: "Convert MCQ and total FRQ points to percentages, weight each section 50%, and add the results."

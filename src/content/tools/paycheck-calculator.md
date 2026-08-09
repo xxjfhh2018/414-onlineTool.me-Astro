@@ -2,7 +2,7 @@
 seoTitle: "Paycheck Calculator - 2026 Take-Home Pay | OnlineTool.me"
 title: "Paycheck Calculator"
 description: "Try this 2026 paycheck calculator to estimate federal withholding, FICA, selected state tax, deductions, and take-home pay per period."
-intro: "Enter gross pay and pay frequency to estimate 2026 take-home pay, then refine the result with W-4, state, local, and deduction settings."
+intro: "Enter gross pay and withholding details → Get a 2026 take-home pay estimate."
 keywords: "paycheck calculator, salary calculator, paycheck calculator by state, take home pay calculator, after tax paycheck calculator, net pay calculator"
 category: "calculators"
 subcategory: "finance"

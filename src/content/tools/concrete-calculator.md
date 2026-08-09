@@ -2,7 +2,7 @@
 seoTitle: "Concrete Calculator - Yards & Bags | OnlineTool.me"
 title: "Concrete Calculator"
 description: "Try this concrete calculator to estimate cubic yards, cubic feet, ready-mix volume, bag quantities, and optional material cost for a slab or pad."
-intro: "Estimate concrete volume for a rectangular or circular slab, add a waste allowance, and compare cubic yards with approximate 40, 60, or 80 lb bag counts."
+intro: "Enter slab dimensions and thickness → Get concrete volume, ready-mix yards, and bag estimates."
 keywords: "concrete calculator, concrete volume calculator, concrete yard calculator, concrete quantity calculator, how much concrete do I need, concrete slab calculator, concrete cost calculator, cement calculator, ready mix concrete calculator"
 category: "calculators"
 subcategory: "engineering"
@@ -32,6 +32,7 @@ method:
   formula: "Concrete yd³ = Area (ft²) × Thickness (in ÷ 12) × (1 + Waste %) ÷ 27"
   example: "A 12 ft by 10 ft slab at 4 inches thick has 40 ft³ of raw volume. With 10% waste, it requires 44 ft³ or 1.63 yd³, equal to about 74 bags when an 80 lb bag yields 0.60 ft³."
 limitations:
+  - "For a slab or circular pad, enter the designed thickness, then compare ready-mix cubic yards with the selected bag size."
   - "Bag yields are approximate; use the yield printed on the selected product for purchasing."
   - "Footings, thickened edges, grade beams, slopes, voids, and irregular excavation require separate measurements or a more detailed takeoff."
   - "The estimate does not design slab thickness, reinforcement, concrete strength, joints, subbase, or structural capacity."
@@ -64,4 +65,3 @@ faq:
   - question: "Does this concrete calculator determine slab thickness?"
     answer: "No. Thickness and reinforcement must come from the project requirements, local codes, manufacturer guidance, or an engineer where structural design is required."
 ---
-

@@ -2,10 +2,10 @@
 seoTitle: "SAT Practice Score Tracker | OnlineTool.me"
 title: "SAT Score Tracker"
 description: "Try this SAT practice score tracker to record dated custom section results, compare attempts, and highlight your best session total."
-intro: "Record dated practice results, compare attempts, and identify the highest custom total during the current browser session."
+intro: "Enter dated SAT practice scores → Get attempt comparisons and your best total."
 keywords: "SAT score tracker, SAT practice score tracker, test score progress tracker"
 category: "calculators"
-subcategory: "games"
+subcategory: "education"
 icon: "Trophy"
 featured: false
 whatIs:
@@ -29,6 +29,7 @@ method:
   formula: "Displayed total = Reading + Writing + Math"
   example: "Entering Reading 400, Writing 400, and Math 400 creates a custom total of 1,200. This number should not be interpreted as an official SAT composite score."
 limitations:
+  - "For each practice attempt, enter the three custom section values and test date, then add the result to your board."
   - "The three-field layout is not an official current SAT score model."
   - "Values are not validated against official scoring rules."
   - "Entries are not saved after the page is refreshed or closed."

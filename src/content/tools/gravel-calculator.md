@@ -2,7 +2,7 @@
 seoTitle: "Gravel Calculator - Yards & Tons | OnlineTool.me"
 title: "Gravel Calculator"
 description: "Try this gravel calculator to estimate cubic yards, weight, tons, and optional material cost for driveways, paths, drainage, or landscaping."
-intro: "Estimate gravel volume and weight for a driveway, path, drainage layer, or landscape area using measured dimensions and an editable density."
+intro: "Enter area and depth → Get gravel volume, weight, and optional material cost."
 keywords: "gravel calculator, gravel quantity calculator, gravel volume calculator, gravel estimator, how much gravel do I need, gravel cubic yard calculator, gravel weight calculator, driveway gravel calculator, landscape gravel calculator"
 category: "calculators"
 subcategory: "engineering"
@@ -32,6 +32,7 @@ method:
   formula: "Gravel tons = Area (ft²) × Depth (ft) × (1 + Waste %) × Density (lb/ft³) ÷ 2,000"
   example: "A 40 ft by 10 ft driveway layer at 4 inches deep has 133.33 ft³ of raw volume. With 10% waste and 105 lb/ft³ density, the estimate is 5.43 yd³ or 7.70 tons."
 limitations:
+  - "For a driveway, path, drainage layer, or landscape bed, use the specified gravel depth and your supplier’s density when available."
   - "Compacted base quantities can differ from loose delivered volume and may require a project-specific compaction factor."
   - "Aggregate type, size distribution, moisture, and supplier loading methods affect bulk density."
   - "Geotextile, excavation, edging, delivery, labor, equipment, and supplier minimums are not included."
@@ -63,4 +64,3 @@ faq:
   - question: "Does the gravel calculator include compaction?"
     answer: "It includes only the selected waste allowance. If your supplier or specification provides a separate compaction factor, incorporate it into the allowance or order calculation."
 ---
-

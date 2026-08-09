@@ -2,7 +2,7 @@
 seoTitle: "Online Tally Counter - Count Items | OnlineTool.me"
 title: "Online Tally Counter"
 description: "Try this online tally counter to add, subtract, reset, or create multiple non-negative counts during your current browser session."
-intro: "Track one or more non-negative counts with quick increment, decrement, reset, and delete controls."
+intro: "Tap +/− or add counters → Get live totals for the things you are tracking."
 keywords: "online tally counter, click counter, multiple tally counters, counting tool"
 category: "timers"
 icon: "ListOrdered"

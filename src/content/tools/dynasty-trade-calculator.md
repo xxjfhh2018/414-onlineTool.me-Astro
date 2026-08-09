@@ -2,7 +2,7 @@
 seoTitle: "Dynasty Trade Calculator - Compare Values | OnlineTool.me"
 title: "Dynasty Trade Calculator"
 description: "Try this dynasty trade calculator with your own player and pick values. Compare both totals and see whether their difference falls within 10%."
-intro: "Enter your own values for players or draft picks, then compare the two sides of a dynasty fantasy trade."
+intro: "Enter player and draft-pick values → Get the favored trade side, value gap, and balance range."
 keywords: "dynasty trade calculator, fantasy football trade calculator, dynasty player value comparison"
 category: "calculators"
 subcategory: "games"
@@ -29,6 +29,7 @@ method:
   formula: "Difference % = |Side A − Side B| ÷ max(Side A, Side B) × 100"
   example: "If Side A totals 100 and Side B totals 94, the difference is 6 ÷ 100 = 6%. Because that is below 10%, the tool labels the trade Fair Trade."
 limitations:
+  - "For player-for-picks or package trades, add every asset to ‘You Give’ and ‘You Get’ using one consistent value source."
   - "Player and pick values are entered by the user and are not supplied or updated by the site."
   - "League size, scoring, roster format, positional needs, and market context are not modeled."
   - "The verdict is a numerical comparison, not objective fantasy advice."

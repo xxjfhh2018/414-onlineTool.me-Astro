@@ -2,7 +2,7 @@
 seoTitle: "Word Counter and Character Counter | OnlineTool.me"
 title: "Word Counter and Character Counter"
 description: "Try this word counter to measure words, characters, characters without spaces, and estimated sentences while you type or paste text."
-intro: "Measure words, characters, non-space characters, and estimated sentences as your text changes."
+intro: "Type or paste text → Get live word, character, non-space, and sentence counts."
 keywords: "word counter, character counter, online word count tool, sentence counter"
 category: "text-tools"
 icon: "Type"

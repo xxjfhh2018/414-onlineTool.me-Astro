@@ -2,7 +2,7 @@
 seoTitle: "AP Calc AB Score Calculator | OnlineTool.me"
 title: "AP Calculus AB Score Calculator"
 description: "Use this AP Calc AB score calculator to combine multiple-choice and free-response practice points into a weighted composite and AP score prediction."
-intro: "Estimate an AP Calculus AB score from multiple-choice and free-response practice results using equal 50% section weights."
+intro: "Enter your AP Calculus AB practice-exam scores → Get an estimated AP score (1–5)."
 keywords: "ap calc ab score calculator, ap calculus ab score calculator, ap calculus ab calculator, ap calc ab calculator, calculate ap calc ab score, ap calc ab score predictor"
 category: "calculators"
 subcategory: "education"
@@ -30,6 +30,7 @@ method:
   example: "32 of 42 MCQs and 36 of 54 FRQ points produce a composite of about 71.43%."
 limitations:
   - "The prediction is unofficial and cannot guarantee the released AP score."
+  - "Current default planning cutoffs are 5 ≥ 70%, 4 ≥ 58%, 3 ≥ 43%, and 2 ≥ 32%. They are estimates—not official College Board cut scores—and can be adjusted in Advanced scoring settings."
   - "Defaults follow the announced May 2027 MCQ count; change points possible when using an older or custom practice test."
   - "Score FRQs with the scoring guidelines for the exact practice questions used."
 relatedTools:
@@ -46,6 +47,9 @@ howToUse:
   - step: 3
     title: "Review the Live AB Prediction"
     description: "The weighted composite and estimated AP score update automatically as you change an input."
+  - step: 4
+    title: "Understand the 50/50 Weighting"
+    description: "The calculator converts each section to a percentage, gives MCQ up to 50 weighted points and FRQ up to 50 weighted points, then adds them to form the composite."
 faq:
   - question: "How do I calculate an AP Calculus AB score?"
     answer: "Convert MCQ and FRQ points to percentages, weight both sections 50%, and add the contributions."

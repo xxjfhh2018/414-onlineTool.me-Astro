@@ -2,7 +2,7 @@
 seoTitle: "Remove Duplicate Email Addresses | OnlineTool.me"
 title: "Remove Duplicate Email Addresses"
 description: "Try this duplicate email remover for newline-, comma-, or semicolon-separated lists. Keep the first exact entry and copy unique results."
-intro: "Remove exact duplicate email entries from a list and keep the first occurrence in its original order."
+intro: "Paste email addresses → Get a deduplicated list that keeps the first occurrence."
 keywords: "remove duplicate email addresses, email deduplication tool, clean email list"
 category: "text-tools"
 icon: "MailX"

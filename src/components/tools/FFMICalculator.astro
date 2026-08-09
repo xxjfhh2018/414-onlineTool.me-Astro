@@ -30,6 +30,22 @@
         <div class="mt-1 text-xs text-gray-500 dark:text-gray-400">Complete all three measurements to calculate automatically.</div>
       </div>
     </div>
+    <aside class="mt-4 rounded-xl border border-blue-200 bg-blue-50/70 p-4 text-sm leading-6 text-blue-900 dark:border-blue-800/40 dark:bg-blue-900/10 dark:text-blue-200" aria-label="FFMI research reference">
+      <div class="font-semibold">Research Reference — No Universal Pass/Fail Standard</div>
+      <ul class="mt-2 space-y-2 text-xs leading-5 text-blue-800 dark:text-blue-300">
+        <li><strong>Clinical low-FFMI context:</strong> ESPEN uses values below 17 kg/m² for men and below 15 kg/m² for women only as part of a broader malnutrition assessment that also requires nutrition-risk screening and unintentional weight loss.</li>
+        <li><strong>Healthy-adult research context:</strong> One Italian DXA study reported a middle-50% reference interval of 18.7–21.0 kg/m² for men and 14.9–17.2 kg/m² for women. These are population- and method-specific research values, not universal targets.</li>
+        <li><strong>Athletic context:</strong> A normalized FFMI near 25 is a historical male-athlete research heuristic, not an official natural limit, health rating, or evidence of drug use.</li>
+      </ul>
+      <p class="mt-3 text-xs leading-5 text-blue-700/90 dark:text-blue-300/90">
+        Compare results using the same body-fat method over time. For clinical interpretation, use professionally measured body composition and qualified medical or nutrition guidance.
+      </p>
+      <div class="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs">
+        <a class="font-medium text-primary-700 underline dark:text-primary-300" href="https://www.clinicalnutritionjournal.com/article/S0261-5614%2815%2900075-8/fulltext" target="_blank" rel="noopener noreferrer">ESPEN malnutrition consensus</a>
+        <a class="font-medium text-primary-700 underline dark:text-primary-300" href="https://pubmed.ncbi.nlm.nih.gov/18206273/" target="_blank" rel="noopener noreferrer">Healthy-adult DXA reference study</a>
+        <a class="font-medium text-primary-700 underline dark:text-primary-300" href="https://pubmed.ncbi.nlm.nih.gov/27930454/" target="_blank" rel="noopener noreferrer">Athlete FFMI study</a>
+      </div>
+    </aside>
   </div>
   <p class="mt-4 text-xs leading-5 text-gray-500 dark:text-gray-400">FFMI depends strongly on body-fat measurement accuracy. The optional height normalization follows the male-athlete model reported by Kouri et al. and is not a diagnosis or proof of drug use. <a class="text-primary-600 dark:text-primary-400 underline" href="https://pubmed.ncbi.nlm.nih.gov/7496846/" target="_blank" rel="noopener">Review the original study</a>.</p>
 </div>
@@ -76,10 +92,14 @@
       const leanKg = kilograms * (1 - bodyFat / 100);
       const ffmi = leanKg / (metres * metres);
       const normalized = ffmi + 6.3 * (1.8 - metres);
+      const normalizationDifference = normalized - ffmi;
+      const normalizationText = Math.abs(normalizationDifference) < 0.005
+        ? 'Height normalization does not change this result at the displayed precision.'
+        : `Height normalization changes this result by ${normalizationDifference > 0 ? '+' : ''}${normalizationDifference.toFixed(2)} FFMI points.`;
       const leanDisplay = metric ? `${leanKg.toFixed(1)} kg` : `${(leanKg * 2.2046226218).toFixed(1)} lb`;
       result.innerHTML = `<div class="min-h-[11rem] rounded-xl bg-primary-50 dark:bg-primary-900/20 border border-primary-100 dark:border-primary-800/30 p-5">
         <div class="grid sm:grid-cols-3 gap-4 text-center"><div><div class="text-sm text-gray-600 dark:text-gray-400">FFMI</div><div class="mt-1 text-3xl font-bold text-primary-600 dark:text-primary-400">${ffmi.toFixed(2)}</div></div><div><div class="text-sm text-gray-600 dark:text-gray-400">Lean mass</div><div class="mt-1 text-xl font-semibold text-gray-900 dark:text-white">${leanDisplay}</div></div><div><div class="text-sm text-gray-600 dark:text-gray-400">Height-normalized FFMI</div><div class="mt-1 text-xl font-semibold text-gray-900 dark:text-white">${normalized.toFixed(2)}</div></div></div>
-        <p class="mt-4 text-center text-xs text-gray-500 dark:text-gray-400">Normalized FFMI = FFMI + 6.3 × (1.80 − height in metres). Values are rounded to two decimals.</p></div>`;
+        <p class="mt-4 text-center text-xs text-gray-500 dark:text-gray-400">Normalized FFMI = FFMI + 6.3 × (1.80 − height in metres). Values are rounded to two decimals.</p><div class="mt-4 rounded-xl border border-blue-100 bg-blue-50/70 px-4 py-3 text-center text-xs leading-5 text-blue-800 dark:border-blue-800/30 dark:bg-blue-900/10 dark:text-blue-300"><strong>Comparison context:</strong> ${normalizationText}<span class="mt-1 block">For personal progress, keep the body-fat method and measurement conditions consistent; this research adjustment is not a health category.</span></div></div>`;
     }
     units.addEventListener('change', () => { updateUnits(true); calculate(); });
     root.addEventListener('input', calculate);

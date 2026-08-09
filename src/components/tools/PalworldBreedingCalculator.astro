@@ -240,7 +240,7 @@
         return;
       }
 
-      childResult.innerHTML = `<div class="grid ${matches.length > 1 ? 'sm:grid-cols-2' : ''} gap-4">${matches.map(recipe => resultCard(recipe, parentA.value)).join('')}</div>`;
+      childResult.innerHTML = `<div class="grid ${matches.length > 1 ? 'sm:grid-cols-2' : ''} gap-4">${matches.map(recipe => resultCard(recipe, parentA.value)).join('')}</div><div class="mt-3 rounded-xl border border-blue-100 bg-blue-50/70 px-4 py-3 text-center text-xs leading-5 text-blue-800 dark:border-blue-800/30 dark:bg-blue-900/10 dark:text-blue-300"><strong>Breeding context:</strong> Standard result: follows the regular breeding table · Special combination: uses a fixed parent pairing</div>`;
     }
 
     function renderParentResults() {
@@ -265,7 +265,7 @@
         </li>`;
       }).join('');
 
-      parentResults.innerHTML = `<div class="flex items-center justify-between mb-3"><h3 class="font-semibold text-gray-900 dark:text-white">${escapeHtml(displayName(target.value))} parent combinations</h3><span class="text-sm text-gray-500 dark:text-gray-400">${recipes.length} result${recipes.length === 1 ? '' : 's'}</span></div><ul class="max-h-[32rem] overflow-y-auto rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-surface-dark">${rows}</ul>`;
+      parentResults.innerHTML = `<div class="flex items-center justify-between mb-3"><h3 class="font-semibold text-gray-900 dark:text-white">${escapeHtml(displayName(target.value))} parent combinations</h3><span class="text-sm text-gray-500 dark:text-gray-400">${recipes.length} result${recipes.length === 1 ? '' : 's'}</span></div><div class="mb-3 rounded-xl border border-blue-100 bg-blue-50/70 px-4 py-3 text-center text-xs leading-5 text-blue-800 dark:border-blue-800/30 dark:bg-blue-900/10 dark:text-blue-300"><strong>Pairing context:</strong> More valid parent combinations give you more flexibility when choosing available Pals and planning later breeding steps.</div><ul class="max-h-[32rem] overflow-y-auto rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-surface-dark">${rows}</ul>`;
     }
 
     function renderOwned() {
@@ -382,7 +382,8 @@
       }).join('');
 
       const copyText = result.steps.map((recipe, index) => `${index + 1}. ${displayName(recipe[0])} + ${displayName(recipe[1])} -> ${displayName(recipe[2])}`).join('\n');
-      pathResult.innerHTML = `<div class="flex flex-wrap items-center justify-between gap-3 mb-4"><div><h3 class="font-semibold text-gray-900 dark:text-white">Shortest route to ${escapeHtml(displayName(pathTarget.value))}</h3><p class="text-sm text-gray-500 dark:text-gray-400">${result.depth} generation${result.depth === 1 ? '' : 's'} · ${result.steps.length} breeding step${result.steps.length === 1 ? '' : 's'}</p></div><button id="pw-copy-path" type="button" class="px-3 py-2 rounded-lg bg-gray-100 dark:bg-white/10 text-sm text-gray-700 dark:text-gray-300" data-copy="${escapeHtml(copyText)}">Copy path</button></div><ol>${rows}</ol>`;
+      const routeMeaning = result.depth === 1 ? 'direct pairing' : result.depth <= 3 ? 'short breeding chain' : 'longer setup';
+      pathResult.innerHTML = `<div class="flex flex-wrap items-center justify-between gap-3 mb-4"><div><h3 class="font-semibold text-gray-900 dark:text-white">Shortest route to ${escapeHtml(displayName(pathTarget.value))}</h3><p class="text-sm text-gray-500 dark:text-gray-400">${result.depth} generation${result.depth === 1 ? '' : 's'} · ${result.steps.length} breeding step${result.steps.length === 1 ? '' : 's'}</p></div><button id="pw-copy-path" type="button" class="px-3 py-2 rounded-lg bg-gray-100 dark:bg-white/10 text-sm text-gray-700 dark:text-gray-300" data-copy="${escapeHtml(copyText)}">Copy path</button></div><div class="mb-4 rounded-xl border border-blue-100 bg-blue-50/70 px-4 py-3 text-center text-xs leading-5 text-blue-800 dark:border-blue-800/30 dark:bg-blue-900/10 dark:text-blue-300"><strong>Route context:</strong> ${result.depth} generation${result.depth === 1 ? '' : 's'} is a ${routeMeaning} · 1: direct · 2–3: short chain · 4+: longer setup</div><ol>${rows}</ol>`;
     }
 
     try {

@@ -1,4 +1,8 @@
 <div class="max-w-3xl mx-auto">
+  <div class="mb-5">
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Clean an Email List</h2>
+    <p class="mt-1 text-sm leading-6 text-gray-500 dark:text-gray-400">Cleaning exported contacts, signups, or a mailing list? Choose the current separator, then paste the addresses to remove exact duplicates.</p>
+  </div>
   <div class="mb-4 flex items-center gap-3">
     <label class="text-sm text-gray-600 dark:text-gray-400">Separator:</label>
     <select id="rde-separator" class="px-3 py-1.5 rounded-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-white/10 text-sm outline-none">
@@ -40,6 +44,9 @@
       Remove Duplicates
     </button>
   </div>
+  <div id="rde-context" class="mt-4 rounded-xl border border-blue-100 bg-blue-50/70 px-4 py-3 text-center text-xs leading-5 text-blue-800 dark:border-blue-800/30 dark:bg-blue-900/10 dark:text-blue-300" aria-live="polite">
+    Process a list to compare the input count with the unique-address count.
+  </div>
 </div>
 
 <script>
@@ -47,6 +54,7 @@
     const input = document.getElementById('rde-input') as HTMLTextAreaElement;
     const output = document.getElementById('rde-output') as HTMLTextAreaElement;
     const separator = document.getElementById('rde-separator') as HTMLSelectElement;
+    const context = document.getElementById('rde-context');
     const processBtn = document.getElementById('rde-process');
     const clearBtn = document.getElementById('rde-clear');
     const copyBtn = document.getElementById('rde-copy');
@@ -60,10 +68,11 @@
       const unique = [...new Set(items)];
       
       if (output) output.value = unique.join('\n');
+      if (context) context.innerHTML = `<strong>Cleanup comparison:</strong> ${items.length} entr${items.length === 1 ? 'y' : 'ies'} → ${unique.length} unique · ${items.length - unique.length} duplicate${items.length - unique.length === 1 ? '' : 's'} removed.`;
     }
     
     processBtn?.addEventListener('click', process);
-    clearBtn?.addEventListener('click', () => { if (input) input.value = ''; if (output) output.value = ''; });
+    clearBtn?.addEventListener('click', () => { if (input) input.value = ''; if (output) output.value = ''; if (context) context.textContent = 'Process a list to compare the input count with the unique-address count.'; });
     copyBtn?.addEventListener('click', () => {
       if (output) {
         output.select();

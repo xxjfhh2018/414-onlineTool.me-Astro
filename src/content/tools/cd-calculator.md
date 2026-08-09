@@ -2,7 +2,7 @@
 seoTitle: "CD Calculator - Estimate Deposit Returns | OnlineTool.me"
 title: "CD Calculator"
 description: "Try this CD calculator to estimate interest earned and maturity value from your deposit, term, annual rate, and compounding frequency."
-intro: "Project a certificate of deposit balance from the opening deposit, term, entered annual rate, and compounding schedule."
+intro: "Enter deposit, rate, term, and compounding frequency → Get projected CD interest and ending balance."
 keywords: "CD calculator, certificate of deposit calculator, CD interest calculator, maturity value calculator"
 category: "calculators"
 subcategory: "finance"

@@ -2,7 +2,7 @@
 seoTitle: "CD Interest Calculator - APY Returns | OnlineTool.me"
 title: "CD Interest Calculator"
 description: "Try this CD interest calculator to estimate maturity value, interest earned, and an entered early-withdrawal penalty from a quoted APY."
-intro: "Enter a deposit, quoted APY, term, and optional months-of-interest penalty to project your certificate of deposit balance instantly."
+intro: "Enter deposit, APY, term, and optional penalty → Get projected CD interest and ending balance."
 keywords: "cd interest calculator, cd rates calculator, certificate of deposit calculator, cd investment calculator, cd interest rate calculator"
 category: "calculators"
 subcategory: "finance"

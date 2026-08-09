@@ -2,7 +2,7 @@
 seoTitle: "Palworld Breeding Calculator 1.0 | OnlineTool.me"
 title: "Palworld Breeding Calculator"
 description: "Use this Palworld breeding calculator for 1.0 to predict offspring, find parent combinations, and plan the shortest breeding path from Pals you own."
-intro: "Predict offspring, reverse-search parent combinations, or find the shortest species-level breeding path with audited Palworld 1.0 data."
+intro: "Choose parent Pals or a target Pal → Get offspring, valid pairings, or the shortest breeding route."
 keywords: "palworld breeding calculator, palworld breeding calculator shortest path, palworld breeding calculator 1.0 update, palworld breeding calculator 1.0"
 category: "calculators"
 subcategory: "games"
@@ -32,6 +32,7 @@ method:
   formula: "Child = audited 1.0 outcome for Parent A + Parent B; shortest depth = 1 + max(parent depths)"
   example: "Relaxaurus plus Sparkit produces Relaxaurus Lux through a special combination. Chikipi plus Lamball produces Teafant as a standard result in the pinned 1.0 table."
 limitations:
+  - "Choose the mode that matches your goal: predict a child, reverse-search parents, or plan a route from the Pals already in your Palbox."
   - "The dataset is a Palworld v1.0.0 snapshot verified breeding-compatible with public v1.0.1 on July 17, 2026; later patches may require a new export."
   - "Shortest path means the fewest breeding generations in a species-level model, not the least cake, time, captures, or eggs."
   - "The planner assumes you can provide compatible genders and enough individuals for every displayed step."

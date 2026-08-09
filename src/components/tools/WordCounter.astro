@@ -1,4 +1,8 @@
 <div class="max-w-3xl mx-auto">
+  <div class="mb-5">
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Check Text Length as You Write</h2>
+    <p class="mt-1 text-sm leading-6 text-gray-500 dark:text-gray-400">Reviewing an essay, article, or social post? Type or paste the draft to see its counts update immediately.</p>
+  </div>
   <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 overflow-hidden">
     <div class="p-4 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
       <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Input</span>
@@ -29,6 +33,9 @@
       <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">Sentences</div>
     </div>
   </div>
+  <div id="wc-context" class="mt-4 rounded-xl border border-blue-100 bg-blue-50/70 px-4 py-3 text-center text-xs leading-5 text-blue-800 dark:border-blue-800/30 dark:bg-blue-900/10 dark:text-blue-300" aria-live="polite">
+    Add text to compare average word and sentence length.
+  </div>
 </div>
 
 <script>
@@ -38,6 +45,7 @@
     const charsEl = document.getElementById('wc-chars');
     const charsNoSpacesEl = document.getElementById('wc-chars-no-spaces');
     const sentencesEl = document.getElementById('wc-sentences');
+    const contextEl = document.getElementById('wc-context');
     
     function count() {
       const text = input?.value || '';
@@ -50,6 +58,13 @@
       if (charsEl) charsEl.textContent = String(chars);
       if (charsNoSpacesEl) charsNoSpacesEl.textContent = String(charsNoSpaces);
       if (sentencesEl) sentencesEl.textContent = String(sentences);
+      if (contextEl) {
+        const averageWordLength = words ? charsNoSpaces / words : 0;
+        const wordsPerSentence = sentences ? words / sentences : 0;
+        contextEl.innerHTML = text.trim()
+          ? `<strong>Text comparison:</strong> ${averageWordLength.toFixed(1)} non-space characters per word · ${wordsPerSentence.toFixed(1)} words per estimated sentence.`
+          : 'Add text to compare average word and sentence length.';
+      }
     }
     
     input?.addEventListener('input', count);

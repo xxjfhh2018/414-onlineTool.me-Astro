@@ -102,7 +102,7 @@ const featuredCount = allTools.filter(t => t.data.featured).length;
       </div>
       
       {grouped.map((cat, idx) => (
-        <div class="tool-section mb-10" data-section-category={cat.id}>
+        <div id={`category-${cat.id}`} class="tool-section mb-10 scroll-mt-6" data-section-category={cat.id}>
           <!-- Category Header: dashed line | icon + name (count) | dashed line -->
           <div class="flex items-center justify-center gap-4 mb-5">
             <div class="w-20 md:w-32 border-t border-dashed border-gray-300 dark:border-white/20"></div>
@@ -151,7 +151,7 @@ const featuredCount = allTools.filter(t => t.data.featured).length;
                   const tools = cat.tools.filter(tool => tool.data.subcategory === subcategory.id);
                   if (!tools.length) return null;
                   return (
-                    <div class="calculator-subsection" data-calculator-subcategory={subcategory.id}>
+                    <div id={`calculator-${subcategory.id}`} class="calculator-subsection scroll-mt-6" data-calculator-subcategory={subcategory.id}>
                       <div class="flex items-center gap-3 mb-4">
                         <h3 class="text-sm font-semibold text-gray-800 dark:text-gray-200">{subcategory.label}</h3>
                         <span class="text-xs text-gray-400 dark:text-gray-500">({tools.length})</span>

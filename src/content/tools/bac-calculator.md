@@ -2,7 +2,7 @@
 seoTitle: "BAC Commission Calculator - Fee Estimate | OnlineTool.me"
 title: "Banker's Acceptance Commission Calculator"
 description: "Calculate a banker's acceptance commission from the principal, term, and annual rate. Try the BAC commission calculator for a clear fee estimate."
-intro: "Estimate the commission on a banker's acceptance from its face value, term in days, and quoted annual commission rate."
+intro: "Enter face value, term, and annual commission rate → Get the estimated banker's acceptance commission."
 keywords: "banker's acceptance commission calculator, BAC commission calculator, acceptance fee calculator"
 category: "calculators"
 subcategory: "finance"

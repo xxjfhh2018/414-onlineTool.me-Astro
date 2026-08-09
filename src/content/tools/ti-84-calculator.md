@@ -2,7 +2,7 @@
 seoTitle: "TI-84 Style Calculator - Basic Math | OnlineTool.me"
 title: "TI-84 Style Calculator Online"
 description: "Try a TI-84 style calculator for basic arithmetic, decimals, percentages, and sign changes. No graphing or emulator features are included."
-intro: "Use a TI-84-inspired keypad for basic arithmetic, decimals, percentages, and positive or negative values."
+intro: "Enter an arithmetic expression → Get an instant TI-84-style result."
 keywords: "TI-84 style calculator, online basic calculator, TI-84 inspired calculator"
 category: "calculators"
 subcategory: "education"

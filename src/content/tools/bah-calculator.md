@@ -2,7 +2,7 @@
 seoTitle: "BAH Calculator - Housing Allowance Estimate | OnlineTool.me"
 title: "BAH Calculator"
 description: "Explore a simplified BAH calculator demo by pay grade and dependency status, then verify your actual housing allowance with official DoD rates."
-intro: "Explore how pay grade and dependency status affect this simplified Basic Allowance for Housing demonstration."
+intro: "Choose pay grade and dependency status → Get a simplified BAH demonstration estimate."
 keywords: "BAH calculator, Basic Allowance for Housing calculator, military housing allowance estimate"
 category: "calculators"
 subcategory: "finance"

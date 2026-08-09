@@ -2,7 +2,7 @@
 seoTitle: "AP Lang Score Calculator | OnlineTool.me"
 title: "AP Lang Score Calculator"
 description: "Try this AP Lang score calculator to combine multiple-choice, synthesis, rhetorical analysis, and argument scores into a weighted AP score estimate."
-intro: "Calculate an AP English Language composite from multiple-choice results and scores for the synthesis, rhetorical analysis, and argument essays."
+intro: "Enter your AP English Language practice scores → Get an estimated AP score (1–5)."
 keywords: "ap lang score calculator, ap english language score calculator, ap language score calculator, ap lang calculator, ap lang exam score calculator, calculate ap lang score"
 category: "calculators"
 subcategory: "education"
@@ -30,6 +30,7 @@ method:
   example: "An 80% MCQ result and essay scores of 4, 5, and 4 out of 6 produce an estimated composite near 75.72%."
 limitations:
   - "The 1–5 prediction is not an official College Board score."
+  - "Current default planning cutoffs are 5 ≥ 72%, 4 ≥ 57%, 3 ≥ 42%, and 2 ≥ 27%. They are estimates and can be adjusted in Advanced scoring settings."
   - "Essay scores depend on applying the current rubric consistently."
   - "Secure exam form difficulty and official score setting are not modeled."
 relatedTools:
@@ -46,6 +47,9 @@ howToUse:
   - step: 3
     title: "Review the Live Prediction"
     description: "The weighted composite and estimated AP score update automatically as you change an input."
+  - step: 4
+    title: "Open the Essay Breakdown"
+    description: "Expand How this score was calculated to compare the MCQ, synthesis, rhetorical analysis, and argument contributions."
 faq:
   - question: "How is the AP Lang exam score calculated?"
     answer: "Multiple choice is 45% and the three free-response essays together are 55% of the exam score."

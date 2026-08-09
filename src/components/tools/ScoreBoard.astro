@@ -2,23 +2,23 @@
   <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-6 mb-6">
     <div class="grid grid-cols-3 gap-3 mb-4">
       <div>
-        <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Reading</label>
+        <label for="sb-reading" class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Reading</label>
         <input id="sb-reading" type="number" min="200" max="800" placeholder="400" 
                class="w-full px-3 py-2 rounded-lg bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none text-center text-gray-800 dark:text-gray-200" />
       </div>
       <div>
-        <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Writing</label>
+        <label for="sb-writing" class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Writing</label>
         <input id="sb-writing" type="number" min="200" max="800" placeholder="400" 
                class="w-full px-3 py-2 rounded-lg bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none text-center text-gray-800 dark:text-gray-200" />
       </div>
       <div>
-        <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Math</label>
+        <label for="sb-math" class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Math</label>
         <input id="sb-math" type="number" min="200" max="800" placeholder="400" 
                class="w-full px-3 py-2 rounded-lg bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none text-center text-gray-800 dark:text-gray-200" />
       </div>
     </div>
     <div class="mb-4">
-      <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Test Date</label>
+      <label for="sb-date" class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Test Date</label>
       <input id="sb-date" type="date" 
              class="w-full px-3 py-2 rounded-lg bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none text-gray-800 dark:text-gray-200" />
     </div>
@@ -65,7 +65,7 @@
             </div>
           </div>
           <div class="text-xl font-bold text-primary-500">${s.total}</div>
-          <button data-i="${i}" class="sb-del text-gray-400 hover:text-red-500 text-sm">✕</button>
+          <button type="button" data-i="${i}" class="sb-del text-gray-400 hover:text-red-500 text-sm" aria-label="Delete score from ${s.date}">✕</button>
         </div>
       `).join('');
       
@@ -88,9 +88,23 @@
         return;
       }
       const best = Math.max(...scores.map(s => s.total));
+      const latest = scores[0];
+      const previous = scores[1];
+      const otherBest = scores.length > 1 ? Math.max(...scores.slice(1).map(s => s.total)) : -Infinity;
+      let progressContext = `First saved attempt · ${scores.length} attempt saved`;
+      if (previous) {
+        const previousDifference = latest.total - previous.total;
+        const previousText = previousDifference === 0 ? 'matches your previous attempt' : `${Math.abs(previousDifference)} points ${previousDifference > 0 ? 'above' : 'below'} your previous attempt`;
+        const distanceFromBest = best - latest.total;
+        progressContext = latest.total > otherBest
+          ? `New personal best · ${previousText} · ${scores.length} attempts saved`
+          : distanceFromBest === 0
+            ? `Matches your personal best · ${previousText} · ${scores.length} attempts saved`
+            : `${distanceFromBest} points below your best · ${previousText} · ${scores.length} attempts saved`;
+      }
       if (summary) {
         summary.className = 'min-h-[9rem] mt-6 p-5 rounded-2xl bg-primary-50 dark:bg-primary-900/20 text-center flex flex-col items-center justify-center';
-        summary.innerHTML = `<div class="text-sm text-gray-500 dark:text-gray-400">Best Total Score</div><div class="text-4xl font-bold text-primary-600 dark:text-primary-400 mt-1">${best}</div>`;
+        summary.innerHTML = `<div class="text-sm text-gray-500 dark:text-gray-400">Best Custom Total</div><div class="text-4xl font-bold text-primary-600 dark:text-primary-400 mt-1">${best}</div><div class="mt-3 rounded-xl border border-blue-100 bg-blue-50/70 px-4 py-3 text-xs leading-5 text-blue-800 dark:border-blue-800/30 dark:bg-blue-900/10 dark:text-blue-300"><strong>Progress context:</strong> ${progressContext}<span class="mt-1 block text-blue-700/80 dark:text-blue-300/80">These are custom practice totals, not official SAT composite scores.</span></div>`;
       }
     }
 

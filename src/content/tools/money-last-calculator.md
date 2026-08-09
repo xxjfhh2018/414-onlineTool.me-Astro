@@ -2,7 +2,7 @@
 seoTitle: "How Long Will My Money Last Calculator | OnlineTool.me"
 title: "How Long Will My Money Last Calculator"
 description: "Try this money longevity calculator to estimate how long savings may last with monthly spending, income, return, inflation, and cash-flow timing."
-intro: "Model how many years and months your savings may support after monthly spending, income, investment growth, and expense inflation."
+intro: "Enter savings, income, spending, growth, and inflation → Get an estimate of how long your money may last."
 keywords: "how long will my money last calculator, money longevity calculator, retirement money calculator, how long will my savings last, savings duration calculator"
 category: "calculators"
 subcategory: "finance"

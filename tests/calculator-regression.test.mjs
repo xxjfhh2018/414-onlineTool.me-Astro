@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { calculateCdInterest, calculateMoneyDuration, calculateWeightedComposite, estimateApScore } from '../src/lib/calculatorCore.mjs';
+import { calculateCdInterest, calculateMoneyDuration, calculateWeightedComposite, estimateApScore, evaluateDynastyTrade } from '../src/lib/calculatorCore.mjs';
 
 const closeTo = (actual, expected, tolerance = 0.005) => assert.ok(Math.abs(actual - expected) <= tolerance, `${actual} is not within ${tolerance} of ${expected}`);
 
@@ -35,6 +35,18 @@ test('money duration handles exact monthly depletion', () => {
   assert.equal(calculateMoneyDuration({ startingBalance: 12000, monthlySpending: 1000 }).months, 12);
   assert.equal(calculateMoneyDuration({ startingBalance: 12000, monthlySpending: 1200 }).months, 10);
   assert.equal(calculateMoneyDuration({ startingBalance: 12000, monthlySpending: 1000, monthlyIncome: 1000 }).status, 'no-depletion');
+});
+
+test('dynasty trade verdict follows the value received and preserves the 10% fair threshold', () => {
+  assert.deepEqual(evaluateDynastyTrade(100, 94), {
+    percentage: 6,
+    verdict: 'Fair Trade',
+    gapContext: 'numerically close',
+  });
+  assert.equal(evaluateDynastyTrade(80, 100).verdict, 'Favors You');
+  assert.equal(evaluateDynastyTrade(100, 80).verdict, 'Favors Other Side');
+  assert.equal(evaluateDynastyTrade(100, 80).gapContext, 'noticeable value difference');
+  assert.equal(evaluateDynastyTrade(100, 70).gapContext, 'strong value difference');
 });
 
 test('Palworld 1.0 dataset provenance, counts, and known breeding pairs remain unchanged', async () => {

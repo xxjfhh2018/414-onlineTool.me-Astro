@@ -20,6 +20,16 @@ export function estimateApScore(composite, cutScores) {
   return composite >= cutScores[0] ? 5 : composite >= cutScores[1] ? 4 : composite >= cutScores[2] ? 3 : composite >= cutScores[3] ? 2 : 1;
 }
 
+export function evaluateDynastyTrade(giveTotal, getTotal) {
+  if (![giveTotal, getTotal].every(Number.isFinite) || giveTotal <= 0 || getTotal <= 0) {
+    throw new RangeError('Trade totals must be greater than zero.');
+  }
+  const percentage = Math.abs(giveTotal - getTotal) / Math.max(giveTotal, getTotal) * 100;
+  const verdict = percentage < 10 ? 'Fair Trade' : getTotal > giveTotal ? 'Favors You' : 'Favors Other Side';
+  const gapContext = percentage < 10 ? 'numerically close' : percentage <= 20 ? 'noticeable value difference' : 'strong value difference';
+  return { percentage, verdict, gapContext };
+}
+
 export function calculateCdInterest({ deposit, apyPercent, termMonths, penaltyMonths = 0 }) {
   if (![deposit, apyPercent, termMonths, penaltyMonths].every(Number.isFinite) || deposit <= 0 || apyPercent < 0 || termMonths <= 0 || penaltyMonths < 0) {
     throw new RangeError('Invalid CD inputs.');

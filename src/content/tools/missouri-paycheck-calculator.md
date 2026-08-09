@@ -2,7 +2,7 @@
 seoTitle: "Missouri Paycheck Calculator - 2026 Pay | OnlineTool.me"
 title: "Missouri Paycheck Calculator"
 description: "Try this 2026 Missouri paycheck calculator to estimate federal withholding, FICA, official state brackets, deductions, and take-home pay."
-intro: "Estimate Missouri take-home pay with the official 2026 withholding brackets and standard deductions, plus federal W-4 and FICA calculations."
+intro: "Enter gross pay and withholding details → Get a 2026 Missouri take-home pay estimate."
 keywords: "Missouri paycheck calculator, Missouri salary calculator, Missouri pay calculator, Missouri take home pay calculator"
 category: "calculators"
 subcategory: "finance"

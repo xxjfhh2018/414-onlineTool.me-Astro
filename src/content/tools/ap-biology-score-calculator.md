@@ -2,7 +2,7 @@
 seoTitle: "AP Biology Score Calculator | OnlineTool.me"
 title: "AP Biology Score Calculator"
 description: "Use this AP Biology score calculator to combine multiple-choice and free-response practice points into a weighted composite and predicted AP Bio score."
-intro: "Estimate an AP Biology score from multiple-choice and free-response practice results using the published 50/50 section weighting."
+intro: "Enter your AP Biology practice-exam scores → Get an estimated AP score (1–5)."
 keywords: "ap biology score calculator, ap bio score calculator, ap biology exam score calculator, ap bio calculator, calculate ap biology score, ap biology score predictor"
 category: "calculators"
 subcategory: "education"
@@ -14,7 +14,7 @@ whatIs:
 features:
   - "Equal 50% MCQ and 50% FRQ weighting"
   - "Editable free-response possible points"
-  - "Weighted section contribution breakdown"
+  - "Weighted composite and estimated score result"
   - "Adjustable AP score prediction thresholds"
 useCases:
   - title: "Score an AP Bio practice exam"
@@ -30,6 +30,7 @@ method:
   example: "48 of 60 MCQs and 25 of 34 FRQ points produce a composite of about 76.76%."
 limitations:
   - "The predicted AP Biology score is unofficial and may differ from the released score."
+  - "Current default planning cutoffs are 5 ≥ 78%, 4 ≥ 63%, 3 ≥ 48%, and 2 ≥ 34%. They are estimates and can be adjusted in Advanced scoring settings."
   - "FRQ point totals and scoring details should match the scoring guide for the specific practice exam."
   - "No adjustment is made for secure exam form difficulty."
 relatedTools:
@@ -45,7 +46,10 @@ howToUse:
     description: "Sum points earned from the long and short free-response scoring guides."
   - step: 3
     title: "Review the Live AP Bio Estimate"
-    description: "The composite, prediction, and section contributions update automatically as you change an input."
+    description: "The composite and estimated AP score update automatically as you change an input."
+  - step: 4
+    title: "Understand the 50/50 Weighting"
+    description: "The calculator converts each section to a percentage, gives MCQ up to 50 weighted points and FRQ up to 50 weighted points, then adds them to form the composite."
 faq:
   - question: "How do I calculate an AP Biology score?"
     answer: "Convert MCQ and FRQ raw scores to percentages, give each section 50% weight, and add the contributions."

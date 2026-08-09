@@ -2,7 +2,7 @@
 seoTitle: "Topsoil Calculator - Cubic Yards | OnlineTool.me"
 title: "Topsoil Calculator"
 description: "Try this topsoil calculator to estimate cubic yards, volume, weight, tons, and optional soil cost for lawns, raised areas, gardens, or landscaping."
-intro: "Estimate the topsoil needed for a lawn, garden, or landscape area from its measured shape, soil depth, waste allowance, and bulk density."
+intro: "Enter area, soil depth, and allowance → Get topsoil volume, weight, and coverage estimates."
 keywords: "topsoil calculator, top soil calculator, topsoil quantity calculator, topsoil volume calculator, topsoil estimator, how much topsoil do I need, garden soil calculator, landscaping soil calculator, cubic yard topsoil calculator"
 category: "calculators"
 subcategory: "engineering"
@@ -32,6 +32,7 @@ method:
   formula: "Topsoil volume = Area × Depth × (1 + Allowance %); weight = Volume × Bulk density"
   example: "A 20 ft by 10 ft garden filled 6 inches deep has 100 ft³ of raw volume. With 10% allowance, the estimate is 110 ft³ or 4.07 yd³ and about 4.13 tons at 75 lb/ft³."
 limitations:
+  - "For a lawn or garden bed, enter the finished soil depth and allow for settlement or uneven ground when setting waste."
   - "Topsoil settles after spreading, and the amount of settlement varies with composition, moisture, and site preparation."
   - "Bulk density can vary widely between screened topsoil, compost blends, wet soil, and compacted fill."
   - "The tool does not evaluate soil quality, drainage, nutrients, pH, contamination, or suitability for a specific plant."
@@ -62,4 +63,3 @@ faq:
   - question: "Can I use this as a garden soil calculator?"
     answer: "Yes for volume planning, but it does not determine the correct soil composition, compost ratio, drainage, nutrients, or pH for particular plants."
 ---
-

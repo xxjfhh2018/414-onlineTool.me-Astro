@@ -2,7 +2,7 @@
 seoTitle: "Michigan Paycheck Calculator - 2026 Net Pay | OnlineTool.me"
 title: "Michigan Paycheck Calculator"
 description: "Try this 2026 Michigan paycheck calculator to estimate federal withholding, FICA, 4.25% state withholding, deductions, and take-home pay."
-intro: "Estimate a Michigan paycheck using 2026 federal schedules, FICA thresholds, Michigan’s 4.25% rate, and $5,900 personal exemptions."
+intro: "Enter gross pay and withholding details → Get a 2026 Michigan take-home pay estimate."
 keywords: "Michigan paycheck calculator, Michigan salary calculator, Michigan paycheck tax calculator, Michigan take home pay calculator"
 category: "calculators"
 subcategory: "finance"

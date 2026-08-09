@@ -1,5 +1,9 @@
 <div class="max-w-md mx-auto">
   <div class="rounded-3xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-8 text-center">
+    <div class="mb-6">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Track Repeated Events</h2>
+      <p class="mt-1 text-sm leading-6 text-gray-500 dark:text-gray-400">Counting repetitions, arrivals, inventory, or observations? Use the main counter or add separate counters for parallel totals.</p>
+    </div>
     <!-- Counter Display -->
     <div id="tc-display" class="text-8xl font-mono font-bold text-primary-500 mb-8">0</div>
     
@@ -25,6 +29,9 @@
     </button>
   </div>
   <div id="tc-counters" class="mt-4 space-y-3"></div>
+  <div id="tc-summary" class="mt-4 rounded-xl border border-blue-100 bg-blue-50/70 px-4 py-3 text-center text-xs leading-5 text-blue-800 dark:border-blue-800/30 dark:bg-blue-900/10 dark:text-blue-300" aria-live="polite">
+    <strong>Count summary:</strong> Main count 0 · no additional counters.
+  </div>
 </div>
 
 <script>
@@ -35,6 +42,7 @@
     const resetBtn = document.getElementById('tc-reset');
     const addBtn = document.getElementById('tc-add');
     const countersContainer = document.getElementById('tc-counters');
+    const summary = document.getElementById('tc-summary');
     
     let count = 0;
     let counters: { id: number; count: number }[] = [];
@@ -42,6 +50,16 @@
     
     function updateDisplay() {
       if (display) display.textContent = String(count);
+      updateSummary();
+    }
+
+    function updateSummary() {
+      if (!summary) return;
+      const additionalTotal = counters.reduce((sum, counter) => sum + counter.count, 0);
+      const highest = counters.length ? Math.max(...counters.map(counter => counter.count)) : 0;
+      summary.innerHTML = counters.length
+        ? `<strong>Count summary:</strong> Main count ${count} · ${counters.length} additional counter${counters.length === 1 ? '' : 's'} total ${additionalTotal} · highest ${highest}.`
+        : `<strong>Count summary:</strong> Main count ${count} · no additional counters.`;
     }
     
     incBtn?.addEventListener('click', () => { count++; updateDisplay(); });
@@ -62,6 +80,7 @@
         `;
         countersContainer.appendChild(div);
       });
+      updateSummary();
       
       countersContainer.querySelectorAll('.tc-c-inc').forEach(btn => {
         btn.addEventListener('click', () => {

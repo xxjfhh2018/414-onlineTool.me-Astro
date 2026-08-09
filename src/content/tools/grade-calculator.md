@@ -2,7 +2,7 @@
 seoTitle: "Grade Calculator - Weighted & Final Grades | OnlineTool.me"
 title: "Grade Calculator"
 description: "Use this free grade calculator to calculate weighted grades, total points, or the score you need on your final exam to reach your target grade."
-intro: "Calculate your grade from points or weighted categories, then find the exact score you need on your final exam to reach a target course grade."
+intro: "Enter grades, weights, and your target → Get your current grade and required final-exam score."
 keywords: "grade calculator, final grade calculator, final grade calculator with weights, weighted grade calculator, calculate final grade, what grade do i need on my final"
 category: "calculators"
 subcategory: "education"
