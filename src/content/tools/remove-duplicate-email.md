@@ -7,9 +7,6 @@ keywords: "remove duplicate email addresses, email deduplication tool, clean ema
 category: "text-tools"
 icon: "MailX"
 featured: false
-whatIs:
-  - "This duplicate email remover separates the input by newlines, commas, or semicolons and retains the first occurrence of each exact trimmed entry. It outputs every retained address on a separate line."
-  - "Deduplication is different from email validation. The tool does not confirm syntax, domain status, mailbox existence, deliverability, ownership, or permission to contact an address."
 features:
   - "Supports newline, comma, or semicolon input"
   - "Trims surrounding whitespace and removes empty entries"

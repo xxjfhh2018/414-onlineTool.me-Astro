@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "finance"
 icon: "PiggyBank"
 featured: false
-whatIs:
-  - "A CD interest calculator projects how a fixed opening deposit may grow over a certificate of deposit term. This page treats the bank’s quoted annual percentage yield, or APY, as an effective annual return, so you do not select a separate compounding frequency."
-  - "The optional penalty field converts months of simple interest into a planning deduction. Real banks may use a different balance, rate, day count, minimum penalty, or principal-reduction rule, so the account disclosure controls."
 features:
   - "Correct APY-based growth without double-counting compounding"
   - "Terms from 1 to 120 months"

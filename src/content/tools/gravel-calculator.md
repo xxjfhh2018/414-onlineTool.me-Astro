@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "engineering"
 icon: "Wrench"
 featured: true
-whatIs:
-  - "A gravel calculator estimates the volume of aggregate needed to cover an area at a specified depth. It also converts volume to weight for projects where crushed stone, pea gravel, road base, or landscape gravel is sold by the ton."
-  - "The calculator starts with a default bulk density of 105 lb/ft³. Aggregate size, gradation, moisture, void space, and compaction can change the real density, so use a supplier value when available."
 features:
   - "Calculates rectangular and circular gravel areas"
   - "Reports cubic feet, cubic yards, cubic meters, pounds, and tons"

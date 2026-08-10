@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "education"
 icon: "Calculator"
 featured: false
-whatIs:
-  - "The APUSH Score Calculator is a practice-score predictor for AP U.S. History. It combines multiple-choice, short-answer, document-based question, and long-essay performance instead of treating every raw point as equal."
-  - "The calculator applies the published 40%, 20%, 25%, and 15% section weights. The final 1–5 prediction uses editable planning thresholds because official score standards are not a fixed public conversion table."
 features:
   - "Separate MCQ, SAQ, DBQ, and LEQ inputs"
   - "Published AP U.S. History section weights"

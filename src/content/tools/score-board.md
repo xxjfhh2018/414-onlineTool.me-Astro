@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "education"
 icon: "Trophy"
 featured: false
-whatIs:
-  - "This SAT practice score tracker records three custom section values with a date, sorts saved attempts, and highlights the highest displayed total. It is intended as a temporary comparison board during a study session."
-  - "The current Reading, Writing, and Math input layout is not the official digital SAT score-reporting model. It does not convert raw answers into scaled scores or predict an official result."
 features:
   - "Records multiple dated practice attempts"
   - "Sorts entries from newest date to oldest"

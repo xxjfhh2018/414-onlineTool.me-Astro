@@ -1,0 +1,34 @@
+---
+interface Props {
+  inputTitle?: string;
+  inputDescription?: string;
+  containerClass?: string;
+  resultClass?: string;
+}
+
+const {
+  inputTitle = 'Enter Calculation Details',
+  inputDescription = 'Complete the required fields to calculate automatically.',
+  containerClass = 'max-w-4xl',
+  resultClass = 'min-h-[11rem]',
+} = Astro.props;
+---
+
+<div class:list={[containerClass, 'mx-auto']}>
+  <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-4 sm:p-6">
+    <div class="mb-5">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{inputTitle}</h2>
+      <p class="mt-1 text-sm leading-6 text-gray-500 dark:text-gray-400">{inputDescription}</p>
+    </div>
+
+    <slot name="inputs" />
+
+    <div class:list={['mt-5', resultClass]} aria-live="polite" aria-atomic="false">
+      <slot name="result" />
+    </div>
+
+    <slot name="reference" />
+  </div>
+
+  <slot name="footer" />
+</div>

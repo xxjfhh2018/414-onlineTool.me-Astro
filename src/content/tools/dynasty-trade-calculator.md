@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "games"
 icon: "TrendingUp"
 featured: false
-whatIs:
-  - "A dynasty trade calculator helps compare packages containing players and draft picks in a keeper-style fantasy league. Unlike a redraft league, dynasty decisions may account for future seasons, age, roster construction, and pick value."
-  - "This calculator is a neutral arithmetic workspace: you supply every asset name and value. It totals both sides and reports whether the percentage gap is below its 10% fair-trade threshold."
 features:
   - "Accepts multiple named assets on both sides"
   - "Uses values from your preferred ranking source"

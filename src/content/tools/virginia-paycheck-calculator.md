@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "finance"
 icon: "Calculator"
 featured: false
-whatIs:
-  - "The Virginia paycheck calculator estimates regular net wages after federal withholding, Social Security, Medicare, Virginia withholding, and entered deductions."
-  - "Virginia’s tables for wages after July 1, 2025 use an $8,750 single standard deduction, $17,500 married-joint deduction, $930 personal or dependent exemptions, and progressive rates from 2% to 5.75%. The increased deduction is scheduled through tax year 2026."
 features:
   - "Current Virginia progressive withholding formula"
   - "2026 scheduled standard deductions"

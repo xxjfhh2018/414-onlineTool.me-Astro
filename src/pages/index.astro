@@ -2,11 +2,14 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ToolCard from '../components/ToolCard.astro';
+import Icon from '../components/Icon.astro';
 
 const allTools = await getCollection('tools');
 
 const categoryConfig = [
   { id: 'calculators', label: 'Calculators', icon: 'Calculator' },
+  { id: 'sports', label: 'Sports Tools', icon: 'Trophy' },
+  { id: 'converters', label: 'Converters', icon: 'ArrowLeftRight' },
   { id: 'text-tools', label: 'Text & List Tools', icon: 'Type' },
   { id: 'qr-code', label: 'QR Code Tools', icon: 'QrCode' },
   { id: 'generators', label: 'Generators', icon: 'UsersRound' },
@@ -38,7 +41,7 @@ const featuredCount = allTools.filter(t => t.data.featured).length;
   <section class="pt-16 pb-12 text-center">
     <div class="max-w-3xl mx-auto px-4">
       <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-        39+ Online Calculators in One Collection
+        {allTools.length}+ Online Calculators & Tools in One Collection
       </h1>
       <p class="text-lg text-gray-500 dark:text-gray-400 mb-10">
         Practical calculators for students, engineers, gamers, and finance or tax planning—with transparent formulas and verifiable sources.
@@ -108,23 +111,7 @@ const featuredCount = allTools.filter(t => t.data.featured).length;
             <div class="w-20 md:w-32 border-t border-dashed border-gray-300 dark:border-white/20"></div>
             <div class="flex items-center gap-2 flex-shrink-0">
               <div class="w-7 h-7 rounded-lg bg-primary-50 dark:bg-primary-900/30 flex items-center justify-center text-primary-500">
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  {cat.id === 'calculators' && (
-                    <><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></>
-                  )}
-                  {cat.id === 'text-tools' && (
-                    <><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" x2="15" y1="20" y2="20"/><line x1="12" x2="12" y1="4" y2="20"/></>
-                  )}
-                  {cat.id === 'qr-code' && (
-                    <><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></>
-                  )}
-                  {cat.id === 'generators' && (
-                    <><path d="M18 21a8 8 0 0 0-16 0"/><circle cx="10" cy="8" r="5"/><path d="M22 21a8 8 0 0 0-16 0"/><circle cx="14" cy="8" r="5"/></>
-                  )}
-                  {cat.id === 'timers' && (
-                    <><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></>
-                  )}
-                </svg>
+                <Icon name={cat.icon} class="w-4 h-4" />
               </div>
               <h2 class="text-base font-semibold text-gray-800 dark:text-gray-200">{cat.label}</h2>
               <span class="text-xs text-gray-400 dark:text-gray-500">({cat.tools.length})</span>

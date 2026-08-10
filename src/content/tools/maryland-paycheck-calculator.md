@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "finance"
 icon: "Calculator"
 featured: false
-whatIs:
-  - "The Maryland paycheck calculator estimates regular net wages after federal withholding, FICA, combined Maryland state and local income-tax withholding, and entered payroll deductions."
-  - "Maryland’s official online withholding calculator covers 2024 through 2026. This page uses the published percentage-method structure, including a 15% standard deduction bounded between $1,850 and $2,800 annually and $3,200 per entered exemption."
 features:
   - "2024–2026 Maryland percentage-method structure"
   - "Editable local income-tax percentage"

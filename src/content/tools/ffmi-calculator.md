@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "everyday"
 icon: "Calculator"
 featured: false
-whatIs:
-  - "An FFMI calculator estimates fat-free mass index: the amount of lean mass relative to height. Unlike BMI, which uses total weight, FFMI first removes the estimated mass attributed to body fat. It is commonly used to track physique and resistance-training progress."
-  - "This page also reports a height-normalized FFMI using the equation published by Kouri and colleagues in a 1995 study of male athletes. That adjustment is useful as research context, but its sample does not make it a universal diagnostic cutoff for every sex, age, ethnicity, or body type."
 features:
   - "Live FFMI, lean-mass, and normalized-FFMI results"
   - "Metric and US customary unit conversion"

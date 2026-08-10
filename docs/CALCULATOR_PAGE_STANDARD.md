@@ -6,7 +6,7 @@
 
 开发前先记录以下内容；缺少关键内容时不要直接编写页面：
 
-- 工具名称和 URL slug。
+- 工具名称和 URL slug。工具页继续使用根路径，不把分类写入 URL。
 - 一个 Primary Keyword，以及真正相关的 Secondary Keywords。
 - 用户搜索这个关键词时最想完成的任务。
 - 目标用户、输入参数、输出结果和计量单位。
@@ -14,7 +14,7 @@
 - 空值、零、负数、最大值、超范围值等边界条件。
 - 固定常量、可调整参数，以及哪些参数应放入 Advanced Settings。
 - 数据来源、适用年份或版本、更新时间和更新责任人。
-- 所属分类：`education`、`games`、`engineering`、`everyday` 或 `finance`。
+- 所属顶级分类，例如 `calculators`、`sports` 或 `converters`；计算器还应注明 `education`、`games`、`engineering`、`everyday` 或 `finance` 子分类。
 
 如果计算依赖每年变化的分数线、税率、官方费率、考试结构或游戏版本，必须先确认当前数据。没有可靠数据时，应明确标记为 `demo` / `planning estimate`，不得暗示结果是 current、official 或 guaranteed。
 
@@ -22,7 +22,7 @@
 
 ### 1. URL 与搜索意图
 
-- 工具页使用简短的小写 kebab-case 根路径，例如 `/grade-calculator/`。
+- 工具页使用简短的小写 kebab-case 根路径，例如 `/grade-calculator/`；不使用 `/education/grade-calculator/` 等分类目录。
 - URL 应包含 Primary Keyword，发布后尽量不要修改。
 - 一个页面只承接一个主要搜索意图；不要把几个无关计算器硬塞进同一页面。
 - 在开发前检查搜索结果页，确认用户需要的是计算器、查询器、转换器还是说明文章。
@@ -42,20 +42,32 @@ category: "calculators"
 subcategory: "education"
 icon: "Calculator"
 featured: false
-whatIs:
-  - "Clear explanation of what the calculator does and who it is for."
-  - "Important context, assumptions, or distinction from similar tools."
 features:
   - "Concrete capability"
 useCases:
   - title: "Real user scenario"
     description: "How the calculator helps in that scenario."
-method:
-  title: "How the Example Calculator Works"
-  description:
-    - "Explain the calculation in plain English."
+calculationDetails:
   formula: "Result = input × factor"
-  example: "A complete numerical example whose result has been verified."
+  steps:
+    - "Explain the calculation in plain English."
+  rounding: "Round the displayed result to two decimal places."
+  sources:
+    - name: "Authoritative source title"
+      url: "https://example.com/source"
+      publisher: "Source organization"
+      accessedDate: "YYYY-MM-DD"
+  version: "Applicable edition, season, or data version"
+  applicableDate: "Applicable period when relevant"
+  lastVerified: "YYYY-MM-DD"
+  updateResponsibility: "OnlineTool.me"
+  resultLabel: "Exact calculation"
+  assumptions:
+    - "A meaningful default assumption."
+  example:
+    inputs: "The complete example inputs."
+    calculation: "The arithmetic or lookup steps."
+    result: "The verified expected result."
 limitations:
   - "A meaningful assumption, exclusion, or boundary."
 relatedTools:
@@ -81,27 +93,28 @@ faq:
 - `seoTitle` 尽量不超过 60 个英文字符，Primary Keyword 靠前，每页唯一。
 - `description` 控制在 120–160 个英文字符，包含 Primary Keyword、实际功能和自然的行动词。
 - `title` 用作唯一 H1，应自然、清晰，不强行添加 `Free Online` 等重复修饰词。
-- `intro` 是页面可见正文，直接说明用户能输入什么、得到什么；不能复制 Meta Description。
+- `intro` 是页面可见副标题，使用“输入什么，得到什么”的自然句式；不要机械加入箭头等分隔符，也不能复制 Meta Description。
 - Primary Keyword 应自然出现在 SEO Title、H1、Description、首段和至少一个相关 H2 中，但不得追求机械密度。
 
 ### 4. 页面内容
 
 页面顺序保持为：
 
-1. H1、Intro 和分类标签。
+1. 面包屑、H1 和 Intro。
 2. 可直接使用的计算器。
-3. `What Is {Calculator}`。
-4. `How to Use {Calculator}`。
-5. 计算方法、公式和已验证示例。
-6. Features。
-7. Use Cases。
-8. Limits and Important Notes。
-9. Related Tools。
-10. FAQ。
+3. 数据状态或来源摘要（适用时）。
+4. `How to Use {Calculator}`，作为工具之后的第一个正文区块。
+5. Features。
+6. Use Cases。
+7. Limits and Important Notes，包括计算方法、公式、来源、版本、假设、舍入规则和已验证示例。
+8. Related Tools。
+9. FAQ。
+
+工具页不再设置固定的 `What Is` 区块。必要的定义或概念区别应精简后放入 Intro、How to Use、Limits 或 FAQ，不能为了补充篇幅恢复通用介绍段落。
 
 内容长度服从主题复杂度，不为了达到词数填充空话。正文必须覆盖：
 
-- 工具是什么、适合谁。
+- 用户需要输入什么、能够得到什么。
 - 输入和输出分别代表什么。
 - 公式或核心规则。
 - 一个可人工复算的完整示例。
@@ -113,7 +126,7 @@ faq:
 
 - Canonical 必须是 `https://onlinetool.me/{slug}/`，不使用 `www`，并与实际页面一致。
 - 添加 2–4 个真正相关的工具内链，锚文本使用工具名称或具体用途，禁止 `click here`。
-- 工具必须被加入 `src/pages/[slug].astro` 的组件映射，并进入正确分类；重要工具再进入首页推荐。
+- 工具必须进入统一注册表或 `src/pages/[slug].astro` 的组件映射，并进入正确分类；重要工具再进入首页推荐。
 - 页面应输出 `WebApplication`、`BreadcrumbList`，存在 FAQ 时输出 `FAQPage` JSON-LD。
 - 结构化数据必须与可见页面内容一致，不能声明页面没有提供的功能。
 - 默认 OG Image 可以共用；只有重点页面或确有分享价值时才制作专属图片，不以“全站必须一页一图”为上线阻塞条件。
@@ -156,7 +169,7 @@ faq:
 ### 4. 结果表达与信任
 
 - 首先展示用户最关心的主结果，再展示计算明细。
-- 说明结果使用的公式、权重、cutoff、单位和必要假设。
+- 说明结果使用的公式、权重、cutoff、单位和必要假设；完整来源与版本信息统一收纳在 `Limits and Important Notes`。
 - 显示合理的小数位，避免伪精确；文案示例和程序必须采用相同的舍入规则。
 - 外部变化数据必须显示适用年份或版本，并提供权威来源链接。
 - 不能把用户输入但实际未参与计算的字段伪装成有效参数。
@@ -185,10 +198,10 @@ faq:
 ## 五、新计算器实施流程
 
 1. **需求与关键词**：确认 Primary Keyword、Secondary Keywords、搜索意图和竞品功能。
-2. **计算规格**：记录输入、输出、公式、单位、常量、数据版本和边界案例。
+2. **计算规格**：使用 `CalculatorSpecification` 记录模板类型、输入、输出、公式、单位、常量、舍入、验证、数据版本、来源和边界案例。
 3. **内容文件**：创建完整 Markdown frontmatter，先写真实、独特、可验证的文案。
 4. **交互组件**：在 `src/components/tools/` 创建组件，默认实现实时反馈和固定结果区。
-5. **页面接入**：更新 `src/pages/[slug].astro` 的 import、slug 映射和适当的 application category。
+5. **页面接入**：在 `src/data/toolRegistry.ts` 注册组件、模板类型和适当的 application category；页面不得重新维护第二份 slug 映射。
 6. **站内发现**：加入正确的 calculator subcategory、相关工具内链，并按重要性决定是否进入首页。
 7. **技术验证**：运行 `npm run build`，不得有类型错误、缺失页面或重复 slug。
 8. **浏览器验收**：实际打开页面，分别验证桌面和移动宽度、初始状态、正常输入、动态修改、无效输入和边界输入。
@@ -204,7 +217,7 @@ faq:
 - [ ] URL 简短、稳定并包含 Primary Keyword。
 - [ ] `seoTitle`、H1、Meta Description 和 Intro 各司其职且内容唯一。
 - [ ] Primary Keyword 使用自然，没有堆砌。
-- [ ] What Is、How to Use、公式、示例、Features、Use Cases、Limitations 和 FAQ 内容完整。
+- [ ] How to Use、公式、示例、Features、Use Cases、Limitations 和 FAQ 内容完整，没有通用的 What Is 填充段落。
 - [ ] 至少两个相关且描述明确的站内链接。
 - [ ] Canonical、OG、WebApplication、Breadcrumb 和 FAQ 数据正确。
 - [ ] 最终 HTML 可以直接抓取主要正文。
@@ -224,7 +237,7 @@ faq:
 - [ ] 正常、边界、无效案例均已人工核对。
 - [ ] 时间敏感数据包含来源、年份或版本，不冒充官方实时结果。
 - [ ] Markdown 文案、UI 标签、示例与实际算法一致。
+- [ ] 工具已加入集中注册表，且注册表完整性测试通过。
 - [ ] `npm run build` 成功。
 - [ ] 至少完成一次真实浏览器交互验收，并记录测试输入和预期输出。
 - [ ] 没有无用依赖、重复脚本或明显控制台错误。
-

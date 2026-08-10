@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "engineering"
 icon: "Wrench"
 featured: false
-whatIs:
-  - "A topsoil calculator converts a lawn, garden, or landscape area's dimensions and desired soil depth into cubic yards. It can also estimate weight for bulk orders and deliveries that are quoted by ton."
-  - "The default bulk density is 75 lb/ft³. Screened soil, blended garden soil, wet topsoil, and compacted fill can have different densities, so volume is generally the better starting point unless the supplier provides a product-specific weight."
 features:
   - "Calculates rectangular and circular soil areas"
   - "Reports cubic feet, cubic yards, cubic meters, pounds, and tons"

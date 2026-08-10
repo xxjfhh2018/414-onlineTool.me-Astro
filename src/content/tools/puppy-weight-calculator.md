@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "everyday"
 icon: "Calculator"
 featured: false
-whatIs:
-  - "A puppy weight calculator provides a rough adult-size planning estimate from a puppy’s present age, weight, and expected size group. This version uses an openly described growth-percentage curve and gives a range rather than presenting one number as certain."
-  - "Real puppy growth varies with breed, sex, parent size, neuter status, nutrition, health, and individual development. Peer-reviewed canine growth standards use repeated weights and breed or size-specific centile curves; a veterinarian or the published charts are better for monitoring whether growth is healthy."
 features:
   - "Live adult-weight estimate and planning range"
   - "Pounds and kilograms with automatic conversion"

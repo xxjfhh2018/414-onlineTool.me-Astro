@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "engineering"
 icon: "Wrench"
 featured: true
-whatIs:
-  - "A concrete calculator estimates the wet concrete volume needed for a slab or circular pad. It reports cubic feet, cubic yards, and cubic meters, which can help compare a ready-mix order with packaged concrete."
-  - "The bag calculation divides adjusted volume by an approximate yield for the selected 40, 60, or 80 lb bag. Bag yield varies by product, so the manufacturer's label should replace the default assumption when precision matters."
 features:
   - "Calculates rectangular slabs and circular pads"
   - "Reports cubic feet, cubic yards, and cubic meters"

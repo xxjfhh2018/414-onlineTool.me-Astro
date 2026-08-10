@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "education"
 icon: "Calculator"
 featured: true
-whatIs:
-  - "An AP score calculator estimates how practice-test performance across multiple-choice and free-response sections may translate to the 1–5 AP scale. It first calculates a weighted composite score from the section percentages."
-  - "College Board uses exam-specific scoring and evidence-based standard setting, so there is no universal permanent raw-score conversion. This general AP calculator provides editable points and estimated cut scores for planning, not an official result."
 features:
   - "Combines multiple-choice and free-response percentages"
   - "Displays the weighted composite and estimated AP score"

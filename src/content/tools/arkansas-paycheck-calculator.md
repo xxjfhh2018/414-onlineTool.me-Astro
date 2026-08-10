@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "finance"
 icon: "Calculator"
 featured: false
-whatIs:
-  - "The Arkansas paycheck calculator estimates net regular wages after 2026 federal withholding, employee Social Security and Medicare, Arkansas withholding, and entered payroll deductions."
-  - "Arkansas publishes detailed wage tables and identifies 3.9% as the current withholding rate. This page uses that 3.9% rate after any annual state deduction you enter, so it is a simplified planning model rather than a reproduction of every AR4EC table result."
 features:
   - "2026 federal Publication 15-T calculation"
   - "2026 Social Security and Medicare limits"

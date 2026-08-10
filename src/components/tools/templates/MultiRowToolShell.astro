@@ -1,0 +1,40 @@
+---
+interface Props {
+  inputTitle: string;
+  inputDescription: string;
+  embedded?: boolean;
+  resultClass?: string;
+  tableLabel?: string;
+}
+
+const {
+  inputTitle,
+  inputDescription,
+  embedded = false,
+  resultClass = 'min-h-[9rem]',
+  tableLabel = inputTitle,
+} = Astro.props;
+---
+
+<div class:list={[!embedded && 'rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-4 sm:p-6']}>
+  <div class="mb-5 flex flex-wrap items-start justify-between gap-3">
+    <div>
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{inputTitle}</h2>
+      <p class="mt-1 text-sm leading-6 text-gray-500 dark:text-gray-400">{inputDescription}</p>
+    </div>
+    {Astro.slots.has('headerActions') && <slot name="headerActions" />}
+  </div>
+
+  <div class="overflow-x-auto" role="group" aria-label={tableLabel}>
+    <slot name="table" />
+  </div>
+
+  {Astro.slots.has('controls') && <div class="mt-4"><slot name="controls" /></div>}
+  {Astro.slots.has('advanced') && <slot name="advanced" />}
+
+  <div class:list={['mt-5', resultClass]} aria-live="polite" aria-atomic="false">
+    <slot name="result" />
+  </div>
+</div>
+
+{Astro.slots.has('footer') && <slot name="footer" />}

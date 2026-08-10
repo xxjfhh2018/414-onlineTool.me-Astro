@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "engineering"
 icon: "Wrench"
 featured: false
-whatIs:
-  - "A sand calculator estimates the loose material volume required to fill a measured area to a selected depth. It can be used for landscaping beds, construction fill, playgrounds, paver bases, and other projects where sand is purchased by volume or weight."
-  - "The weight conversion uses an editable default density of 100 lb/ft³. Dry, damp, washed, masonry, play, and pool-filter sands can differ substantially, so supplier density is preferable when ordering by ton."
 features:
   - "Calculates sand for rectangular and circular areas"
   - "Reports cubic feet, cubic yards, cubic meters, pounds, and tons"

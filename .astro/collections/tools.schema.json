@@ -23,6 +23,8 @@
           "type": "string",
           "enum": [
             "calculators",
+            "sports",
+            "converters",
             "text-tools",
             "qr-code",
             "generators",
@@ -45,12 +47,6 @@
         "featured": {
           "type": "boolean",
           "default": false
-        },
-        "whatIs": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
         },
         "features": {
           "type": "array",
@@ -101,6 +97,101 @@
             "description",
             "example"
           ],
+          "additionalProperties": false
+        },
+        "calculationDetails": {
+          "type": "object",
+          "properties": {
+            "formula": {
+              "type": "string"
+            },
+            "steps": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": []
+            },
+            "rounding": {
+              "type": "string"
+            },
+            "sources": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "publisher": {
+                    "type": "string"
+                  },
+                  "accessedDate": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "url"
+                ],
+                "additionalProperties": false
+              },
+              "default": []
+            },
+            "version": {
+              "type": "string"
+            },
+            "applicableDate": {
+              "type": "string"
+            },
+            "lastVerified": {
+              "type": "string"
+            },
+            "updateResponsibility": {
+              "type": "string"
+            },
+            "resultLabel": {
+              "type": "string",
+              "enum": [
+                "Exact calculation",
+                "Planning estimate",
+                "Estimated equivalent",
+                "Demonstration",
+                "Version-specific result"
+              ]
+            },
+            "assumptions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": []
+            },
+            "example": {
+              "type": "object",
+              "properties": {
+                "inputs": {
+                  "type": "string"
+                },
+                "calculation": {
+                  "type": "string"
+                },
+                "result": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "inputs",
+                "calculation",
+                "result"
+              ],
+              "additionalProperties": false
+            }
+          },
           "additionalProperties": false
         },
         "limitations": {
@@ -172,10 +263,8 @@
         "intro",
         "category",
         "icon",
-        "whatIs",
         "features",
         "useCases",
-        "method",
         "limitations"
       ],
       "additionalProperties": false

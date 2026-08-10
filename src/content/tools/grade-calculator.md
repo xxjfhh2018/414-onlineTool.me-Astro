@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "education"
 icon: "Calculator"
 featured: true
-whatIs:
-  - "A grade calculator converts assignment scores, category weights, or a current course average into a clear percentage result. Use the points mode when your class is based on total points, or use the weighted grade calculator when homework, tests, projects, and the final exam contribute different percentages."
-  - "The final grade calculator works backward from your desired course grade. It combines your current grade with the percentage assigned to the final exam and calculates the exam score needed to meet your target."
 features:
   - "Calculates an overall grade from earned and possible points"
   - "Supports weighted categories with different percentage values"

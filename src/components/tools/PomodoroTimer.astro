@@ -1,152 +1,224 @@
-<div class="max-w-md mx-auto text-center">
-  <div class="rounded-3xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-8">
-    <div class="mb-6">
-      <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Run a Focus and Break Cycle</h2>
-      <p class="mt-1 text-sm leading-6 text-gray-500 dark:text-gray-400">Studying, writing, or working in short blocks? Set the focus and break lengths, then start the countdown.</p>
-    </div>
-    <!-- Timer Display -->
-    <div class="mb-8">
-      <div id="pomo-timer" class="text-7xl font-mono font-bold text-gray-900 dark:text-white tracking-wider">
+---
+import CustomToolShell from './templates/CustomToolShell.astro';
+import { pomodoroTimerSpecification } from '../../data/calculators/pomodoroTimer';
+
+const [focusInput, breakInput] = pomodoroTimerSpecification.inputs;
+---
+
+<div id="pomodoro-timer-tool">
+  <CustomToolShell
+    title="Run a Focus and Break Cycle"
+    description="Set the two interval lengths, then start, pause, resume, or reset the countdown as your session changes."
+  >
+    <div slot="primary" class="mb-6">
+      <div id="pomo-timer" class="font-mono text-6xl font-bold tracking-wider text-gray-900 dark:text-white sm:text-7xl">
         25:00
       </div>
       <div id="pomo-status" class="mt-2 text-sm text-gray-500 dark:text-gray-400">Ready to focus</div>
     </div>
-    
-    <!-- Progress Ring -->
-    <div class="relative w-48 h-48 mx-auto mb-8">
-      <svg class="w-full h-full -rotate-90" viewBox="0 0 100 100">
+
+    <div slot="visualization" class="relative mx-auto mb-6 h-44 w-44 sm:h-48 sm:w-48" aria-hidden="true">
+      <svg class="h-full w-full -rotate-90" viewBox="0 0 100 100">
         <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="3" class="text-gray-100 dark:text-white/5" />
-        <circle id="pomo-progress" cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="3" 
-                stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="0" 
-                class="text-primary-500 transition-all duration-1000" />
+        <circle
+          id="pomo-progress"
+          cx="50"
+          cy="50"
+          r="45"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-dasharray="283"
+          stroke-dashoffset="0"
+          class="text-primary-500 transition-all duration-300"
+        />
       </svg>
       <div class="absolute inset-0 flex items-center justify-center">
-        <svg class="w-10 h-10 text-primary-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        <svg class="h-10 w-10 text-primary-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
         </svg>
       </div>
     </div>
 
-    <div id="pomo-context" class="mb-6 rounded-xl border border-blue-100 bg-blue-50/70 px-4 py-3 text-xs leading-5 text-blue-800 dark:border-blue-800/30 dark:bg-blue-900/10 dark:text-blue-300" aria-live="polite">
-      <strong>Session progress:</strong> 0% elapsed · 25:00 remaining in the focus interval.
+    <div slot="feedback">
+      <div id="pomo-context" class="rounded-xl border border-blue-100 bg-blue-50/70 px-4 py-3 text-xs leading-5 text-blue-800 dark:border-blue-800/30 dark:bg-blue-900/10 dark:text-blue-300">
+        <strong>Session progress:</strong>
+        <span id="pomo-context-value">0.0% elapsed · 25:00 remaining in the focus interval.</span>
+      </div>
+      <p id="pomo-error" class="mt-3 hidden text-sm font-medium text-red-600 dark:text-red-400" role="alert"></p>
     </div>
-    
-    <!-- Controls -->
-    <div class="flex items-center justify-center gap-4">
-      <button id="pomo-start" class="px-8 py-3 rounded-xl bg-primary-500 text-white font-semibold hover:bg-primary-600 transition-colors">
+
+    <div slot="controls" class="flex flex-wrap items-center justify-center gap-3">
+      <button id="pomo-start" type="button" class="min-h-11 rounded-xl bg-primary-500 px-8 py-3 font-semibold text-white transition-colors hover:bg-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
         Start
       </button>
-      <button id="pomo-pause" class="hidden px-8 py-3 rounded-xl bg-gray-100 dark:bg-white/10 text-gray-700 dark:text-gray-300 font-semibold hover:bg-gray-200 dark:hover:bg-white/20 transition-colors">
+      <button id="pomo-pause" type="button" class="hidden min-h-11 rounded-xl bg-gray-100 px-8 py-3 font-semibold text-gray-700 transition-colors hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 dark:bg-white/10 dark:text-gray-300 dark:hover:bg-white/20">
         Pause
       </button>
-      <button id="pomo-reset" class="px-6 py-3 rounded-xl bg-gray-100 dark:bg-white/10 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-200 dark:hover:bg-white/20 transition-colors">
+      <button id="pomo-reset" type="button" class="min-h-11 rounded-xl bg-gray-100 px-6 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 dark:bg-white/10 dark:text-gray-300 dark:hover:bg-white/20">
         Reset
       </button>
     </div>
-    
-    <!-- Settings -->
-    <div class="mt-8 flex items-center justify-center gap-6 text-sm text-gray-500 dark:text-gray-400">
-      <div class="flex items-center gap-2">
-        <span>Work:</span>
-        <input id="pomo-work" type="number" value="25" min="1" max="60" class="w-14 px-2 py-1 rounded-lg bg-gray-100 dark:bg-white/5 text-center outline-none text-gray-800 dark:text-gray-200" />
-        <span>min</span>
+
+    <fieldset slot="settings" class="mt-8 border-t border-gray-100 pt-6 text-left dark:border-white/10">
+      <legend class="px-2 text-sm font-semibold text-gray-800 dark:text-gray-200">Interval settings</legend>
+      <div class="mt-3 grid gap-4 sm:grid-cols-2">
+        <label class="text-sm text-gray-600 dark:text-gray-300" for="pomo-work">
+          <span class="mb-1.5 block font-medium">{focusInput.label}</span>
+          <span class="flex items-center gap-2">
+            <input
+              id="pomo-work"
+              type="number"
+              inputmode="numeric"
+              value={focusInput.defaultValue}
+              min={focusInput.min}
+              max={focusInput.max}
+              step={focusInput.step}
+              class="min-h-11 w-full rounded-lg border border-gray-200 bg-gray-50 px-3 text-center text-gray-900 outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-white/10 dark:bg-white/5 dark:text-gray-100"
+            />
+            <span>min</span>
+          </span>
+        </label>
+        <label class="text-sm text-gray-600 dark:text-gray-300" for="pomo-break">
+          <span class="mb-1.5 block font-medium">{breakInput.label}</span>
+          <span class="flex items-center gap-2">
+            <input
+              id="pomo-break"
+              type="number"
+              inputmode="numeric"
+              value={breakInput.defaultValue}
+              min={breakInput.min}
+              max={breakInput.max}
+              step={breakInput.step}
+              class="min-h-11 w-full rounded-lg border border-gray-200 bg-gray-50 px-3 text-center text-gray-900 outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-white/10 dark:bg-white/5 dark:text-gray-100"
+            />
+            <span>min</span>
+          </span>
+        </label>
       </div>
-      <div class="flex items-center gap-2">
-        <span>Break:</span>
-        <input id="pomo-break" type="number" value="5" min="1" max="30" class="w-14 px-2 py-1 rounded-lg bg-gray-100 dark:bg-white/5 text-center outline-none text-gray-800 dark:text-gray-200" />
-        <span>min</span>
-      </div>
+    </fieldset>
+
+    <div slot="secondary" class="mt-5 text-sm text-gray-500 dark:text-gray-400">
+      Completed focus sessions: <strong id="pomo-sessions" class="text-gray-800 dark:text-gray-200">0</strong>
     </div>
-  </div>
+
+    <p slot="footer" class="mt-3 text-xs leading-5 text-gray-500 dark:text-gray-400">
+      This session runs only in the current browser tab. It does not play a sound or send notifications.
+    </p>
+  </CustomToolShell>
 </div>
 
 <script>
-  (function() {
-    const timerEl = document.getElementById('pomo-timer');
-    const statusEl = document.getElementById('pomo-status');
-    const progressEl = document.getElementById('pomo-progress');
-    const contextEl = document.getElementById('pomo-context');
-    const startBtn = document.getElementById('pomo-start');
-    const pauseBtn = document.getElementById('pomo-pause');
-    const resetBtn = document.getElementById('pomo-reset');
-    const workInput = document.getElementById('pomo-work');
-    const breakInput = document.getElementById('pomo-break');
-    
-    let timeLeft = 25 * 60;
-    let totalTime = 25 * 60;
-    let timer = null;
-    let isRunning = false;
-    let isBreak = false;
-    
-    const CIRCUMFERENCE = 2 * Math.PI * 45;
-    
-    function formatTime(seconds) {
-      const m = Math.floor(seconds / 60);
-      const s = seconds % 60;
-      return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
-    }
-    
-    function updateDisplay() {
-      if (timerEl) timerEl.textContent = formatTime(timeLeft);
-      const offset = CIRCUMFERENCE - (timeLeft / totalTime) * CIRCUMFERENCE;
-      if (progressEl) progressEl.style.strokeDashoffset = String(offset);
-      const elapsedPercent = totalTime > 0 ? (1 - timeLeft / totalTime) * 100 : 0;
-      if (contextEl) contextEl.innerHTML = `<strong>Session progress:</strong> ${Math.max(0, elapsedPercent).toFixed(1)}% elapsed · ${formatTime(timeLeft)} remaining in the ${isBreak ? 'break' : 'focus'} interval.`;
-    }
-    
-    function start() {
-      if (!isRunning) {
-        isRunning = true;
-        startBtn?.classList.add('hidden');
-        pauseBtn?.classList.remove('hidden');
-        if (statusEl) statusEl.textContent = isBreak ? 'Break time' : 'Focusing...';
-        
-        timer = setInterval(function() {
-          timeLeft--;
-          updateDisplay();
-          
-          if (timeLeft <= 0) {
-            clearInterval(timer);
-            isRunning = false;
-            isBreak = !isBreak;
-            var minutes = isBreak ? (parseInt(breakInput?.value || '5')) : (parseInt(workInput?.value || '25'));
-            timeLeft = minutes * 60;
-            totalTime = timeLeft;
-            updateDisplay();
-            if (statusEl) statusEl.textContent = isBreak ? 'Break finished! Ready to focus?' : 'Session complete! Take a break?';
-            startBtn?.classList.remove('hidden');
-            pauseBtn?.classList.add('hidden');
-          }
-        }, 1000);
+  import {
+    advancePomodoro,
+    createPomodoroState,
+    formatPomodoroTime,
+    pausePomodoro,
+    pomodoroElapsedPercent,
+    resetPomodoro,
+    startPomodoro,
+    validatePomodoroSettings,
+  } from '../../lib/pomodoroTimer.mjs';
+
+  const root = document.querySelector<HTMLElement>('#pomodoro-timer-tool:not([data-ready="true"])');
+  if (root) {
+    root.dataset.ready = 'true';
+
+    const timerEl = root.querySelector<HTMLElement>('#pomo-timer');
+    const statusEl = root.querySelector<HTMLElement>('#pomo-status');
+    const progressEl = root.querySelector<SVGCircleElement>('#pomo-progress');
+    const contextValueEl = root.querySelector<HTMLElement>('#pomo-context-value');
+    const errorEl = root.querySelector<HTMLElement>('#pomo-error');
+    const sessionsEl = root.querySelector<HTMLElement>('#pomo-sessions');
+    const startBtn = root.querySelector<HTMLButtonElement>('#pomo-start');
+    const pauseBtn = root.querySelector<HTMLButtonElement>('#pomo-pause');
+    const resetBtn = root.querySelector<HTMLButtonElement>('#pomo-reset');
+    const workInput = root.querySelector<HTMLInputElement>('#pomo-work');
+    const breakInput = root.querySelector<HTMLInputElement>('#pomo-break');
+
+    let state = createPomodoroState();
+    let ticker: ReturnType<typeof setInterval> | undefined;
+    const circumference = 2 * Math.PI * 45;
+
+    const readSettings = () => ({
+      workMinutes: Number(workInput?.value),
+      breakMinutes: Number(breakInput?.value),
+    });
+
+    const showError = (message = '') => {
+      if (!errorEl) return;
+      errorEl.textContent = message;
+      errorEl.classList.toggle('hidden', !message);
+    };
+
+    const stopTicker = () => {
+      if (ticker !== undefined) window.clearInterval(ticker);
+      ticker = undefined;
+    };
+
+    const render = () => {
+      const formatted = formatPomodoroTime(state.remainingSeconds);
+      const elapsed = pomodoroElapsedPercent(state);
+      if (timerEl) timerEl.textContent = formatted;
+      if (statusEl) statusEl.textContent = state.status;
+      if (progressEl) progressEl.style.strokeDashoffset = String(circumference - (state.remainingSeconds / state.totalSeconds) * circumference);
+      if (contextValueEl) contextValueEl.textContent = `${elapsed.toFixed(1)}% elapsed · ${formatted} remaining in the ${state.mode} interval.`;
+      if (sessionsEl) sessionsEl.textContent = String(state.completedFocusSessions);
+      if (startBtn) {
+        startBtn.classList.toggle('hidden', state.running);
+        startBtn.textContent = state.status === 'Paused' ? 'Resume' : 'Start';
       }
-    }
-    
-    function pause() {
-      if (timer) clearInterval(timer);
-      isRunning = false;
-      startBtn?.classList.remove('hidden');
-      pauseBtn?.classList.add('hidden');
-      if (statusEl) statusEl.textContent = 'Paused';
-    }
-    
-    function reset() {
-      if (timer) clearInterval(timer);
-      isRunning = false;
-      isBreak = false;
-      var minutes = parseInt(workInput?.value || '25');
-      timeLeft = minutes * 60;
-      totalTime = timeLeft;
-      updateDisplay();
-      startBtn?.classList.remove('hidden');
-      pauseBtn?.classList.add('hidden');
-      if (statusEl) statusEl.textContent = 'Ready to focus';
-    }
-    
-    startBtn?.addEventListener('click', start);
-    pauseBtn?.addEventListener('click', pause);
-    resetBtn?.addEventListener('click', reset);
-    
-    workInput?.addEventListener('change', function() { if (!isRunning) reset(); });
-    breakInput?.addEventListener('change', function() { if (!isRunning) reset(); });
-  })();
+      pauseBtn?.classList.toggle('hidden', !state.running);
+      if (workInput) workInput.disabled = state.running;
+      if (breakInput) breakInput.disabled = state.running;
+    };
+
+    const syncStoppedSettings = () => {
+      const settings = readSettings();
+      if (!validatePomodoroSettings(settings)) {
+        showError('Focus must be 1–60 whole minutes and break must be 1–30 whole minutes.');
+        return false;
+      }
+      showError();
+      state = resetPomodoro(state, settings);
+      render();
+      return true;
+    };
+
+    const tick = () => {
+      state = advancePomodoro(state, Date.now());
+      render();
+      if (!state.running) stopTicker();
+    };
+
+    startBtn?.addEventListener('click', () => {
+      if (state.status !== 'Paused' && !syncStoppedSettings()) return;
+      state = startPomodoro(state, Date.now());
+      showError();
+      render();
+      stopTicker();
+      ticker = window.setInterval(tick, 250);
+    });
+
+    pauseBtn?.addEventListener('click', () => {
+      state = pausePomodoro(state, Date.now());
+      stopTicker();
+      render();
+    });
+
+    resetBtn?.addEventListener('click', () => {
+      stopTicker();
+      syncStoppedSettings();
+    });
+
+    workInput?.addEventListener('input', () => {
+      if (!state.running) syncStoppedSettings();
+    });
+    breakInput?.addEventListener('input', () => {
+      if (!state.running) syncStoppedSettings();
+    });
+
+    render();
+  }
 </script>

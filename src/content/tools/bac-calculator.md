@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "finance"
 icon: "Landmark"
 featured: false
-whatIs:
-  - "A banker's acceptance is a time draft that an accepting bank agrees to pay at maturity. Banks may charge a commission for providing that acceptance, particularly in trade-finance transactions where a seller wants the payment obligation backed by a bank."
-  - "This calculator estimates that commission from the acceptance amount, the number of days to maturity, and an annual commission rate. On this page, BAC means banker's acceptance commission—not blood alcohol concentration."
 features:
   - "Uses principal, term, and annual commission rate inputs"
   - "Accepts decimal rates such as 0.75% or 1.5%"

@@ -1,81 +1,93 @@
-<div class="max-w-lg mx-auto">
-  <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-6 space-y-5">
-    <div>
-      <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Compare a CD Growth Scenario</h2>
-      <p class="mt-1 text-sm leading-6 text-gray-500 dark:text-gray-400">Comparing a deposit offer? Enter the deposit, term, rate, and compounding schedule shown by the institution.</p>
+---
+import FormulaToolShell from './templates/FormulaToolShell.astro';
+import { cdCalculatorSpecification } from '../../data/calculators/cdCalculator';
+
+const principalDefinition = cdCalculatorSpecification.inputs.find(input => input.id === 'principal')!;
+const rateDefinition = cdCalculatorSpecification.inputs.find(input => input.id === 'annualRatePercent')!;
+const termDefinition = cdCalculatorSpecification.inputs.find(input => input.id === 'termMonths')!;
+const compoundDefinition = cdCalculatorSpecification.inputs.find(input => input.id === 'compoundsPerYear')!;
+---
+
+<div id="cd-calculator-tool">
+  <FormulaToolShell
+    inputTitle="Compare a CD Growth Scenario"
+    inputDescription="Comparing a deposit offer? Enter the deposit, term, annual rate, and compounding schedule shown by the institution."
+    containerClass="max-w-lg"
+    resultClass="min-h-[9rem]"
+  >
+    <div slot="inputs" class="space-y-5">
+      <div>
+        <label for="cd-amount" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Deposit Amount ($)</label>
+        <input id="cd-amount" type="number" inputmode="decimal" min={principalDefinition.min} step={principalDefinition.step} placeholder={principalDefinition.placeholder}
+               class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200" />
+      </div>
+      <div>
+        <label for="cd-term" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Term (months)</label>
+        <select id="cd-term" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200">
+          {termDefinition.options?.map(option => (
+            <option value={option.value} selected={option.value === termDefinition.defaultValue}>{option.label}</option>
+          ))}
+        </select>
+      </div>
+      <div>
+        <label for="cd-rate" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Annual interest rate (%)</label>
+        <input id="cd-rate" type="number" inputmode="decimal" min={rateDefinition.min} step={rateDefinition.step} placeholder={rateDefinition.placeholder}
+               class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200" />
+      </div>
+      <div>
+        <label for="cd-compound" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Compounding</label>
+        <select id="cd-compound" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200">
+          {compoundDefinition.options?.map(option => (
+            <option value={option.value} selected={option.value === compoundDefinition.defaultValue}>{option.label}</option>
+          ))}
+        </select>
+      </div>
     </div>
-    <div>
-      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Deposit Amount ($)</label>
-      <input id="cd-amount" type="number" min="0.01" step="0.01" placeholder="10000" 
-             class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200" />
-    </div>
-    <div>
-      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Term (months)</label>
-      <select id="cd-term" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200">
-        <option value="6">6 months</option>
-        <option value="12">1 year</option>
-        <option value="24">2 years</option>
-        <option value="36">3 years</option>
-        <option value="60" selected>5 years</option>
-      </select>
-    </div>
-    <div>
-      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">APY (%)</label>
-      <input id="cd-apy" type="number" min="0" step="0.01" placeholder="4.5" 
-             class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200" />
-    </div>
-    <div>
-      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Compounding</label>
-      <select id="cd-compound" class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 outline-none focus:border-primary-500 text-gray-800 dark:text-gray-200">
-        <option value="365">Daily</option>
-        <option value="12" selected>Monthly</option>
-        <option value="4">Quarterly</option>
-        <option value="1">Annually</option>
-      </select>
-    </div>
-    
-    <div id="cd-result" class="min-h-[9rem]" aria-live="polite">
+
+    <div slot="result" id="cd-result">
       <div class="min-h-[9rem] rounded-xl border border-dashed border-gray-300 dark:border-white/15 bg-gray-50/70 dark:bg-white/[0.03] p-5 flex items-center justify-center text-center text-sm text-gray-500 dark:text-gray-400">Your CD maturity value and interest will appear here</div>
     </div>
-  </div>
+  </FormulaToolShell>
 </div>
 
 <script>
+  import { calculateCdGrowth } from '../../lib/cdCalculator.mjs';
+
   (function() {
-    const amount = document.getElementById('cd-amount') as HTMLInputElement;
-    const term = document.getElementById('cd-term') as HTMLSelectElement;
-    const apy = document.getElementById('cd-apy') as HTMLInputElement;
-    const compound = document.getElementById('cd-compound') as HTMLSelectElement;
-    const result = document.getElementById('cd-result');
-    const placeholder = '<div class="min-h-[9rem] rounded-xl border border-dashed border-gray-300 dark:border-white/15 bg-gray-50/70 dark:bg-white/[0.03] p-5 flex items-center justify-center text-center text-sm text-gray-500 dark:text-gray-400">Your CD maturity value and interest will appear here</div>';
+    const root = document.getElementById('cd-calculator-tool');
+    if (!root || root.dataset.ready === 'true') return;
+    root.dataset.ready = 'true';
+
+    const amount = root.querySelector('#cd-amount') as HTMLInputElement;
+    const term = root.querySelector('#cd-term') as HTMLSelectElement;
+    const rate = root.querySelector('#cd-rate') as HTMLInputElement;
+    const compound = root.querySelector('#cd-compound') as HTMLSelectElement;
+    const result = root.querySelector('#cd-result') as HTMLElement;
+    const placeholder = result.innerHTML;
 
     function calculate() {
-      const amountRaw = amount?.value.trim() || '';
-      const apyRaw = apy?.value.trim() || '';
-      if (!result) return;
-      if (!amountRaw || !apyRaw) {
+      const amountRaw = amount.value.trim();
+      const rateRaw = rate.value.trim();
+      if (!amountRaw || !rateRaw) {
         result.innerHTML = placeholder;
         return;
       }
-      const p = parseFloat(amountRaw);
-      const months = parseInt(term?.value || '60');
-      const rateValue = parseFloat(apyRaw);
-      const n = parseInt(compound?.value || '12');
-      if (!Number.isFinite(p) || p <= 0 || !Number.isFinite(rateValue) || rateValue < 0) {
-        result.innerHTML = '<div class="min-h-[9rem] rounded-xl bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800/40 p-4 flex items-center justify-center text-center text-sm text-amber-800 dark:text-amber-300">Enter a deposit greater than zero and an APY of zero or more.</div>';
-        return;
+
+      const principal = Number(amountRaw);
+      const termMonths = Number(term.value);
+      const annualRatePercent = Number(rateRaw);
+      const compoundsPerYear = Number(compound.value);
+      try {
+        const calculated = calculateCdGrowth({ principal, termMonths, annualRatePercent, compoundsPerYear });
+        result.innerHTML = `<div class="space-y-3"><div class="p-4 rounded-xl bg-primary-50 dark:bg-primary-900/20 text-center"><div class="text-sm text-gray-500 dark:text-gray-400">Total at Maturity</div><div class="text-3xl font-bold text-primary-600 dark:text-primary-400 mt-1">$${calculated.maturityValue.toFixed(2)}</div></div><div class="grid grid-cols-2 gap-3"><div class="p-4 rounded-xl bg-gray-50 dark:bg-white/5 text-center"><div class="text-xs text-gray-500 dark:text-gray-400">Interest Earned</div><div class="text-xl font-bold text-gray-800 dark:text-white mt-1">$${calculated.interestEarned.toFixed(2)}</div></div><div class="p-4 rounded-xl bg-gray-50 dark:bg-white/5 text-center"><div class="text-xs text-gray-500 dark:text-gray-400">Effective Annual Yield</div><div class="text-xl font-bold text-gray-800 dark:text-white mt-1">${calculated.effectiveAnnualYield.toFixed(2)}%</div></div></div><div class="rounded-xl border border-blue-100 bg-blue-50/70 px-4 py-3 text-center text-xs leading-5 text-blue-800 dark:border-blue-800/30 dark:bg-blue-900/10 dark:text-blue-300"><strong>Growth comparison:</strong> The maturity balance is ${calculated.growthPercent.toFixed(2)}% above the opening deposit after ${termMonths} months.</div></div>`;
+      } catch {
+        result.innerHTML = '<div class="min-h-[9rem] rounded-xl bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800/40 p-4 flex items-center justify-center text-center text-sm text-amber-800 dark:text-amber-300">Enter a deposit greater than zero and an annual interest rate of zero or more.</div>';
       }
-      const r = rateValue / 100;
-      const years = months / 12;
-      const total = p * Math.pow(1 + r / n, n * years);
-      const interest = total - p;
-      const effectiveApy = (Math.pow(total / p, 1 / years) - 1) * 100;
-      const growthPercent = interest / p * 100;
-      result.innerHTML = `<div class="space-y-3"><div class="p-4 rounded-xl bg-primary-50 dark:bg-primary-900/20 text-center"><div class="text-sm text-gray-500 dark:text-gray-400">Total at Maturity</div><div class="text-3xl font-bold text-primary-600 dark:text-primary-400 mt-1">$${total.toFixed(2)}</div></div><div class="grid grid-cols-2 gap-3"><div class="p-4 rounded-xl bg-gray-50 dark:bg-white/5 text-center"><div class="text-xs text-gray-500 dark:text-gray-400">Interest Earned</div><div class="text-xl font-bold text-gray-800 dark:text-white mt-1">$${interest.toFixed(2)}</div></div><div class="p-4 rounded-xl bg-gray-50 dark:bg-white/5 text-center"><div class="text-xs text-gray-500 dark:text-gray-400">Effective APY</div><div class="text-xl font-bold text-gray-800 dark:text-white mt-1">${effectiveApy.toFixed(2)}%</div></div></div><div class="rounded-xl border border-blue-100 bg-blue-50/70 px-4 py-3 text-center text-xs leading-5 text-blue-800 dark:border-blue-800/30 dark:bg-blue-900/10 dark:text-blue-300"><strong>Growth comparison:</strong> The maturity balance is ${growthPercent.toFixed(2)}% above the opening deposit after ${months} months.</div></div>`;
     }
-    [amount, term, apy, compound].forEach(control => {
-      control?.addEventListener('input', calculate);
-      control?.addEventListener('change', calculate);
+
+    [amount, term, rate, compound].forEach(control => {
+      control.addEventListener('input', calculate);
+      control.addEventListener('change', calculate);
     });
   })();
 </script>

@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "education"
 icon: "Calculator"
 featured: false
-whatIs:
-  - "The AP Biology Score Calculator combines performance from the multiple-choice and free-response sections of an AP Bio practice exam. Each section contributes half of the weighted composite."
-  - "The default format provides 60 MCQ points and an editable FRQ total for the scoring guide in use. The predicted 1–5 score is a planning estimate rather than an official conversion."
 features:
   - "Equal 50% MCQ and 50% FRQ weighting"
   - "Editable free-response possible points"

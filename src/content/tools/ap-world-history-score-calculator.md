@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "education"
 icon: "Calculator"
 featured: false
-whatIs:
-  - "The AP World History Score Calculator predicts a practice result for AP World History: Modern. It accounts for the different weights assigned to multiple choice, short answer, the document-based question, and the long essay."
-  - "The section weights are 40% MCQ, 20% SAQ, 25% DBQ, and 15% LEQ. The estimated 1–5 result remains adjustable because official score setting is exam-specific."
 features:
   - "Four inputs matching the AP World exam components"
   - "Published 40/20/25/15 weighting"

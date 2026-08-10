@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "education"
 icon: "Calculator"
 featured: false
-whatIs:
-  - "The AP Calculus AB Score Calculator converts practice-test MCQ and FRQ raw points into a weighted composite. Both sections contribute 50% of the overall exam score."
-  - "Defaults reflect the May 2027 format of 42 multiple-choice questions and six 9-point free-response questions. Possible points remain editable for older or custom practice materials."
 features:
   - "Separate MCQ and FRQ raw-score inputs"
   - "Published equal section weights"
@@ -31,7 +28,7 @@ method:
 limitations:
   - "The prediction is unofficial and cannot guarantee the released AP score."
   - "Current default planning cutoffs are 5 ≥ 70%, 4 ≥ 58%, 3 ≥ 43%, and 2 ≥ 32%. They are estimates—not official College Board cut scores—and can be adjusted in Advanced scoring settings."
-  - "Defaults follow the announced May 2027 MCQ count; change points possible when using an older or custom practice test."
+  - "The default follows the announced May 2027 format with 42 MCQs; select the retained May 2026 version for the previous 45-MCQ format."
   - "Score FRQs with the scoring guidelines for the exact practice questions used."
 relatedTools:
   - "ap-calculus-bc-score-calculator"
@@ -40,7 +37,7 @@ relatedTools:
 howToUse:
   - step: 1
     title: "Enter MCQ Points"
-    description: "Add correct multiple-choice answers and total questions."
+    description: "Choose the matching exam-format version, then enter the number of multiple-choice points earned."
   - step: 2
     title: "Enter FRQ Rubric Points"
     description: "Total points earned across all free-response questions."
@@ -56,7 +53,7 @@ faq:
   - question: "Does this AP Calc AB calculator include calculator and non-calculator parts?"
     answer: "Enter their combined MCQ points and combined FRQ points; the official section weights are applied to those totals."
   - question: "Will the 2027 exam format change?"
-    answer: "College Board has announced updates to the MCQ count and timing. The possible-points input can be changed to match current materials."
+    answer: "Yes. The selector uses 42 MCQs for the May 2027 format and retains the 45-MCQ May 2026 format for older practice materials."
   - question: "Are the predicted cutoffs official?"
     answer: "No. They are editable planning estimates and may differ from actual score setting."
 ---

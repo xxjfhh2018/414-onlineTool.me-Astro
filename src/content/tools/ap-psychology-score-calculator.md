@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "education"
 icon: "Calculator"
 featured: false
-whatIs:
-  - "The AP Psychology Score Calculator applies the current exam structure to practice results. It combines 75 multiple-choice questions with two free-response questions: the Article Analysis Question and Evidence-Based Question."
-  - "Multiple choice contributes 66.7% and free response contributes 33.3%. The composite is precise for the entered section weights, while the predicted 1–5 result remains an estimate."
 features:
   - "Current 75-MCQ and 14-point FRQ defaults"
   - "Published 66.7% and 33.3% weighting"

@@ -7,9 +7,6 @@ keywords: "QR pattern generator, QR code generator demo, QR style pattern maker"
 category: "qr-code"
 icon: "QrCode"
 featured: true
-whatIs:
-  - "This page currently demonstrates the interface and canvas output planned for a QR code generator. It draws three finder-like corner markers and fills the remaining grid from a numeric seed derived from the entered text."
-  - "The image resembles a QR code, but the content is not encoded according to the QR Code standard. A scanner cannot recover the original text, so the download must be treated as a prototype graphic only."
 features:
   - "Creates a repeatable visual pattern from entered text"
   - "Supports canvas sizes from 100 to 500 pixels"

@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "education"
 icon: "Calculator"
 featured: true
-whatIs:
-  - "This lightweight browser calculator uses a keypad presentation inspired by handheld calculators. It performs one basic arithmetic operation at a time and displays the stored operand and operator above the current number."
-  - "Despite the familiar name and styling, it is not a TI-84 emulator. It does not reproduce graphing, statistics, matrices, programming, equation solving, or other advanced features of Texas Instruments hardware."
 features:
   - "Addition, subtraction, multiplication, and division"
   - "Decimal entry, percentage conversion, and sign changes"

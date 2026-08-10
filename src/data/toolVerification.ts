@@ -12,8 +12,8 @@ export interface ToolVerification {
 const apShared = {
   status: 'estimate' as const,
   statusLabel: 'Official format · estimated cutoffs',
-  versionLabel: 'May 2027 exam format',
-  lastReviewed: '2026-08-08',
+  versionLabel: 'Current published exam format',
+  lastReviewed: '2026-08-10',
   reviewNote: 'Review before the May 2027 exam and whenever College Board changes an exam format or scoring guidance.',
   exclusions: [
     'The 1–5 cut scores are editable planning estimates, not official conversion tables.',
@@ -38,6 +38,47 @@ const taxShared = {
 };
 
 export const toolVerification: Record<string, ToolVerification> = {
+  'lsac-gpa-calculator': {
+    status: 'estimate', statusLabel: 'Official scale · planning estimate', versionLabel: 'LSAC conversion table verified August 2026', lastReviewed: '2026-08-10',
+    sourceLabel: 'LSAC Transcript Summarization', sourceUrl: 'https://www.lsac.org/applying-law-school/jd-application-process/cas/requesting/transcript-summarization',
+    reviewNote: 'Review when LSAC changes transcript summarization or grade-conversion guidance.',
+    exclusions: ['LSAC controls official transcript-specific exclusions and conversions.', 'International records, repeats, nonstandard grades, and academic forgiveness may need additional treatment.'],
+  },
+  'lsat-score-calculator': {
+    status: 'verified', statusLabel: 'Exact disclosed-form lookup', versionLabel: 'April 2022 Form LTZB03', lastReviewed: '2026-08-10',
+    sourceLabel: 'LSAC April 2022 Disclosure Booklet', sourceUrl: 'https://www.lsac.org/document-library/809',
+    reviewNote: 'Keep this result explicitly tied to Form LTZB03; add future forms as separate retained versions.',
+    exclusions: ['Not a universal or current LSAT raw-score curve.', 'Does not estimate percentile, admission probability, or an official score from another form.'],
+  },
+  'cinder-block-calculator': {
+    status: 'estimate', statusLabel: 'Planning estimate', versionLabel: 'Nominal 8 × 16 in CMU face module', lastReviewed: '2026-08-10',
+    sourceLabel: 'CMHA Concrete Masonry Products', sourceUrl: 'https://www.cmha.org/resource/cmu-tec-001/',
+    reviewNote: 'Verify nominal size guidance if CMHA revises its technical note.', exclusions: ['Does not calculate mortar, grout, reinforcement, bond pattern, or supplier pallet quantities.'],
+  },
+  'vdot-calculator': {
+    status: 'estimate', statusLabel: 'Performance estimate', versionLabel: 'Daniels–Gilbert race equations', lastReviewed: '2026-08-10',
+    sourceLabel: "Daniels' Running Formula", sourceUrl: 'https://www.human-kinetics.co.uk/9781718203662/daniels-running-formula/',
+    reviewNote: 'Retest equations and supported ranges whenever the implementation changes.', exclusions: ['Not a laboratory VO₂max or medical assessment.', 'Does not adjust for terrain, altitude, weather, wind, fatigue, or course error.'],
+  },
+  'watts-to-amps-calculator': {
+    status: 'verified', statusLabel: 'Formula verified', versionLabel: 'Standard DC and AC real-power equations', lastReviewed: '2026-08-10',
+    sourceLabel: 'Fluke Electrical Glossary', sourceUrl: 'https://www.fluke.com/en/learn/blog/electrical/electrical-glossary',
+    reviewNote: 'Retest DC, single-phase, and balanced three-phase cases whenever formulas or input conventions change.', exclusions: ['Not a conductor, breaker, fuse, or safety-equipment sizing tool.', 'Three-phase mode assumes a balanced load and line-to-line voltage.'],
+  },
+  'swim-time-converter': {
+    status: 'estimate',
+    statusLabel: 'NCAA sample factors · estimate',
+    versionLabel: '2025-26/2026-27 rules · updated Aug. 5, 2026',
+    lastReviewed: '2026-08-10',
+    sourceLabel: 'NCAA Swimming and Diving Rules Book',
+    sourceUrl: 'https://ncaaorg.s3.amazonaws.com/championships/sports/swimdive/rules/PRXSW_RulesBook.pdf',
+    reviewNote: 'Review when the NCAA rules book or applicable championship conversion guidance changes, and no later than September 2027.',
+    exclusions: [
+      'The NCAA rules book identifies these as sample conversion tables; championship qualification may use different factors.',
+      'Reverse and SCM-to-LCM estimates invert or combine the published metric-to-SCY factors.',
+      'Even splits are pacing aids, not predictions of actual race splits.',
+    ],
+  },
   'palworld-breeding-calculator': {
     status: 'verified',
     statusLabel: 'Dataset verified',
@@ -71,9 +112,9 @@ export const toolVerification: Record<string, ToolVerification> = {
   'ap-lang-score-calculator': { ...apShared, versionLabel: 'Current published exam format', sourceLabel: 'AP English Language exam', sourceUrl: 'https://apcentral.collegeboard.org/courses/ap-english-language-and-composition/exam' },
   'ap-biology-score-calculator': { ...apShared, versionLabel: 'Current published exam format', sourceLabel: 'AP Biology exam', sourceUrl: 'https://apcentral.collegeboard.org/courses/ap-biology/exam' },
   'ap-chemistry-score-calculator': { ...apShared, versionLabel: 'Current published exam format', sourceLabel: 'AP Chemistry exam', sourceUrl: 'https://apcentral.collegeboard.org/courses/ap-chemistry/exam' },
-  'ap-calculus-ab-score-calculator': { ...apShared, sourceLabel: 'AP Calculus AB exam', sourceUrl: 'https://apcentral.collegeboard.org/courses/ap-calculus-ab/exam' },
-  'ap-calculus-bc-score-calculator': { ...apShared, sourceLabel: 'AP Calculus BC exam', sourceUrl: 'https://apcentral.collegeboard.org/courses/ap-calculus-bc/exam' },
-  'ap-statistics-score-calculator': { ...apShared, sourceLabel: 'AP Statistics 2027 revisions', sourceUrl: 'https://apcentral.collegeboard.org/courses/ap-statistics/future-revisions' },
+  'ap-calculus-ab-score-calculator': { ...apShared, versionLabel: 'May 2027 default · May 2026 retained', sourceLabel: 'College Board 2026–27 Calculus exam updates', sourceUrl: 'https://apcentral.collegeboard.org/media/pdf/ap-calculus-ab-bc-course-and-exam-description-clarifications-effective-fall-2026.pdf' },
+  'ap-calculus-bc-score-calculator': { ...apShared, versionLabel: 'May 2027 exam format', sourceLabel: 'AP Calculus BC exam', sourceUrl: 'https://apcentral.collegeboard.org/courses/ap-calculus-bc/exam' },
+  'ap-statistics-score-calculator': { ...apShared, versionLabel: 'May 2027 revised exam format', sourceLabel: 'AP Statistics 2027 revisions', sourceUrl: 'https://apcentral.collegeboard.org/courses/ap-statistics/future-revisions' },
   'ap-psychology-score-calculator': { ...apShared, versionLabel: 'Current published exam format', sourceLabel: 'AP Psychology exam', sourceUrl: 'https://apcentral.collegeboard.org/courses/ap-psychology/exam' },
   'ap-world-history-score-calculator': { ...apShared, sourceLabel: 'AP World History exam', sourceUrl: 'https://apcentral.collegeboard.org/courses/ap-world-history/exam' },
   'paycheck-calculator': taxShared,

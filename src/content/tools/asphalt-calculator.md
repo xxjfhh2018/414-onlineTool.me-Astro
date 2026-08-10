@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "engineering"
 icon: "Wrench"
 featured: true
-whatIs:
-  - "An asphalt calculator estimates the compacted volume and weight needed for a driveway, road, parking area, or other paving project. Because hot mix asphalt is normally ordered by weight, the calculator converts the measured volume into pounds and short tons."
-  - "The default density is 145 lb/ft³, a practical planning assumption rather than a universal mix value. You can replace it with the density supplied for the specified asphalt mix and enter an optional price per ton."
 features:
   - "Calculates rectangular and circular paving areas"
   - "Reports cubic feet, cubic yards, cubic meters, pounds, and short tons"

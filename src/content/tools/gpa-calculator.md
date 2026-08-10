@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "education"
 icon: "Calculator"
 featured: true
-whatIs:
-  - "A GPA calculator converts course grades into grade points and averages them according to course credits. This page reports both an unweighted GPA on a common 4.0 scale and a weighted estimate that adds points for honors, AP, or IB courses."
-  - "The same credit-weighted method can help estimate middle school, high school, or college GPA, but every institution can define its own grade values, weighting bonuses, exclusions, and GPA cap."
 features:
   - "Calculates weighted and unweighted GPA together"
   - "Supports plus and minus letter grades"

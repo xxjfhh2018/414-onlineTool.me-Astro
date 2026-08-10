@@ -7,9 +7,6 @@ keywords: "online tally counter, click counter, multiple tally counters, countin
 category: "timers"
 icon: "ListOrdered"
 featured: false
-whatIs:
-  - "An online tally counter provides a simple alternative to a handheld mechanical clicker. The primary counter starts at zero, and additional independent counters can be created below it."
-  - "Every counter accepts one-step increases and decreases but never drops below zero. Values exist only in the current page memory and are not saved between visits."
 features:
   - "Large plus and minus controls for the primary count"
   - "One-click reset of the primary counter"

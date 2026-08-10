@@ -7,9 +7,6 @@ keywords: "remove empty lines, delete blank lines, remove whitespace lines, text
 category: "text-tools"
 icon: "AlignJustify"
 featured: false
-whatIs:
-  - "The Remove Empty Lines tool cleans plain text by deleting rows that contain nothing or contain only whitespace. It is useful when copied content includes unwanted gaps between every item."
-  - "The tool checks trimmed lines only to decide whether they are empty. It keeps the original characters of non-empty lines, preserves their order, and joins them with standard newline characters."
 features:
   - "Removes completely blank and whitespace-only rows"
   - "Keeps non-empty line content and ordering unchanged"

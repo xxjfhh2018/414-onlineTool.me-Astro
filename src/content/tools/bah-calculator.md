@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "finance"
 icon: "Home"
 featured: false
-whatIs:
-  - "Basic Allowance for Housing, or BAH, is a U.S. military allowance for eligible service members who do not receive government housing. Official rates depend on pay grade, dependency status, and the duty station's Military Housing Area."
-  - "This page demonstrates the input and result workflow with simplified values. It is not connected to official annual BAH tables, and the ZIP code field does not currently change the result."
 features:
   - "Includes enlisted, warrant officer, and officer grades through O-6"
   - "Provides with-dependent and without-dependent selections"

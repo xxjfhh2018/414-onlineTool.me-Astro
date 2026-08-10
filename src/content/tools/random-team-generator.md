@@ -7,9 +7,6 @@ keywords: "random team generator, random group generator, split names into teams
 category: "generators"
 icon: "UsersRound"
 featured: true
-whatIs:
-  - "A random team generator removes the manual bias and effort from casual group assignment. This tool shuffles every non-empty line, then distributes names across the requested number of teams."
-  - "Round-robin distribution keeps group sizes as even as possible: when the participant count does not divide evenly, some teams receive one additional person."
 features:
   - "Accepts one participant name per line"
   - "Creates a user-selected number of groups"

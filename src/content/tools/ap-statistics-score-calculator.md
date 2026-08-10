@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "education"
 icon: "Calculator"
 featured: false
-whatIs:
-  - "The AP Statistics Score Calculator estimates a weighted practice result from multiple-choice and free-response points. The calculator defaults to the revised May 2027 format with 42 MCQs and four 10-point FRQs."
-  - "Both sections receive 50% of the composite. The resulting 1–5 prediction uses editable estimated cut scores because official standards are not a permanent public raw-score table."
 features:
   - "Defaults for the revised 42-MCQ and 40-point FRQ format"
   - "Equal 50% section weighting"

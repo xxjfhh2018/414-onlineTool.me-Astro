@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "education"
 icon: "Calculator"
 featured: false
-whatIs:
-  - "The AP Chemistry Score Calculator estimates performance on an AP Chem practice exam. It combines the 60-question multiple-choice section with points from three long and four short free-response questions."
-  - "Multiple choice and free response each contribute 50% of the composite. A default 46-point FRQ total reflects three 10-point and four 4-point questions, while all possible-point fields remain editable."
 features:
   - "Defaults for 60 MCQs and 46 FRQ rubric points"
   - "Official 50/50 section weights"

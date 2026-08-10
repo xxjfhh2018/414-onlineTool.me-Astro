@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "finance"
 icon: "Calculator"
 featured: false
-whatIs:
-  - "The Missouri paycheck calculator estimates regular net wages after federal withholding, Social Security, Medicare, Missouri withholding, and entered payroll deductions."
-  - "Missouri’s 2026 formula annualizes wages, subtracts the filing-status standard deduction, and applies rates from 0% through 4.7%. This calculator follows those annual brackets but displays cents instead of Missouri’s required whole-dollar payroll rounding."
 features:
   - "Official 2026 Missouri withholding brackets"
   - "2026 filing-status standard deductions"

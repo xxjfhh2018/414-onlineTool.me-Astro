@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "finance"
 icon: "PiggyBank"
 featured: false
-whatIs:
-  - "This calculator runs a month-by-month savings projection. It adds the assumed monthly investment return, subtracts spending net of entered income, and gradually changes spending by the annual inflation assumption."
-  - "The result answers a planning question, not a guarantee. Real retirement and savings outcomes depend on uneven market returns, taxes, fees, changing income, health costs, emergencies, and withdrawal decisions."
 features:
   - "Month-by-month balance depletion model"
   - "Optional recurring income and investment return"

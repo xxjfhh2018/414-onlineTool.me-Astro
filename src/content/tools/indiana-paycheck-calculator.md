@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "finance"
 icon: "Calculator"
 featured: false
-whatIs:
-  - "The Indiana paycheck calculator estimates regular net wages after federal withholding, employee FICA, Indiana state and county tax, and entered deductions."
-  - "Indiana’s 2026 state adjusted gross income tax rate is 2.95%, and Departmental Notice #1 permits $1,000 for each personal exemption. County rates differ and can change, so the calculator leaves the local rate at zero until you enter the applicable percentage."
 features:
   - "Official 2026 Indiana 2.95% state rate"
   - "$1,000 personal-exemption deductions"

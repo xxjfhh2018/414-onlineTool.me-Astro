@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "education"
 icon: "Calculator"
 featured: false
-whatIs:
-  - "The AP Calculus BC Score Calculator combines multiple-choice and free-response practice results into an overall BC composite. The two exam sections each contribute half of the score."
-  - "The calculator predicts the overall AP Calculus BC score only. College Board also reports an AB subscore, which requires a separate subset of AB-topic questions and is not estimated here."
 features:
   - "Equal MCQ and FRQ weighting"
   - "Editable raw points for changing practice formats"

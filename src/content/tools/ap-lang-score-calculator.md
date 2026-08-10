@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "education"
 icon: "Calculator"
 featured: false
-whatIs:
-  - "The AP Lang Score Calculator estimates an AP English Language and Composition practice result. It combines the multiple-choice section with separate rubric scores for synthesis, rhetorical analysis, and argument essays."
-  - "Multiple choice contributes 45% and free response contributes 55% of the exam score. This calculator splits the free-response weight evenly across the three essays and reports a weighted composite."
 features:
   - "Inputs for MCQ and all three AP Lang essays"
   - "Official 45% and 55% section weighting"

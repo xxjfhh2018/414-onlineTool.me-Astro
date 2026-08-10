@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "finance"
 icon: "Calculator"
 featured: false
-whatIs:
-  - "The Washington paycheck calculator estimates regular net wages after 2026 federal withholding, Social Security, Medicare, and deductions entered by the user."
-  - "Washington’s Department of Revenue states that the state has no individual income tax, so this model assigns zero state wage income-tax withholding. Washington Paid Family and Medical Leave, WA Cares, workers’ compensation, and employer-specific deductions are not automatically included."
 features:
   - "Zero Washington individual wage income tax"
   - "2026 federal Publication 15-T schedules"

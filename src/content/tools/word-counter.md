@@ -7,9 +7,6 @@ keywords: "word counter, character counter, online word count tool, sentence cou
 category: "text-tools"
 icon: "Type"
 featured: true
-whatIs:
-  - "A word counter provides a quick measurement of text length for drafts, forms, assignments, and publishing fields. This tool updates four visible totals whenever you type, paste, or delete content."
-  - "Words are identified by whitespace, while the character totals show both the complete input length and the length after all whitespace is removed. Sentence counting is a punctuation-based estimate."
 features:
   - "Live word and total-character counts"
   - "Separate character count with whitespace removed"

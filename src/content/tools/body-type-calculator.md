@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "everyday"
 icon: "Calculator"
 featured: false
-whatIs:
-  - "This body type calculator compares three circumference measurements and assigns one of five common clothing-style shape labels: hourglass, triangle, inverted triangle, rectangle, or oval. It shows the exact rule that produced the label so the result is understandable rather than a hidden quiz score."
-  - "Some searches for body type refer to the ectomorph, mesomorph, and endomorph somatotypes. This calculator does not assign those labels because three measurements cannot reliably determine metabolism, genetics, health, or fitness potential."
 features:
   - "Instant shape estimate from three measurements"
   - "Works with inches or centimetres because it compares ratios"

@@ -1,0 +1,47 @@
+---
+import MultiRowToolShell from './templates/MultiRowToolShell.astro';
+import { LSAC_GRADE_POINTS } from '../../lib/dailyBatchCalculators.mjs';
+const grades = Object.keys(LSAC_GRADE_POINTS);
+---
+
+<div class="lsac-gpa-tool max-w-4xl mx-auto">
+  <MultiRowToolShell inputTitle="Enter Courses for an LSAC GPA Estimate" inputDescription="Add each convertible undergraduate course, its grade, and credits. Blank rows are ignored; results update automatically.">
+    <button slot="headerActions" type="button" class="lsac-add min-h-11 rounded-xl border border-primary-200 px-4 py-2 text-sm font-semibold text-primary-700 dark:border-primary-800 dark:text-primary-300">Add course</button>
+    <table slot="table" class="w-full min-w-[540px]">
+      <thead><tr class="text-left text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400"><th class="pb-2 pr-3">Course</th><th class="pb-2 px-3 w-32">Grade</th><th class="pb-2 px-3 w-32">Credits</th><th class="pb-2 pl-3 w-20"><span class="sr-only">Remove</span></th></tr></thead>
+      <tbody class="lsac-rows" data-grades={JSON.stringify(grades)}></tbody>
+    </table>
+    <div slot="controls" class="flex justify-center gap-3">
+      <button type="button" class="lsac-calculate min-h-11 rounded-xl bg-primary-500 px-6 py-2.5 text-sm font-semibold text-white hover:bg-primary-600">Calculate</button>
+      <button type="button" class="lsac-reset min-h-11 rounded-xl border border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-700 dark:border-white/10 dark:text-gray-200">Reset</button>
+    </div>
+    <div slot="result" class="lsac-result"><div class="min-h-[9rem] rounded-xl border border-dashed border-gray-300 bg-gray-50/70 p-5 flex items-center justify-center text-center text-sm text-gray-500 dark:border-white/15 dark:bg-white/[0.03] dark:text-gray-400">Your estimated LSAC GPA and calculation totals will appear here.</div></div>
+    <div slot="footer" class="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs leading-5 text-amber-800 dark:border-amber-800/40 dark:bg-amber-900/10 dark:text-amber-300">Planning estimate only. LSAC performs the official transcript summarization and may treat exclusions, repeats, nonstandard grades, or international records differently.</div>
+  </MultiRowToolShell>
+</div>
+
+<script>
+  import { calculateLsacGpa } from '../../lib/dailyBatchCalculators.mjs';
+  document.querySelectorAll<HTMLElement>('.lsac-gpa-tool').forEach(root => {
+    if (root.dataset.ready) return; root.dataset.ready = 'true';
+    const rows = root.querySelector('.lsac-rows') as HTMLElement;
+    const result = root.querySelector('.lsac-result') as HTMLElement;
+    const placeholder = result.innerHTML;
+    const grades = JSON.parse(rows.dataset.grades || '[]');
+    const addRow = (name = '') => { const row = document.createElement('tr'); row.className = 'border-t border-gray-100 dark:border-white/5'; row.innerHTML = `<td class="py-3 pr-3"><input aria-label="Course name" class="lsac-name w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 dark:border-white/10 dark:bg-white/5" placeholder="Course name" value="${name}"></td><td class="py-3 px-3"><select aria-label="Course grade" class="lsac-grade w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 dark:border-white/10 dark:bg-white/5"><option value="">Grade</option>${grades.map((grade: string) => `<option>${grade}</option>`).join('')}</select></td><td class="py-3 px-3"><input aria-label="Course credits" type="number" min="0.01" max="30" step="0.01" class="lsac-credits w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 dark:border-white/10 dark:bg-white/5" placeholder="3"></td><td class="py-3 pl-3"><button type="button" aria-label="Remove course" class="lsac-remove min-h-11 px-3 text-gray-400 hover:text-red-500">Remove</button></td>`; rows.appendChild(row); };
+    const warning = (message: string) => `<div class="min-h-[9rem] rounded-xl border border-amber-200 bg-amber-50 p-4 flex items-center justify-center text-center text-sm text-amber-800 dark:border-amber-800/40 dark:bg-amber-900/10 dark:text-amber-300">${message}</div>`;
+    function calculate(force = false) {
+      const entries = [...rows.querySelectorAll('tr')].map(row => ({ grade: (row.querySelector('.lsac-grade') as HTMLSelectElement).value, credits: (row.querySelector('.lsac-credits') as HTMLInputElement).value })).filter(item => item.grade || item.credits);
+      if (!entries.length && !force) { result.innerHTML = placeholder; return; }
+      if (entries.some(item => !item.grade || !item.credits)) { result.innerHTML = warning('Complete both grade and credits for every started row.'); return; }
+      try { const value = calculateLsacGpa(entries); result.innerHTML = `<div class="grid gap-3 sm:grid-cols-3"><div class="rounded-xl border border-primary-100 bg-primary-50 p-5 text-center dark:border-primary-800/30 dark:bg-primary-900/20"><div class="text-sm text-gray-600 dark:text-gray-400">Estimated LSAC GPA</div><div class="mt-1 text-4xl font-bold text-primary-600 dark:text-primary-400">${value.gpa.toFixed(2)}</div><div class="mt-1 text-xs text-gray-500">0.00–4.33 scale</div></div><div class="rounded-xl bg-gray-50 p-5 text-center dark:bg-white/5"><div class="text-sm text-gray-500">Credits included</div><div class="mt-2 text-2xl font-bold">${value.credits.toFixed(2)}</div></div><div class="rounded-xl bg-gray-50 p-5 text-center dark:bg-white/5"><div class="text-sm text-gray-500">Quality points</div><div class="mt-2 text-2xl font-bold">${value.qualityPoints.toFixed(2)}</div></div></div><div class="mt-3 rounded-xl border border-blue-100 bg-blue-50/70 px-4 py-3 text-center text-xs leading-5 text-blue-800 dark:border-blue-800/30 dark:bg-blue-900/10 dark:text-blue-300"><strong>Scale context:</strong> A+ = 4.33 · A = 4.00 · B = 3.00 · C = 2.00 on LSAC’s conversion table.</div>`; }
+      catch (error) { result.innerHTML = warning(error instanceof Error ? error.message : 'These courses could not be calculated.'); }
+    }
+    root.querySelector('.lsac-add')?.addEventListener('click', () => addRow());
+    root.addEventListener('click', event => { const button = (event.target as HTMLElement).closest('.lsac-remove'); if (!button) return; button.closest('tr')?.remove(); if (!rows.children.length) addRow(); calculate(); });
+    root.addEventListener('input', () => calculate()); root.addEventListener('change', () => calculate());
+    root.querySelector('.lsac-calculate')?.addEventListener('click', () => calculate(true));
+    root.querySelector('.lsac-reset')?.addEventListener('click', () => { rows.replaceChildren(); ['English','Math','Science','Elective'].forEach(addRow); result.innerHTML = placeholder; });
+    ['English','Math','Science','Elective'].forEach(addRow);
+  });
+</script>

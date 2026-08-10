@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "finance"
 icon: "Calculator"
 featured: true
-whatIs:
-  - "A paycheck calculator converts gross wages into an estimated net paycheck after federal income tax withholding, Social Security, Medicare, selected state income tax, and entered deductions. It annualizes regular wages using the chosen pay frequency."
-  - "The federal model follows the 2026 IRS Publication 15-T percentage method for a 2020-or-later Form W-4. State models vary, and the result remains a planning estimate rather than an employer payroll record or tax-return forecast."
 features:
   - "2026 federal W-4 percentage-method schedules"
   - "Social Security wage-base and Additional Medicare handling"

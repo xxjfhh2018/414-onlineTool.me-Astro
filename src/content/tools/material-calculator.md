@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "engineering"
 icon: "Wrench"
 featured: true
-whatIs:
-  - "A material calculator converts project dimensions into an estimated volume and then applies material-specific information such as bulk density, bag yield, or a waste allowance. It helps homeowners, landscapers, builders, and contractors prepare an initial quantity before requesting supplier quotes."
-  - "This material calculator hub separates asphalt, sand, gravel, topsoil, and concrete because the useful outputs differ. Paving is commonly ordered by ton, loose landscape materials by cubic yard, and concrete by cubic yard or bag."
 features:
   - "Links to five purpose-built construction and landscaping calculators"
   - "Supports rectangular and circular project areas"

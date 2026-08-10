@@ -1,293 +1,128 @@
 ---
-interface SectionConfig {
-  label: string;
-  possible: number;
-  weight: number;
-}
-
-interface CourseConfig {
-  name: string;
-  format: string;
-  sections: SectionConfig[];
-  cutScores: [number, number, number, number];
-  source: string;
-}
-
-const configs: Record<string, CourseConfig> = {
-  'ap-score-calculator': {
-    name: 'AP Exam',
-    format: 'Enter the section scores from your practice exam to see your estimated AP result (1–5).',
-    sections: [
-      { label: 'Multiple Choice', possible: 100, weight: 50 },
-      { label: 'Free Response', possible: 100, weight: 50 },
-    ],
-    cutScores: [75, 60, 45, 30],
-    source: 'https://apcentral.collegeboard.org/courses/how-ap-develops-courses-and-exams/score-setting-and-scoring',
-  },
-  'apush-score-calculator': {
-    name: 'AP U.S. History',
-    format: 'Enter your MCQ, SAQ, DBQ, and LEQ practice scores to see your estimated APUSH result (1–5).',
-    sections: [
-      { label: 'Multiple Choice', possible: 55, weight: 40 },
-      { label: 'Short Answer', possible: 9, weight: 20 },
-      { label: 'Document-Based Question', possible: 7, weight: 25 },
-      { label: 'Long Essay', possible: 6, weight: 15 },
-    ],
-    cutScores: [75, 60, 45, 30],
-    source: 'https://apcentral.collegeboard.org/courses/ap-united-states-history/exam',
-  },
-  'ap-lang-score-calculator': {
-    name: 'AP English Language',
-    format: 'Enter your MCQ and three essay scores to see your estimated AP Lang result (1–5).',
-    sections: [
-      { label: 'Multiple Choice', possible: 45, weight: 45 },
-      { label: 'Synthesis Essay', possible: 6, weight: 18.3333 },
-      { label: 'Rhetorical Analysis Essay', possible: 6, weight: 18.3333 },
-      { label: 'Argument Essay', possible: 6, weight: 18.3334 },
-    ],
-    cutScores: [72, 57, 42, 27],
-    source: 'https://apcentral.collegeboard.org/courses/ap-english-language-and-composition/exam',
-  },
-  'ap-biology-score-calculator': {
-    name: 'AP Biology',
-    format: 'Enter your MCQ and free-response points to see your estimated AP Biology result (1–5).',
-    sections: [
-      { label: 'Multiple Choice', possible: 60, weight: 50 },
-      { label: 'Free Response', possible: 34, weight: 50 },
-    ],
-    cutScores: [78, 63, 48, 34],
-    source: 'https://apcentral.collegeboard.org/courses/ap-biology/exam',
-  },
-  'ap-chemistry-score-calculator': {
-    name: 'AP Chemistry',
-    format: 'Enter your MCQ and free-response points to see your estimated AP Chemistry result (1–5).',
-    sections: [
-      { label: 'Multiple Choice', possible: 60, weight: 50 },
-      { label: 'Free Response', possible: 46, weight: 50 },
-    ],
-    cutScores: [75, 60, 45, 30],
-    source: 'https://apcentral.collegeboard.org/courses/ap-chemistry/exam',
-  },
-  'ap-calculus-ab-score-calculator': {
-    name: 'AP Calculus AB',
-    format: 'Enter your practice-exam scores to see your estimated AP Calculus AB score (1–5).',
-    sections: [
-      { label: 'Multiple Choice', possible: 42, weight: 50 },
-      { label: 'Free Response', possible: 54, weight: 50 },
-    ],
-    cutScores: [70, 58, 43, 32],
-    source: 'https://apcentral.collegeboard.org/courses/ap-calculus-ab/exam',
-  },
-  'ap-calculus-bc-score-calculator': {
-    name: 'AP Calculus BC',
-    format: 'Enter your MCQ and FRQ points to see your estimated overall AP Calculus BC result (1–5).',
-    sections: [
-      { label: 'Multiple Choice', possible: 42, weight: 50 },
-      { label: 'Free Response', possible: 54, weight: 50 },
-    ],
-    cutScores: [65, 53, 40, 28],
-    source: 'https://apcentral.collegeboard.org/courses/ap-calculus-bc/exam',
-  },
-  'ap-statistics-score-calculator': {
-    name: 'AP Statistics',
-    format: 'Enter your multiple-choice and free-response points to see your estimated AP Statistics result (1–5).',
-    sections: [
-      { label: 'Multiple Choice', possible: 42, weight: 50 },
-      { label: 'Free Response', possible: 40, weight: 50 },
-    ],
-    cutScores: [70, 55, 40, 25],
-    source: 'https://apcentral.collegeboard.org/courses/ap-statistics/future-revisions',
-  },
-  'ap-psychology-score-calculator': {
-    name: 'AP Psychology',
-    format: 'Enter your MCQ and free-response points to see your estimated AP Psychology result (1–5).',
-    sections: [
-      { label: 'Multiple Choice', possible: 75, weight: 66.7 },
-      { label: 'Free Response', possible: 14, weight: 33.3 },
-    ],
-    cutScores: [75, 60, 45, 30],
-    source: 'https://apcentral.collegeboard.org/courses/ap-psychology/exam',
-  },
-  'ap-world-history-score-calculator': {
-    name: 'AP World History: Modern',
-    format: 'Enter your MCQ, SAQ, DBQ, and LEQ scores to see your estimated AP World History result (1–5).',
-    sections: [
-      { label: 'Multiple Choice', possible: 55, weight: 40 },
-      { label: 'Short Answer', possible: 9, weight: 20 },
-      { label: 'Document-Based Question', possible: 7, weight: 25 },
-      { label: 'Long Essay', possible: 6, weight: 15 },
-    ],
-    cutScores: [75, 60, 45, 30],
-    source: 'https://apcentral.collegeboard.org/courses/ap-world-history/exam',
-  },
-};
+import VersionedLookupToolShell from './templates/VersionedLookupToolShell.astro';
+import { AP_SCORE_CONFIGS, getApVersion } from '../../lib/apScoreVersions.mjs';
 
 const { course = 'ap-score-calculator' } = Astro.props;
-const config = configs[course] || configs['ap-score-calculator'];
+const { courseConfig, versionId, version } = getApVersion(course);
+const versionEntries = Object.entries(courseConfig.versions);
 ---
 
-<div class="max-w-4xl mx-auto ap-score-tool" data-course={course} data-config={JSON.stringify(config)}>
-  <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-200/60 dark:border-white/10 p-4 sm:p-6">
-    <div class="mb-5">
-      <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{config.name} Practice Score</h2>
-      <p class="mt-1 text-sm leading-6 text-gray-500 dark:text-gray-400">{config.format}</p>
+<div class="ap-score-tool" data-course={course} data-config={JSON.stringify(courseConfig)}>
+  <VersionedLookupToolShell inputTitle={`${courseConfig.name} Practice Score`} inputDescription={courseConfig.format} resultLabel="Estimated result">
+    <div slot="version">
+      <label for={`aps-version-${course}`} class="mb-1 block font-semibold text-gray-700 dark:text-gray-200">Exam format version</label>
+      <select id={`aps-version-${course}`} class="aps-version w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-800 dark:border-white/10 dark:bg-surface-dark dark:text-gray-200" disabled={versionEntries.length === 1}>
+        {versionEntries.map(([id, entry]) => <option value={id} selected={id === versionId}>{entry.label}</option>)}
+      </select>
+      <p class="aps-applicable mt-1 text-gray-500 dark:text-gray-400">{version.applicableDate}</p>
+    </div>
+    <div slot="source" class="sm:text-right">
+      <div class="font-semibold text-gray-700 dark:text-gray-200">Data source</div>
+      <a class="aps-source mt-1 inline-block text-primary-600 underline dark:text-primary-400" href={version.source.url} target="_blank" rel="noopener noreferrer">{version.source.name}</a>
     </div>
 
-    <div class="overflow-x-auto">
+    <div slot="inputs" class="overflow-x-auto">
       <table class="w-full min-w-[600px]">
-        <thead>
-          <tr class="text-left text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
-            <th class="pb-2 pr-3 font-medium">Exam section</th>
-            <th class="pb-2 px-3 font-medium w-32">Points earned</th>
-            <th class="pb-2 px-3 font-medium w-32">Points possible</th>
-            <th class="pb-2 pl-3 font-medium w-28">Weight</th>
-          </tr>
-        </thead>
-        <tbody>
-          {config.sections.map((section, index) => (
+        <thead><tr class="text-left text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400"><th class="pb-2 pr-3 font-medium">Exam section</th><th class="pb-2 px-3 font-medium w-32">Points earned</th><th class="pb-2 px-3 font-medium w-32">Points possible</th><th class="pb-2 pl-3 font-medium w-28">Weight</th></tr></thead>
+        <tbody class="aps-section-rows">
+          {version.sections.map((section, index) => (
             <tr class="aps-row border-t border-gray-100 dark:border-white/5" data-section-index={index}>
               <td class="py-3 pr-3 text-sm font-medium text-gray-800 dark:text-gray-200">{section.label}</td>
-              <td class="py-3 px-3"><input class="aps-earned w-full px-3 py-2.5 rounded-lg bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-800 dark:text-gray-200" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0" /></td>
-              <td class="py-3 px-3"><div class="px-3 py-2.5 rounded-lg bg-gray-100 dark:bg-white/5 border border-transparent text-sm text-gray-700 dark:text-gray-300"><span class="aps-possible-display font-medium" data-section-index={index}>{section.possible}</span> <span class="text-xs text-gray-400">pts</span></div></td>
-              <td class="py-3 pl-3"><div class="px-3 py-2.5 rounded-lg bg-gray-50 dark:bg-white/5 text-sm text-gray-600 dark:text-gray-400"><span class="aps-weight">{section.weight}</span>%</div></td>
+              <td class="py-3 px-3"><input aria-label={`${section.label} points earned`} class="aps-earned w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-gray-800 dark:border-white/10 dark:bg-white/5 dark:text-gray-200" type="number" inputmode="decimal" min="0" max={section.possible} step="0.01" placeholder="0" /></td>
+              <td class="py-3 px-3"><div class="rounded-lg border border-transparent bg-gray-100 px-3 py-2.5 text-sm text-gray-700 dark:bg-white/5 dark:text-gray-300"><span class="aps-possible-display font-medium" data-section-index={index}>{section.possible}</span> <span class="text-xs text-gray-400">pts</span></div></td>
+              <td class="py-3 pl-3"><div class="rounded-lg bg-gray-50 px-3 py-2.5 text-sm text-gray-600 dark:bg-white/5 dark:text-gray-400"><span class="aps-weight">{section.weight}</span>%</div></td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
 
-    <details class="mt-5 rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200/60 dark:border-white/10 p-4">
+    <div slot="cutoffSummary" class="rounded-xl border border-gray-200/60 bg-gray-50 px-4 py-3 text-xs leading-5 text-gray-600 dark:border-white/10 dark:bg-white/[0.03] dark:text-gray-300">
+      <strong>Current estimated cutoffs:</strong> <span class="aps-cut-summary">{[5, 4, 3, 2].map((score, index) => `${score} ≥ ${version.cutScores[index]}%`).join(' · ')}</span>
+      <span class="mt-1 block text-gray-500 dark:text-gray-400">These editable cutoffs are planning estimates, not official College Board conversion tables.</span>
+    </div>
+
+    <details slot="advanced" class="mt-5 rounded-xl border border-gray-200/60 bg-gray-50 p-4 dark:border-white/10 dark:bg-white/5">
       <summary class="cursor-pointer text-sm font-semibold text-gray-800 dark:text-gray-200">Advanced scoring settings</summary>
       <p class="mt-2 text-xs leading-5 text-gray-500 dark:text-gray-400">Only change these values when a teacher or practice test provides different point totals or a conversion chart.</p>
-      <div class="mt-4">
-        <div class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-2">Custom points possible</div>
-        <div class="grid sm:grid-cols-2 gap-3">
-          {config.sections.map((section, index) => (
-            <div>
-              <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">{section.label}</label>
-              <input class="aps-possible w-full px-3 py-2 rounded-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-white/10 text-gray-800 dark:text-gray-200" type="number" inputmode="decimal" min="0.01" step="0.01" value={section.possible} data-section-index={index} />
-            </div>
-          ))}
-        </div>
-      </div>
+      <div class="mt-4"><div class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Custom points possible</div><div class="aps-possible-inputs grid gap-3 sm:grid-cols-2">
+        {version.sections.map((section, index) => <div><label class="mb-1 block text-xs text-gray-500 dark:text-gray-400">{section.label}</label><input aria-label={`${section.label} custom points possible`} class="aps-possible w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-gray-800 dark:border-white/10 dark:bg-surface-dark dark:text-gray-200" type="number" inputmode="decimal" min="0.01" step="0.01" value={section.possible} data-section-index={index} /></div>)}
+      </div></div>
       <div class="mt-5 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Estimated 1–5 cut scores</div>
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4">
-        {[5, 4, 3, 2].map((score, index) => (
-          <div>
-            <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Minimum for {score}</label>
-            <input class="aps-cut w-full px-3 py-2 rounded-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-white/10 text-gray-800 dark:text-gray-200" type="number" inputmode="decimal" min="0" max="100" step="0.1" value={config.cutScores[index]} data-score={score} />
-          </div>
-        ))}
+      <div class="aps-cut-inputs mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        {[5, 4, 3, 2].map((score, index) => <div><label class="mb-1 block text-xs text-gray-500 dark:text-gray-400">Minimum for {score}</label><input aria-label={`Minimum composite for AP score ${score}`} class="aps-cut w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-gray-800 dark:border-white/10 dark:bg-surface-dark dark:text-gray-200" type="number" inputmode="decimal" min="0" max="100" step="0.1" value={version.cutScores[index]} data-score={score} /></div>)}
       </div>
     </details>
 
-    <div class="mt-5 flex flex-col gap-3 sm:flex-row sm:justify-center">
-      <button type="button" class="aps-calculate min-h-11 rounded-xl bg-primary-500 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-surface-dark">
-        Calculate AP Score
-      </button>
-      <button type="button" class="aps-reset min-h-11 rounded-xl border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:border-white/10 dark:bg-white/5 dark:text-gray-200 dark:hover:bg-white/10 dark:focus:ring-offset-surface-dark">
-        Reset
-      </button>
+    <div slot="controls" class="flex flex-col gap-3 sm:flex-row sm:justify-center">
+      <button type="button" class="aps-calculate min-h-11 rounded-xl bg-primary-500 px-6 py-2.5 text-sm font-semibold text-white hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500">Calculate AP Score</button>
+      <button type="button" class="aps-reset min-h-11 rounded-xl border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-white/10 dark:bg-white/5 dark:text-gray-200">Reset</button>
     </div>
 
-    <div class="aps-result mt-5 min-h-[9rem]" aria-live="polite">
-      <div class="h-full min-h-[9rem] rounded-xl border border-dashed border-gray-300 dark:border-white/15 bg-gray-50/70 dark:bg-white/[0.03] p-5 flex flex-col items-center justify-center text-center">
-        <div class="text-sm font-medium text-gray-700 dark:text-gray-300">Your AP score estimate will appear here</div>
-        <div class="mt-1 text-xs text-gray-500 dark:text-gray-400">Enter points earned for every exam section to calculate automatically.</div>
-      </div>
-    </div>
-  </div>
+    <div slot="result" class="aps-result"><div class="min-h-[9rem] rounded-xl border border-dashed border-gray-300 bg-gray-50/70 p-5 flex flex-col items-center justify-center text-center dark:border-white/15 dark:bg-white/[0.03]"><div class="text-sm font-medium text-gray-700 dark:text-gray-300">Your AP score estimate will appear here</div><div class="mt-1 text-xs text-gray-500 dark:text-gray-400">Enter points earned for every exam section to calculate automatically.</div></div></div>
 
-  <div class="mt-4 rounded-xl border border-gray-200/60 dark:border-white/10 px-4 py-3 text-xs leading-5 text-gray-500 dark:text-gray-400">
-    This independent practice calculator is not affiliated with or endorsed by College Board. Official AP scores use secure exam-specific scoring and standard setting.
-    <a href={config.source} target="_blank" rel="noopener noreferrer" class="text-primary-600 dark:text-primary-400 hover:underline">Review the official exam structure</a>.
-  </div>
+    <div slot="footer" class="mx-auto mt-4 max-w-4xl rounded-xl border border-gray-200/60 px-4 py-3 text-xs leading-5 text-gray-500 dark:border-white/10 dark:text-gray-400">This independent practice calculator is not affiliated with or endorsed by College Board. Official AP scores use secure exam-specific scoring, equating, and standard setting.</div>
+  </VersionedLookupToolShell>
 </div>
 
 <script>
-  import { calculateWeightedComposite, estimateApScore } from '../../lib/calculatorCore.mjs';
+  import { calculateApPracticeScore, getApVersion } from '../../lib/apScoreVersions.mjs';
+
   document.querySelectorAll<HTMLElement>('.ap-score-tool').forEach(root => {
     if (root.dataset.ready === 'true') return;
     root.dataset.ready = 'true';
-    const result = root.querySelector('.aps-result');
-    const initialConfig = JSON.parse(root.dataset.config || '{}');
-    const placeholder = '<div class="h-full min-h-[9rem] rounded-xl border border-dashed border-gray-300 dark:border-white/15 bg-gray-50/70 dark:bg-white/[0.03] p-5 flex flex-col items-center justify-center text-center"><div class="text-sm font-medium text-gray-700 dark:text-gray-300">Your AP score estimate will appear here</div><div class="mt-1 text-xs text-gray-500 dark:text-gray-400">Enter points earned for every exam section to calculate automatically.</div></div>';
+    const courseConfig = JSON.parse(root.dataset.config || '{}');
+    const course = root.dataset.course || 'ap-score-calculator';
+    const result = root.querySelector('.aps-result') as HTMLElement;
+    const placeholder = result.innerHTML;
+    const versionSelect = root.querySelector('.aps-version') as HTMLSelectElement;
+    let activeVersionId = versionSelect.value;
 
-    function updateSettingsSummary() {
-      root.querySelectorAll<HTMLInputElement>('.aps-possible').forEach(input => {
-        const display = root.querySelector(`.aps-possible-display[data-section-index="${input.dataset.sectionIndex}"]`);
-        if (display && input.value) display.textContent = input.value;
-      });
+    const warning = (message: string) => `<div class="min-h-[9rem] rounded-xl border border-amber-200 bg-amber-50 p-4 flex items-center justify-center text-center text-sm text-amber-800 dark:border-amber-800/40 dark:bg-amber-900/10 dark:text-amber-300">${message}</div>`;
+
+    function versionData() { return getApVersion(course, activeVersionId).version; }
+
+    function updateCutoffSummary() {
       const summary = root.querySelector('.aps-cut-summary');
-      if (summary) {
-        summary.textContent = [...root.querySelectorAll<HTMLInputElement>('.aps-cut')]
-          .map(input => `${input.dataset.score} ≥ ${input.value}%`)
-          .join(' · ');
-      }
+      if (summary) summary.textContent = [...root.querySelectorAll<HTMLInputElement>('.aps-cut')].map(input => `${input.dataset.score} ≥ ${input.value}%`).join(' · ');
+      root.querySelectorAll<HTMLInputElement>('.aps-possible').forEach(input => { const display = root.querySelector(`.aps-possible-display[data-section-index="${input.dataset.sectionIndex}"]`); if (display && input.value) display.textContent = input.value; });
+    }
+
+    function renderVersion(versionId: string) {
+      activeVersionId = versionId;
+      const version = courseConfig.versions[versionId];
+      const rows = root.querySelector('.aps-section-rows') as HTMLElement;
+      const possibleInputs = root.querySelector('.aps-possible-inputs') as HTMLElement;
+      const cutInputs = root.querySelector('.aps-cut-inputs') as HTMLElement;
+      rows.replaceChildren(); possibleInputs.replaceChildren(); cutInputs.replaceChildren();
+      version.sections.forEach((section: any, index: number) => {
+        const row = document.createElement('tr'); row.className = 'aps-row border-t border-gray-100 dark:border-white/5'; row.dataset.sectionIndex = String(index);
+        row.innerHTML = `<td class="py-3 pr-3 text-sm font-medium text-gray-800 dark:text-gray-200">${section.label}</td><td class="py-3 px-3"><input aria-label="${section.label} points earned" class="aps-earned w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 text-gray-800 dark:border-white/10 dark:bg-white/5 dark:text-gray-200" type="number" inputmode="decimal" min="0" max="${section.possible}" step="0.01" placeholder="0"></td><td class="py-3 px-3"><div class="rounded-lg bg-gray-100 px-3 py-2.5 text-sm text-gray-700 dark:bg-white/5 dark:text-gray-300"><span class="aps-possible-display font-medium" data-section-index="${index}">${section.possible}</span> <span class="text-xs text-gray-400">pts</span></div></td><td class="py-3 pl-3"><div class="rounded-lg bg-gray-50 px-3 py-2.5 text-sm text-gray-600 dark:bg-white/5 dark:text-gray-400"><span class="aps-weight">${section.weight}</span>%</div></td>`;
+        rows.appendChild(row);
+        const field = document.createElement('div'); field.innerHTML = `<label class="mb-1 block text-xs text-gray-500 dark:text-gray-400">${section.label}</label><input aria-label="${section.label} custom points possible" class="aps-possible w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-gray-800 dark:border-white/10 dark:bg-surface-dark dark:text-gray-200" type="number" inputmode="decimal" min="0.01" step="0.01" value="${section.possible}" data-section-index="${index}">`; possibleInputs.appendChild(field);
+      });
+      [5,4,3,2].forEach((score, index) => { const field = document.createElement('div'); field.innerHTML = `<label class="mb-1 block text-xs text-gray-500 dark:text-gray-400">Minimum for ${score}</label><input aria-label="Minimum composite for AP score ${score}" class="aps-cut w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-gray-800 dark:border-white/10 dark:bg-surface-dark dark:text-gray-200" type="number" inputmode="decimal" min="0" max="100" step="0.1" value="${version.cutScores[index]}" data-score="${score}">`; cutInputs.appendChild(field); });
+      (root.querySelector('.aps-applicable') as HTMLElement).textContent = version.applicableDate;
+      const sourceLink = root.querySelector('.aps-source') as HTMLAnchorElement; sourceLink.textContent = version.source.name; sourceLink.href = version.source.url;
+      updateCutoffSummary(); result.innerHTML = placeholder;
     }
 
     function calculate(forceValidation = false) {
-      const sections: Array<{label:string;earned:number;possible:number;weight:number}> = [];
-      let valid = true;
-      let incomplete = false;
-      root.querySelectorAll('.aps-row').forEach(row => {
-        const label = row.querySelector('td')?.textContent?.trim() || 'Section';
-        const earnedInput = row.querySelector('.aps-earned') as HTMLInputElement;
-        const sectionIndex = (row as HTMLElement).dataset.sectionIndex;
-        const possibleInput = root.querySelector(`.aps-possible[data-section-index="${sectionIndex}"]`) as HTMLInputElement;
-        if (!earnedInput?.value.trim()) incomplete = true;
-        const earned = parseFloat(earnedInput?.value);
-        const possible = parseFloat(possibleInput?.value);
-        const weight = parseFloat(row.querySelector('.aps-weight')?.textContent || '0');
-        if (!Number.isFinite(earned) || earned < 0 || !Number.isFinite(possible) || possible <= 0 || earned > possible) {
-          valid = false;
-          return;
-        }
-        sections.push({ label, earned, possible, weight });
-      });
-      if (!result) return;
-      if (incomplete && !forceValidation) {
-        result.innerHTML = placeholder;
-        return;
-      }
-      if (!valid || sections.length === 0) {
-        result.innerHTML = '<div class="rounded-xl bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800/40 p-4 text-sm text-amber-800 dark:text-amber-300">Enter valid points for every section. Earned points cannot exceed points possible.</div>';
-        return;
-      }
-      const calculation = calculateWeightedComposite(sections);
-      const normalized = calculation.composite / calculation.totalWeight * 100;
-      const contributions = calculation.contributions.map((item, index) => `${item.label}: ${item.contribution.toFixed(2)} of ${sections[index].weight.toFixed(1)} weighted points`);
-      const cuts = [...root.querySelectorAll<HTMLInputElement>('.aps-cut')]
-        .map(input => ({ score: parseInt(input.dataset.score || '1'), minimum: parseFloat(input.value) }))
-        .sort((left, right) => right.score - left.score);
-      const predicted = estimateApScore(normalized, cuts.map(cut => cut.minimum));
-      const comparisonAnchor = '<div class="mt-3 rounded-xl border border-blue-100 bg-blue-50/70 px-4 py-3 text-center text-xs leading-5 text-blue-800 dark:border-blue-800/30 dark:bg-blue-900/10 dark:text-blue-300"><strong>Score context:</strong> 5: strongest AP result · 4: strong result · 3: accepted for credit or placement by many colleges<span class="mt-1 block text-blue-700/80 dark:text-blue-300/80">Credit, placement, and admissions policies vary by institution.</span></div>';
-      const contributionDetails = sections.length > 2
-        ? `<details class="mt-3 rounded-xl border border-gray-200/60 bg-gray-50/60 dark:border-white/10 dark:bg-white/[0.03]"><summary class="cursor-pointer px-4 py-3 text-sm font-semibold text-gray-800 dark:text-gray-200">How this score was calculated</summary><ul class="border-t border-gray-200/60 dark:border-white/10 divide-y divide-gray-100 dark:divide-white/5">${contributions.map(item => `<li class="px-4 py-2.5 text-xs text-gray-600 dark:text-gray-400">${item}</li>`).join('')}</ul></details>`
-        : '';
-      const estimateNote = 'Planning estimate using the current cutoffs';
-      result.innerHTML = `<div class="grid sm:grid-cols-[1fr_1fr] gap-3"><div class="rounded-xl bg-primary-50 dark:bg-primary-900/20 border border-primary-100 dark:border-primary-800/30 p-5 text-center"><div class="text-sm text-gray-600 dark:text-gray-400">Estimated AP score</div><div class="mt-1 text-5xl font-bold text-primary-600 dark:text-primary-400">${predicted}</div><div class="mt-2 text-xs text-gray-500 dark:text-gray-400">${estimateNote}</div></div><div class="rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200/60 dark:border-white/10 p-5 text-center"><div class="text-sm text-gray-600 dark:text-gray-400">Weighted composite</div><div class="mt-1 text-3xl font-bold text-gray-900 dark:text-white">${normalized.toFixed(2)}%</div><div class="mt-2 text-xs text-gray-500 dark:text-gray-400">Official section weights applied</div></div></div>${comparisonAnchor}${contributionDetails}`;
+      const earnedInputs = [...root.querySelectorAll<HTMLInputElement>('.aps-earned')];
+      if (earnedInputs.some(input => !input.value.trim()) && !forceValidation) { result.innerHTML = placeholder; return; }
+      try {
+        const calculation = calculateApPracticeScore({ version: versionData(), earnedPoints: earnedInputs.map(input => input.value.trim() === '' ? Number.NaN : Number(input.value)), possibleOverrides: [...root.querySelectorAll<HTMLInputElement>('.aps-possible')].map(input => Number(input.value)), cutScoreOverrides: [...root.querySelectorAll<HTMLInputElement>('.aps-cut')].map(input => Number(input.value)) });
+        const contributions = calculation.contributions.map((item: any, index: number) => `${item.label}: ${item.contribution.toFixed(2)} of ${calculation.sections[index].weight.toFixed(1)} weighted points`);
+        const comparisonAnchor = '<div class="mt-3 rounded-xl border border-blue-100 bg-blue-50/70 px-4 py-3 text-center text-xs leading-5 text-blue-800 dark:border-blue-800/30 dark:bg-blue-900/10 dark:text-blue-300"><strong>Score context:</strong> 5: strongest AP result · 4: strong result · 3: accepted for credit or placement by many colleges<span class="mt-1 block">Credit, placement, and admissions policies vary by institution.</span></div>';
+        const details = calculation.sections.length > 2 ? `<details class="mt-3 rounded-xl border border-gray-200/60 bg-gray-50/60 dark:border-white/10 dark:bg-white/[0.03]"><summary class="cursor-pointer px-4 py-3 text-sm font-semibold text-gray-800 dark:text-gray-200">How this score was calculated</summary><ul class="border-t border-gray-200/60 divide-y divide-gray-100 dark:border-white/10 dark:divide-white/5">${contributions.map((item: string) => `<li class="px-4 py-2.5 text-xs text-gray-600 dark:text-gray-400">${item}</li>`).join('')}</ul></details>` : '';
+        result.innerHTML = `<div class="grid gap-3 sm:grid-cols-2"><div class="rounded-xl border border-primary-100 bg-primary-50 p-5 text-center dark:border-primary-800/30 dark:bg-primary-900/20"><div class="text-sm text-gray-600 dark:text-gray-400">Estimated AP score</div><div class="mt-1 text-5xl font-bold text-primary-600 dark:text-primary-400">${calculation.predictedScore}</div><div class="mt-2 text-xs text-gray-500 dark:text-gray-400">${versionData().estimateLabel}</div></div><div class="rounded-xl border border-gray-200/60 bg-gray-50 p-5 text-center dark:border-white/10 dark:bg-white/5"><div class="text-sm text-gray-600 dark:text-gray-400">Weighted composite</div><div class="mt-1 text-3xl font-bold text-gray-900 dark:text-white">${calculation.normalized.toFixed(2)}%</div><div class="mt-2 text-xs text-gray-500 dark:text-gray-400">Selected version section weights applied</div></div></div>${comparisonAnchor}${details}`;
+      } catch (error) { result.innerHTML = warning(error instanceof Error ? error.message : 'These AP scores could not be calculated.'); }
     }
 
-    root.querySelectorAll<HTMLInputElement>('.aps-earned, .aps-possible, .aps-cut').forEach(input => {
-      input.addEventListener('input', () => {
-        updateSettingsSummary();
-        calculate(false);
-      });
-    });
-    root.querySelector<HTMLButtonElement>('.aps-calculate')?.addEventListener('click', () => calculate(true));
-    root.querySelector<HTMLButtonElement>('.aps-reset')?.addEventListener('click', () => {
-      root.querySelectorAll<HTMLInputElement>('.aps-earned').forEach(input => { input.value = ''; });
-      root.querySelectorAll<HTMLInputElement>('.aps-possible').forEach((input, index) => {
-        input.value = String(initialConfig.sections?.[index]?.possible ?? '');
-      });
-      root.querySelectorAll<HTMLInputElement>('.aps-cut').forEach((input, index) => {
-        input.value = String(initialConfig.cutScores?.[index] ?? '');
-      });
-      updateSettingsSummary();
-      if (result) result.innerHTML = placeholder;
-      root.querySelector<HTMLInputElement>('.aps-earned')?.focus();
-    });
-    updateSettingsSummary();
+    root.addEventListener('input', event => { if ((event.target as HTMLElement).matches('.aps-earned, .aps-possible, .aps-cut')) { updateCutoffSummary(); calculate(false); } });
+    versionSelect.addEventListener('change', () => renderVersion(versionSelect.value));
+    root.querySelector('.aps-calculate')?.addEventListener('click', () => calculate(true));
+    root.querySelector('.aps-reset')?.addEventListener('click', () => { renderVersion(activeVersionId); root.querySelector<HTMLInputElement>('.aps-earned')?.focus(); });
+    updateCutoffSummary();
   });
 </script>

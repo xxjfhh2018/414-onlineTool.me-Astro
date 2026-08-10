@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Page Not Found"
+  description="The page you requested could not be found. Browse OnlineTool.me to find the calculator or tool you need."
+  canonical="https://onlinetool.me/404/"
+  noindex={true}
+>
+  <section class="mx-auto flex min-h-[65vh] max-w-2xl items-center px-4 py-16 text-center sm:px-6">
+    <div class="w-full">
+      <p class="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-primary-600 dark:text-primary-400">Error 404</p>
+      <h1 class="mb-4 text-4xl font-bold text-gray-900 dark:text-white sm:text-5xl">Page not found</h1>
+      <p class="mx-auto mb-8 max-w-lg text-base leading-7 text-gray-500 dark:text-gray-400">
+        The address may be incorrect or the page may have moved. Return to the homepage to browse our calculators and online tools.
+      </p>
+      <a
+        href="/"
+        class="inline-flex items-center rounded-xl bg-primary-500 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-bg-dark"
+      >
+        Browse all tools
+      </a>
+    </div>
+  </section>
+</BaseLayout>

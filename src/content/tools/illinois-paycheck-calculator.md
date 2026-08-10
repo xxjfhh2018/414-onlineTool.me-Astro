@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "finance"
 icon: "Calculator"
 featured: false
-whatIs:
-  - "The Illinois paycheck calculator estimates regular net wages after federal withholding, employee Social Security and Medicare, Illinois withholding, and entered deductions."
-  - "Illinois’s 2026 IL-700-T lists a 4.95% withholding rate and a $2,925 exemption allowance. The calculator subtracts $2,925 for each entered state allowance before applying the flat rate."
 features:
   - "Official 2026 Illinois 4.95% withholding rate"
   - "$2,925 per entered exemption allowance"

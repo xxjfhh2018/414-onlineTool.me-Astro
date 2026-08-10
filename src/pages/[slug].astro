@@ -4,35 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
 import ToolVerificationPanel from '../components/ToolVerificationPanel.astro';
 import { toolVerification } from '../data/toolVerification';
-
-// Import all tool components
-import WordCounter from '../components/tools/WordCounter.astro';
-import RemoveEmptyLines from '../components/tools/RemoveEmptyLines.astro';
-import RemoveDuplicateEmail from '../components/tools/RemoveDuplicateEmail.astro';
-import CompareTwoLists from '../components/tools/CompareTwoLists.astro';
-import PomodoroTimer from '../components/tools/PomodoroTimer.astro';
-import TallyCounter from '../components/tools/TallyCounter.astro';
-import RandomTeamGenerator from '../components/tools/RandomTeamGenerator.astro';
-import BACCalculator from '../components/tools/BACCalculator.astro';
-import BAHCalculator from '../components/tools/BAHCalculator.astro';
-import CDCalculator from '../components/tools/CDCalculator.astro';
-import DynastyTradeCalculator from '../components/tools/DynastyTradeCalculator.astro';
-import ScoreBoard from '../components/tools/ScoreBoard.astro';
-import QRCodeGenerator from '../components/tools/QRCodeGenerator.astro';
-import QRCodeReader from '../components/tools/QRCodeReader.astro';
-import TI84Calculator from '../components/tools/TI84Calculator.astro';
-import PalworldBreedingCalculator from '../components/tools/PalworldBreedingCalculator.astro';
-import GradeCalculator from '../components/tools/GradeCalculator.astro';
-import GPACalculator from '../components/tools/GPACalculator.astro';
-import APScoreCalculator from '../components/tools/APScoreCalculator.astro';
-import MaterialCalculatorHub from '../components/tools/MaterialCalculatorHub.astro';
-import MaterialQuantityCalculator from '../components/tools/MaterialQuantityCalculator.astro';
-import FFMICalculator from '../components/tools/FFMICalculator.astro';
-import BodyTypeCalculator from '../components/tools/BodyTypeCalculator.astro';
-import PuppyWeightCalculator from '../components/tools/PuppyWeightCalculator.astro';
-import CDInterestCalculator from '../components/tools/CDInterestCalculator.astro';
-import PaycheckCalculator from '../components/tools/PaycheckCalculator.astro';
-import MoneyLastCalculator from '../components/tools/MoneyLastCalculator.astro';
+import { toolRegistry } from '../data/toolRegistry';
 
 export async function getStaticPaths() {
   const tools = await getCollection('tools');
@@ -51,10 +23,10 @@ const {
   category,
   subcategory,
   icon,
-  whatIs,
   features,
   useCases,
   method,
+  calculationDetails,
   limitations,
   howToUse,
   faq,
@@ -74,6 +46,8 @@ const resolvedOgImage = ogImage
 
 const categoryLabels: Record<string, string> = {
   'calculators': 'Calculators',
+  'sports': 'Sports Tools',
+  'converters': 'Converters',
   'text-tools': 'Text & List Tools',
   'qr-code': 'QR Code Tools',
   'generators': 'Generators',
@@ -97,58 +71,9 @@ const categoryAnchor = category === 'calculators' && subcategory
 const categoryHref = `/#${categoryAnchor}`;
 const breadcrumbCategoryUrl = `https://onlinetool.me/#${categoryAnchor}`;
 
-const toolComponents: Record<string, any> = {
-  'word-counter': WordCounter,
-  'remove-empty-lines': RemoveEmptyLines,
-  'remove-duplicate-email': RemoveDuplicateEmail,
-  'compare-two-lists': CompareTwoLists,
-  'pomodoro-timer': PomodoroTimer,
-  'tally-counter': TallyCounter,
-  'random-team-generator': RandomTeamGenerator,
-  'bac-calculator': BACCalculator,
-  'bah-calculator': BAHCalculator,
-  'cd-calculator': CDCalculator,
-  'dynasty-trade-calculator': DynastyTradeCalculator,
-  'score-board': ScoreBoard,
-  'qr-code-generator': QRCodeGenerator,
-  'qr-code-reader': QRCodeReader,
-  'ti-84-calculator': TI84Calculator,
-  'palworld-breeding-calculator': PalworldBreedingCalculator,
-  'grade-calculator': GradeCalculator,
-  'gpa-calculator': GPACalculator,
-  'ap-score-calculator': APScoreCalculator,
-  'apush-score-calculator': APScoreCalculator,
-  'ap-lang-score-calculator': APScoreCalculator,
-  'ap-biology-score-calculator': APScoreCalculator,
-  'ap-chemistry-score-calculator': APScoreCalculator,
-  'ap-calculus-ab-score-calculator': APScoreCalculator,
-  'ap-calculus-bc-score-calculator': APScoreCalculator,
-  'ap-statistics-score-calculator': APScoreCalculator,
-  'ap-psychology-score-calculator': APScoreCalculator,
-  'ap-world-history-score-calculator': APScoreCalculator,
-  'material-calculator': MaterialCalculatorHub,
-  'asphalt-calculator': MaterialQuantityCalculator,
-  'sand-calculator': MaterialQuantityCalculator,
-  'gravel-calculator': MaterialQuantityCalculator,
-  'topsoil-calculator': MaterialQuantityCalculator,
-  'concrete-calculator': MaterialQuantityCalculator,
-  'ffmi-calculator': FFMICalculator,
-  'body-type-calculator': BodyTypeCalculator,
-  'puppy-weight-calculator': PuppyWeightCalculator,
-  'cd-interest-calculator': CDInterestCalculator,
-  'paycheck-calculator': PaycheckCalculator,
-  'arkansas-paycheck-calculator': PaycheckCalculator,
-  'michigan-paycheck-calculator': PaycheckCalculator,
-  'washington-paycheck-calculator': PaycheckCalculator,
-  'indiana-paycheck-calculator': PaycheckCalculator,
-  'maryland-paycheck-calculator': PaycheckCalculator,
-  'virginia-paycheck-calculator': PaycheckCalculator,
-  'illinois-paycheck-calculator': PaycheckCalculator,
-  'missouri-paycheck-calculator': PaycheckCalculator,
-  'money-last-calculator': MoneyLastCalculator,
-};
-
-const ToolComponent = toolComponents[tool.slug];
+const registryEntry = toolRegistry[tool.slug];
+const ToolComponent = registryEntry?.component;
+const ToolReferenceComponent = registryEntry?.referenceComponent;
 const verification = toolVerification[tool.slug];
 
 const webApplicationJsonLd = {
@@ -157,13 +82,12 @@ const webApplicationJsonLd = {
   name: title,
   description,
   url: canonical,
-  applicationCategory: tool.slug === 'palworld-breeding-calculator'
-    ? 'GameApplication'
-    : subcategory === 'education'
+  applicationCategory: registryEntry?.applicationCategory
+    ?? (subcategory === 'education'
       ? 'EducationalApplication'
       : subcategory === 'finance'
         ? 'FinanceApplication'
-        : 'UtilitiesApplication',
+        : 'UtilitiesApplication'),
   operatingSystem: 'Any',
   offers: {
     '@type': 'Offer',
@@ -253,16 +177,6 @@ const faqJsonLd = faq?.length ? {
     </section>
   )}
 
-  <!-- What Is It -->
-  <section class="pb-12">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">What Is {title}?</h2>
-      <div class="space-y-4 text-gray-600 dark:text-gray-400 leading-7">
-        {whatIs.map(paragraph => <p>{paragraph}</p>)}
-      </div>
-    </div>
-  </section>
-
   <!-- How to Use -->
   {howToUse && howToUse.length > 0 && (
     <section class="pb-12">
@@ -284,27 +198,6 @@ const faqJsonLd = faq?.length ? {
       </div>
     </section>
   )}
-
-  <!-- Method, Formula, and Example -->
-  <section class="pb-12">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">{method.title}</h2>
-      <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-100 dark:border-white/5 p-6">
-        <div class="space-y-4 text-gray-600 dark:text-gray-400 leading-7">
-          {method.description.map(paragraph => <p>{paragraph}</p>)}
-        </div>
-        {method.formula && (
-          <div class="mt-5 rounded-xl bg-gray-50 dark:bg-white/5 px-4 py-3 font-mono text-sm text-gray-800 dark:text-gray-200 overflow-x-auto">
-            {method.formula}
-          </div>
-        )}
-        <div class="mt-5 border-l-4 border-primary-500 pl-4">
-          <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Example</h3>
-          <p class="text-sm text-gray-600 dark:text-gray-400 leading-6">{method.example}</p>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- Features -->
   <section class="pb-12">
@@ -340,11 +233,114 @@ const faqJsonLd = faq?.length ? {
   <section class="pb-12">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Limits and Important Notes</h2>
-      <ul class="list-disc pl-5 space-y-2 text-sm text-gray-600 dark:text-gray-400 leading-6">
-        {limitations.map(item => <li>{item}</li>)}
-      </ul>
+      <div class="space-y-5">
+        {(calculationDetails || method) && (
+          <div class="rounded-2xl bg-white dark:bg-surface-dark border border-gray-100 dark:border-white/5 p-6 space-y-5">
+            {calculationDetails?.resultLabel && (
+              <p class="text-sm font-medium text-primary-700 dark:text-primary-300">
+                Result type: {calculationDetails.resultLabel}
+              </p>
+            )}
+
+            {calculationDetails ? (
+              <>
+                {calculationDetails.steps.length > 0 && (
+                  <div>
+                    <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Calculation Details</h3>
+                    <ul class="list-disc pl-5 space-y-2 text-sm text-gray-600 dark:text-gray-400 leading-6">
+                      {calculationDetails.steps.map(step => <li>{step}</li>)}
+                    </ul>
+                  </div>
+                )}
+                {calculationDetails.formula && (
+                  <div>
+                    <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Formula</h3>
+                    <div class="rounded-xl bg-gray-50 dark:bg-white/5 px-4 py-3 font-mono text-sm text-gray-800 dark:text-gray-200 overflow-x-auto">
+                      {calculationDetails.formula}
+                    </div>
+                  </div>
+                )}
+                {calculationDetails.rounding && (
+                  <div>
+                    <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Rounding</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 leading-6">{calculationDetails.rounding}</p>
+                  </div>
+                )}
+                {calculationDetails.assumptions.length > 0 && (
+                  <div>
+                    <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Default Assumptions</h3>
+                    <ul class="list-disc pl-5 space-y-2 text-sm text-gray-600 dark:text-gray-400 leading-6">
+                      {calculationDetails.assumptions.map(assumption => <li>{assumption}</li>)}
+                    </ul>
+                  </div>
+                )}
+                {calculationDetails.example && (
+                  <div class="border-l-4 border-primary-500 pl-4">
+                    <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Verified Example</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 leading-6"><strong>Inputs:</strong> {calculationDetails.example.inputs}</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 leading-6"><strong>Calculation:</strong> {calculationDetails.example.calculation}</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 leading-6"><strong>Result:</strong> {calculationDetails.example.result}</p>
+                  </div>
+                )}
+                {(calculationDetails.sources.length > 0 || calculationDetails.version || calculationDetails.applicableDate || calculationDetails.lastVerified || calculationDetails.updateResponsibility) && (
+                  <div>
+                    <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Sources and Version</h3>
+                    <div class="space-y-2 text-sm text-gray-600 dark:text-gray-400 leading-6">
+                      {calculationDetails.version && <p><strong>Version:</strong> {calculationDetails.version}</p>}
+                      {calculationDetails.applicableDate && <p><strong>Applicable date:</strong> {calculationDetails.applicableDate}</p>}
+                      {calculationDetails.lastVerified && <p><strong>Last verified:</strong> {calculationDetails.lastVerified}</p>}
+                      {calculationDetails.updateResponsibility && <p><strong>Update responsibility:</strong> {calculationDetails.updateResponsibility}</p>}
+                      {calculationDetails.sources.length > 0 && (
+                        <ul class="list-disc pl-5 space-y-1">
+                          {calculationDetails.sources.map(source => (
+                            <li>
+                              <a href={source.url} target="_blank" rel="noopener noreferrer" class="text-primary-600 dark:text-primary-400 hover:underline">
+                                {source.name}
+                              </a>
+                              {source.publisher ? ` — ${source.publisher}` : ''}
+                              {source.accessedDate ? ` (accessed ${source.accessedDate})` : ''}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </>
+            ) : method && (
+              <>
+                <div>
+                  <h3 class="font-semibold text-gray-900 dark:text-white mb-2">{method.title}</h3>
+                  <div class="space-y-3 text-sm text-gray-600 dark:text-gray-400 leading-6">
+                    {method.description.map(paragraph => <p>{paragraph}</p>)}
+                  </div>
+                </div>
+                {method.formula && (
+                  <div>
+                    <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Formula</h3>
+                    <div class="rounded-xl bg-gray-50 dark:bg-white/5 px-4 py-3 font-mono text-sm text-gray-800 dark:text-gray-200 overflow-x-auto">
+                      {method.formula}
+                    </div>
+                  </div>
+                )}
+                <div class="border-l-4 border-primary-500 pl-4">
+                  <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Example</h3>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 leading-6">{method.example}</p>
+                </div>
+              </>
+            )}
+          </div>
+        )}
+
+        <ul class="list-disc pl-5 space-y-2 text-sm text-gray-600 dark:text-gray-400 leading-6">
+          {limitations.map(item => <li>{item}</li>)}
+        </ul>
+      </div>
     </div>
   </section>
+
+  <!-- Optional research/reference context -->
+  {ToolReferenceComponent && <ToolReferenceComponent />}
 
   <!-- Related Tools -->
   {related.length > 0 && (

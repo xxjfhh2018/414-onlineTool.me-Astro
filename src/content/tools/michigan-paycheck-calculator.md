@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "finance"
 icon: "Calculator"
 featured: false
-whatIs:
-  - "The Michigan paycheck calculator estimates regular take-home pay after 2026 federal withholding, Social Security, Medicare, Michigan withholding, and entered deductions."
-  - "Michigan Treasury lists a 4.25% withholding rate and a $5,900 personal exemption for 2026. The calculator subtracts $5,900 for each entered state exemption before applying the rate."
 features:
   - "Official 2026 Michigan rate and exemption amount"
   - "2026 federal W-4 percentage method"

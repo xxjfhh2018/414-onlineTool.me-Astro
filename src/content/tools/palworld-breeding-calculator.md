@@ -8,9 +8,6 @@ category: "calculators"
 subcategory: "games"
 icon: "Gamepad2"
 featured: true
-whatIs:
-  - "The Palworld Breeding Calculator is a three-part planning tool for the version 1.0 breeding system. Select two parents to see their recorded offspring, choose a desired child to review every supported parent pair, or add species from your Palbox and search for a route to a target."
-  - "The calculator uses a pinned table derived from Palworld 1.0 game data rather than an outdated early-access chart. The table includes ordinary breeding outcomes, fixed special combinations, and the gender-dependent Katress and Wixen pair."
 features:
   - "Predicts offspring for any supported pair in the 1.0 table"
   - "Reverse-searches all recorded parents for a target Pal"

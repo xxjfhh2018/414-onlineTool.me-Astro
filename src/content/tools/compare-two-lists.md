@@ -7,9 +7,6 @@ keywords: "compare two lists, list comparison tool, find common items, compare t
 category: "text-tools"
 icon: "GitCompare"
 featured: false
-whatIs:
-  - "The Compare Two Lists tool treats each non-empty line as one item. It can show the intersection, entries found on only one side, or one combined list with exact duplicates removed."
-  - "Leading and trailing whitespace is removed before comparison. Matching is still case-sensitive and punctuation-sensitive, so small textual differences create separate items."
 features:
   - "Common Items, Only in A, Only in B, and All Unique modes"
   - "Updates the active result whenever either input changes"

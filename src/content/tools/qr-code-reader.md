@@ -7,9 +7,6 @@ keywords: "QR code reader demo, QR scanner interface, upload QR code image"
 category: "qr-code"
 icon: "Scan"
 featured: false
-whatIs:
-  - "This page demonstrates the interface states planned for an online QR code reader: choose an image, display a local preview, reveal a Scan button, show a result panel, and copy displayed text."
-  - "The current version does not inspect pixels or run a decoding library. Pressing Scan displays the same fixed sample URL for every uploaded image."
 features:
   - "Accepts image types supported by the browser file picker"
   - "Reads the selected file locally for preview"
