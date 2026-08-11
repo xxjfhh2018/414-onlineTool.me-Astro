@@ -33,6 +33,11 @@ import LSATScoreCalculator from '../components/tools/LSATScoreCalculator.astro';
 import CinderBlockCalculator from '../components/tools/CinderBlockCalculator.astro';
 import VDOTCalculator from '../components/tools/VDOTCalculator.astro';
 import WattsToAmpsCalculator from '../components/tools/WattsToAmpsCalculator.astro';
+import LinearFeetCalculator from '../components/tools/LinearFeetCalculator.astro';
+import RebarCalculator from '../components/tools/RebarCalculator.astro';
+import BowlingScoreCalculator from '../components/tools/BowlingScoreCalculator.astro';
+import PartialFractionCalculator from '../components/tools/PartialFractionCalculator.astro';
+import TankVolumeCalculator from '../components/tools/TankVolumeCalculator.astro';
 
 export type ApplicationCategory =
   | 'UtilitiesApplication'
@@ -103,4 +108,9 @@ export const toolRegistry: Record<string, ToolRegistryEntry> = {
   'cinder-block-calculator': { component: CinderBlockCalculator, template: 'formula' },
   'vdot-calculator': { component: VDOTCalculator, template: 'formula', applicationCategory: 'SportsApplication' },
   'watts-to-amps-calculator': { component: WattsToAmpsCalculator, template: 'formula' },
+  'linear-feet-calculator': { component: LinearFeetCalculator, template: 'multi-row' },
+  'rebar-calculator': { component: RebarCalculator, template: 'formula' },
+  'bowling-score-calculator': { component: BowlingScoreCalculator, template: 'custom', applicationCategory: 'SportsApplication' },
+  'partial-fraction-decomposition-calculator': { component: PartialFractionCalculator, template: 'formula', applicationCategory: 'EducationalApplication' },
+  'tank-volume-calculator': { component: TankVolumeCalculator, template: 'formula' },
 };

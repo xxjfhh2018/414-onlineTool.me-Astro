@@ -1,0 +1,28 @@
+---
+import CustomToolShell from './templates/CustomToolShell.astro';
+---
+<div class="bowling-tool">
+  <CustomToolShell title="Score a Ten-Pin Bowling Game" description="Enter each roll from frame 1 through frame 10. Strikes, spares, bonuses, and cumulative scores update automatically." maxWidthClass="max-w-5xl">
+    <div slot="primary" class="overflow-x-auto pb-2">
+      <div class="grid min-w-[760px] grid-cols-10 gap-2" aria-label="Bowling scorecard">
+        {Array.from({ length: 10 }, (_, frame) => (
+          <fieldset class="rounded-xl border border-gray-200 p-2 dark:border-white/10" data-frame={frame}>
+            <legend class="px-1 text-xs font-semibold">{frame + 1}</legend>
+            <div class="flex gap-1">
+              {Array.from({ length: frame === 9 ? 3 : 2 }, (_, roll) => (
+                <input class="bowling-roll min-w-0 w-full rounded-lg border border-gray-200 bg-gray-50 px-1 py-2 text-center text-sm dark:border-white/10 dark:bg-white/5" type="number" inputmode="numeric" min="0" max="10" step="1" aria-label={`Frame ${frame + 1}, roll ${roll + 1}`} data-roll={roll} />
+              ))}
+            </div>
+            <div class="bowling-frame-score mt-2 min-h-6 rounded-md bg-gray-50 py-1 text-center text-xs font-semibold text-gray-500 dark:bg-white/5">—</div>
+          </fieldset>
+        ))}
+      </div>
+    </div>
+    <div slot="feedback" class="bowling-result mt-5 min-h-[10rem]"><div class="min-h-[10rem] rounded-xl border border-dashed border-gray-300 bg-gray-50/70 p-5 flex items-center justify-center text-sm text-gray-500 dark:border-white/15 dark:bg-white/[0.03]">Your running and final score will appear here.</div></div>
+    <div slot="controls" class="flex justify-center"><button type="button" class="bowling-reset min-h-11 rounded-xl border border-gray-200 px-5 py-2.5 text-sm font-semibold dark:border-white/10">Reset scorecard</button></div>
+  </CustomToolShell>
+</div>
+<script>
+  import { calculateBowlingScore } from '../../lib/dailyBatch260811.mjs';
+  document.querySelectorAll<HTMLElement>('.bowling-tool').forEach(root=>{if(root.dataset.ready)return;root.dataset.ready='true';const result=root.querySelector('.bowling-result') as HTMLElement;const placeholder=result.innerHTML;const fields=[...root.querySelectorAll<HTMLElement>('[data-frame]')];function frames(){return fields.map(frame=>[...frame.querySelectorAll<HTMLInputElement>('.bowling-roll')].map(input=>input.value));}function render(){const hasValue=frames().some(frame=>frame.some(Boolean));if(!hasValue){result.innerHTML=placeholder;fields.forEach(frame=>(frame.querySelector('.bowling-frame-score') as HTMLElement).textContent='—');return;}try{const value=calculateBowlingScore(frames());value.frameScores.forEach((score,index)=>(fields[index].querySelector('.bowling-frame-score') as HTMLElement).textContent=score==null?'—':String(score));const resolved=[...value.frameScores].reverse().find(score=>score!=null);const score=resolved??0;const label=value.isComplete?'Final score':'Resolved running score';result.innerHTML=`<div class="rounded-xl border border-primary-100 bg-primary-50 p-5 text-center dark:border-primary-800/30 dark:bg-primary-900/20"><div class="text-sm text-gray-600 dark:text-gray-300">${label}</div><div class="mt-1 text-5xl font-bold text-primary-600 dark:text-primary-400">${score}</div><div class="mt-2 text-xs text-gray-500">${value.isComplete?'All 10 frames are complete.':'Unresolved strike or spare bonuses remain blank until later rolls are entered.'}</div></div><div class="mt-3 rounded-xl border border-blue-100 bg-blue-50/70 px-4 py-3 text-center text-xs leading-5 text-blue-800 dark:border-blue-800/30 dark:bg-blue-900/10"><strong>Score context:</strong> 300 is the maximum game. Use your own recent games or league average as the most meaningful comparison.</div>`;}catch(error){result.innerHTML=`<div class="min-h-[10rem] rounded-xl border border-amber-200 bg-amber-50 p-4 flex items-center justify-center text-sm text-amber-800 dark:border-amber-800/40 dark:bg-amber-900/10 dark:text-amber-300">${error instanceof Error?error.message:'Check the entered rolls.'}</div>`;}}root.addEventListener('input',render);root.querySelector('.bowling-reset')?.addEventListener('click',()=>{root.querySelectorAll<HTMLInputElement>('.bowling-roll').forEach(input=>input.value='');render();});});
+</script>

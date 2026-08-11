@@ -38,6 +38,31 @@ const taxShared = {
 };
 
 export const toolVerification: Record<string, ToolVerification> = {
+  'linear-feet-calculator': {
+    status: 'verified', statusLabel: 'Formula verified', versionLabel: 'International foot: 0.3048 metre exactly', lastReviewed: '2026-08-11',
+    sourceLabel: 'NIST revised unit conversion factors', sourceUrl: 'https://www.nist.gov/pml/us-surveyfoot/revised-unit-conversion-factors',
+    reviewNote: 'Retest row handling and unit conversions whenever the multi-row implementation changes.', exclusions: ['Does not add waste, kerf, joins, or optimize supplier stock lengths.'],
+  },
+  'rebar-calculator': {
+    status: 'estimate', statusLabel: 'Planning estimate', versionLabel: 'Rectangular orthogonal grid model', lastReviewed: '2026-08-11',
+    sourceLabel: 'CRSI Placing Reinforcing Bars', sourceUrl: 'https://www.crsi.org/wp-content/uploads/CRSI-Placing_Reinforcing_Bars_10th-TOC.pdf',
+    reviewNote: 'Retest directional counts, layers, and waste whenever the takeoff formula changes.', exclusions: ['Not structural design advice.', 'Excludes bar size, laps, hooks, chairs, openings, localized reinforcement, weight, and stock-length optimization.'],
+  },
+  'bowling-score-calculator': {
+    status: 'verified', statusLabel: 'Rules verified', versionLabel: 'Standard ten-pin scoring', lastReviewed: '2026-08-11',
+    sourceLabel: 'USBC Keeping Score', sourceUrl: 'https://bowl.com/keeping-score',
+    reviewNote: 'Retest strikes, spares, open frames, and tenth-frame bonuses whenever score handling changes.', exclusions: ['Does not apply league handicap, match-play points, or alternative scoring systems.'],
+  },
+  'partial-fraction-decomposition-calculator': {
+    status: 'verified', statusLabel: 'Formula verified', versionLabel: 'Linear numerator over quadratic denominator', lastReviewed: '2026-08-11',
+    sourceLabel: 'OpenStax Partial Fractions', sourceUrl: 'https://openstax.org/books/college-algebra/pages/7-4-partial-fractions',
+    reviewNote: 'Retest distinct, repeated, and irreducible quadratic cases whenever algebra logic changes.', exclusions: ['Does not support improper rational expressions, higher-degree denominators, or complex-linear output.'],
+  },
+  'tank-volume-calculator': {
+    status: 'estimate', statusLabel: 'Planning estimate', versionLabel: 'Rectangular prism and upright cylinder model', lastReviewed: '2026-08-11',
+    sourceLabel: 'OpenStax volume formulas', sourceUrl: 'https://openstax.org/books/prealgebra/pages/9-6-solve-geometry-applications-volume-and-surface-area',
+    reviewNote: 'Retest geometry, fill percentage, and unit conversions whenever supported shapes change.', exclusions: ['Excludes wall thickness, rounded ends, fittings, freeboard, dead volume, and horizontal-cylinder fill geometry.'],
+  },
   'lsac-gpa-calculator': {
     status: 'estimate', statusLabel: 'Official scale · planning estimate', versionLabel: 'LSAC conversion table verified August 2026', lastReviewed: '2026-08-10',
     sourceLabel: 'LSAC Transcript Summarization', sourceUrl: 'https://www.lsac.org/applying-law-school/jd-application-process/cas/requesting/transcript-summarization',

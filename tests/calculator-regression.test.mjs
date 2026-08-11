@@ -10,6 +10,7 @@ import { calculateGpa } from '../src/lib/gpaCalculator.mjs';
 import { AP_SCORE_CONFIGS, calculateApPracticeScore, getApVersion, validateApVersion } from '../src/lib/apScoreVersions.mjs';
 import { advancePomodoro, createPomodoroState, formatPomodoroTime, pausePomodoro, pomodoroElapsedPercent, resetPomodoro, startPomodoro, validatePomodoroSettings } from '../src/lib/pomodoroTimer.mjs';
 import { calculateCinderBlocks, calculateLsacGpa, calculateLsatScore, calculateVdot, calculateWattsToAmps } from '../src/lib/dailyBatchCalculators.mjs';
+import { calculateBowlingScore, calculateLinearFeet, calculateRebarGrid, calculateTankVolume, decomposePartialFraction } from '../src/lib/dailyBatch260811.mjs';
 
 const closeTo = (actual, expected, tolerance = 0.005) => assert.ok(Math.abs(actual - expected) <= tolerance, `${actual} is not within ${tolerance} of ${expected}`);
 
@@ -257,6 +258,49 @@ test('watts-to-amps calculator covers DC, single-phase, and balanced three-phase
   closeTo(calculateWattsToAmps({ phase: 'single', watts: 1800, volts: 120, powerFactor: 0.9 }).amps, 16.6666667, 1e-7);
   closeTo(calculateWattsToAmps({ phase: 'three', watts: 10000, volts: 400, powerFactor: 0.8 }).amps, 18.0421959, 1e-7);
   assert.throws(() => calculateWattsToAmps({ phase: 'single', watts: 1000, volts: 120, powerFactor: 0 }), RangeError);
+});
+
+test('linear feet calculator totals mixed item rows and exact unit conversions', () => {
+  const result = calculateLinearFeet([{ quantity: 8, feet: 6, inches: 6 }, { quantity: 2, feet: 4, inches: 0 }]);
+  closeTo(result.totalFeet, 60, 1e-10);
+  closeTo(result.totalMetres, 18.288, 1e-10);
+  assert.equal(result.pieceCount, 10);
+  assert.throws(() => calculateLinearFeet([{ quantity: 1, feet: 2, inches: 12 }]), RangeError);
+});
+
+test('rebar grid calculator preserves spacing, cover, layers, and waste', () => {
+  const result = calculateRebarGrid({ lengthFeet: 20, widthFeet: 10, spacingInches: 18, coverInches: 3, wastePercent: 10, layers: 1 });
+  assert.equal(result.barsRunningLength, 8);
+  assert.equal(result.barsRunningWidth, 14);
+  closeTo(result.installedFeet, 289, 1e-10);
+  assert.equal(result.purchaseFeet, 318);
+  assert.throws(() => calculateRebarGrid({ lengthFeet: 1, widthFeet: 1, spacingInches: 12, coverInches: 6 }), RangeError);
+});
+
+test('bowling score calculator covers perfect, all-spare, open, and invalid games', () => {
+  const perfect = Array.from({ length: 10 }, (_, index) => index === 9 ? [10, 10, 10] : [10]);
+  assert.equal(calculateBowlingScore(perfect).total, 300);
+  const spares = Array.from({ length: 10 }, (_, index) => index === 9 ? [5, 5, 5] : [5, 5]);
+  assert.equal(calculateBowlingScore(spares).total, 150);
+  assert.equal(calculateBowlingScore(Array.from({ length: 10 }, () => [9, 0])).total, 90);
+  assert.throws(() => calculateBowlingScore([[8, 4]]), RangeError);
+});
+
+test('partial fraction calculator handles distinct, repeated, and irreducible quadratics', () => {
+  const distinct = decomposePartialFraction({ numeratorX: 1, numeratorConstant: 0, denominatorX2: 1, denominatorX: -5, denominatorConstant: 6 });
+  assert.equal(distinct.type, 'distinct-real');
+  closeTo(distinct.root1, 3, 1e-10); closeTo(distinct.coefficient1, 3, 1e-10); closeTo(distinct.coefficient2, -2, 1e-10);
+  const repeated = decomposePartialFraction({ numeratorX: 2, numeratorConstant: 3, denominatorX2: 1, denominatorX: -4, denominatorConstant: 4 });
+  assert.equal(repeated.type, 'repeated-real'); closeTo(repeated.coefficient1, 2); closeTo(repeated.coefficient2, 7);
+  assert.equal(decomposePartialFraction({ numeratorX: 1, numeratorConstant: 0, denominatorX2: 1, denominatorX: 0, denominatorConstant: 1 }).type, 'irreducible-real');
+});
+
+test('tank volume calculator covers rectangular and vertical cylindrical tanks', () => {
+  const rectangular = calculateTankVolume({ shape: 'rectangular', unitSystem: 'us', length: 2, width: 3, height: 4, fillPercent: 50 });
+  closeTo(rectangular.capacityCubic, 24); closeTo(rectangular.liquidDisplay, 89.766233766, 1e-9);
+  const cylinder = calculateTankVolume({ shape: 'vertical-cylinder', unitSystem: 'us', diameter: 4, height: 10, fillPercent: 100 });
+  closeTo(cylinder.capacityCubic, 40 * Math.PI, 1e-10); closeTo(cylinder.capacityDisplay, 940.029801799, 1e-7);
+  assert.throws(() => calculateTankVolume({ shape: 'rectangular', unitSystem: 'us', length: 0, width: 3, height: 4 }), RangeError);
 });
 
 test('every published tool has a centralized registry entry', async () => {
