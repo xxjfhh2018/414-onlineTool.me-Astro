@@ -11,6 +11,8 @@ import { AP_SCORE_CONFIGS, calculateApPracticeScore, getApVersion, validateApVer
 import { advancePomodoro, createPomodoroState, formatPomodoroTime, pausePomodoro, pomodoroElapsedPercent, resetPomodoro, startPomodoro, validatePomodoroSettings } from '../src/lib/pomodoroTimer.mjs';
 import { calculateCinderBlocks, calculateLsacGpa, calculateLsatScore, calculateVdot, calculateWattsToAmps } from '../src/lib/dailyBatchCalculators.mjs';
 import { calculateBowlingScore, calculateLinearFeet, calculateRebarGrid, calculateTankVolume, decomposePartialFraction } from '../src/lib/dailyBatch260811.mjs';
+import { calculateBricks, calculateCrossStitch, calculateDunk, calculateFurnaceSize, calculateSnowboardSize } from '../src/lib/dailyBatch260812.mjs';
+import { calculateAudiobook, calculateCircleSkirt, calculateFoc, calculateLinearInterpolation, calculateRpm } from '../src/lib/dailyBatch260813.mjs';
 
 const closeTo = (actual, expected, tolerance = 0.005) => assert.ok(Math.abs(actual - expected) <= tolerance, `${actual} is not within ${tolerance} of ${expected}`);
 
@@ -301,6 +303,69 @@ test('tank volume calculator covers rectangular and vertical cylindrical tanks',
   const cylinder = calculateTankVolume({ shape: 'vertical-cylinder', unitSystem: 'us', diameter: 4, height: 10, fillPercent: 100 });
   closeTo(cylinder.capacityCubic, 40 * Math.PI, 1e-10); closeTo(cylinder.capacityDisplay, 940.029801799, 1e-7);
   assert.throws(() => calculateTankVolume({ shape: 'rectangular', unitSystem: 'us', length: 0, width: 3, height: 4 }), RangeError);
+});
+
+test('cross stitch calculator converts stitch count into design and cut size', () => {
+  assert.deepEqual(calculateCrossStitch({ widthStitches: 140, heightStitches: 98, fabricCount: 14, threadsOver: 1, allowancePerSide: 3 }), { designWidthInches: 10, designHeightInches: 7, cutWidthInches: 16, cutHeightInches: 13, totalStitches: 13720 });
+  assert.equal(calculateCrossStitch({ widthStitches: 140, heightStitches: 98, fabricCount: 28, threadsOver: 2, allowancePerSide: 0 }).designWidthInches, 10);
+  assert.throws(() => calculateCrossStitch({ widthStitches: 10, heightStitches: 10, fabricCount: 0 }), RangeError);
+});
+
+test('dunk calculator preserves rim geometry and progress gap', () => {
+  assert.deepEqual(calculateDunk({ standingReach: 96, currentVertical: 24, clearance: 6 }), { rim: 120, requiredVertical: 30, currentVertical: 24, gap: 6, clearance: 6, unit: 'in' });
+  closeTo(calculateDunk({ unitSystem: 'metric', standingReach: 244, clearance: 0 }).requiredVertical, 60.8, 1e-10);
+  assert.throws(() => calculateDunk({ standingReach: 0 }), RangeError);
+});
+
+test('snowboard calculator returns a transparent starting range and width note', () => {
+  assert.deepEqual(calculateSnowboardSize({ weight: 72, height: 178, bootSizeUS: 9, terrain: 'all-mountain' }), { minCm: 150, maxCm: 158, midpointCm: 154, widthAdvice: 'A regular-width model is a reasonable starting point, but verify the product chart.', terrain: 'all-mountain' });
+  assert.equal(calculateSnowboardSize({ weight: 72, height: 178, bootSizeUS: 11, terrain: 'powder' }).minCm, 153);
+  assert.throws(() => calculateSnowboardSize({ weight: 10, height: 178, bootSizeUS: 9 }), RangeError);
+});
+
+test('brick calculator uses face module, openings, waste, and upward rounding', () => {
+  const result = calculateBricks({ wallLengthFeet: 20, wallHeightFeet: 8, openingsSqFeet: 0, wastePercent: 5 });
+  closeTo(result.bricksPerSqFoot, 6.857142857, 1e-6); assert.equal(result.purchaseBricks, 1152);
+  assert.throws(() => calculateBricks({ wallLengthFeet: 10, wallHeightFeet: 8, openingsSqFeet: 80 }), RangeError);
+});
+
+test('furnace calculator exposes output load and AFUE-adjusted input range', () => {
+  const result = calculateFurnaceSize({ areaSqFeet: 2000, climate: 'moderate', insulation: 'average', afuePercent: 90 });
+  assert.equal(result.outputBtu, 70000); closeTo(result.inputBtu, 77777.77777777778, 1e-8); closeTo(result.lowInputBtu, 66111.11111111111, 1e-8); closeTo(result.highInputBtu, 89444.44444444444, 1e-8);
+  assert.equal(calculateFurnaceSize({ areaSqFeet: 100, climate: 'mild', insulation: 'efficient', afuePercent: 100 }).inputBtu, 2000);
+  assert.throws(() => calculateFurnaceSize({ areaSqFeet: 50 }), RangeError);
+});
+
+test('audiobook calculator adjusts duration at constant playback speed', () => {
+  assert.deepEqual(calculateAudiobook({ hours: 10, minutes: 0, playbackSpeed: 1.5 }), { originalMinutes: 600, adjustedMinutes: 400, timeSavedMinutes: 200, speed: 1.5 });
+  assert.equal(calculateAudiobook({ hours: 1, minutes: 0, playbackSpeed: 1 }).adjustedMinutes, 60);
+  assert.throws(() => calculateAudiobook({ hours: 0, minutes: 0, playbackSpeed: 1 }), RangeError);
+});
+
+test('RPM calculator converts sampled revolutions across supported time units', () => {
+  const result = calculateRpm({ revolutions: 120, time: 30, timeUnit: 'seconds' });
+  assert.equal(result.rpm, 240); assert.equal(result.hertz, 4); closeTo(result.radiansPerSecond, 8 * Math.PI, 1e-10);
+  assert.equal(calculateRpm({ revolutions: 0, time: 1, timeUnit: 'minutes' }).rpm, 0);
+  assert.throws(() => calculateRpm({ revolutions: 10, time: 0, timeUnit: 'seconds' }), RangeError);
+});
+
+test('FOC calculator follows the Easton AMO-standard balance formula', () => {
+  closeTo(calculateFoc({ arrowLength: 28, balancePoint: 17 }).focPercent, 10.7142857143, 1e-10);
+  assert.equal(calculateFoc({ arrowLength: 30, balancePoint: 15 }).focPercent, 0);
+  assert.throws(() => calculateFoc({ arrowLength: 28, balancePoint: 29 }), RangeError);
+});
+
+test('circle skirt calculator returns drafting radii for multiple fullness fractions', () => {
+  const full = calculateCircleSkirt({ waistCircumference: 30, skirtLength: 24, fullness: 'full' });
+  closeTo(full.waistRadius, 30 / (2 * Math.PI), 1e-10); closeTo(full.outerRadius, 24 + 30 / (2 * Math.PI), 1e-10);
+  closeTo(calculateCircleSkirt({ waistCircumference: 30, skirtLength: 24, fullness: 'half' }).waistRadius, 30 / Math.PI, 1e-10);
+  assert.throws(() => calculateCircleSkirt({ waistCircumference: 0, skirtLength: 24 }), RangeError);
+});
+
+test('linear interpolation reports slope, position, extrapolation, and duplicate-x errors', () => {
+  assert.deepEqual(calculateLinearInterpolation({ x1: 10, y1: 100, x2: 20, y2: 200, targetX: 15 }), { y: 150, slope: 10, position: 0.5, isExtrapolation: false });
+  assert.equal(calculateLinearInterpolation({ x1: 10, y1: 100, x2: 20, y2: 200, targetX: 25 }).isExtrapolation, true);
+  assert.throws(() => calculateLinearInterpolation({ x1: 10, y1: 100, x2: 10, y2: 200, targetX: 10 }), RangeError);
 });
 
 test('every published tool has a centralized registry entry', async () => {

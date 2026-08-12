@@ -38,6 +38,8 @@ import RebarCalculator from '../components/tools/RebarCalculator.astro';
 import BowlingScoreCalculator from '../components/tools/BowlingScoreCalculator.astro';
 import PartialFractionCalculator from '../components/tools/PartialFractionCalculator.astro';
 import TankVolumeCalculator from '../components/tools/TankVolumeCalculator.astro';
+import DailyBatch260812Calculator from '../components/tools/DailyBatch260812Calculator.astro';
+import DailyBatch260813Calculator from '../components/tools/DailyBatch260813Calculator.astro';
 
 export type ApplicationCategory =
   | 'UtilitiesApplication'
@@ -113,4 +115,14 @@ export const toolRegistry: Record<string, ToolRegistryEntry> = {
   'bowling-score-calculator': { component: BowlingScoreCalculator, template: 'custom', applicationCategory: 'SportsApplication' },
   'partial-fraction-decomposition-calculator': { component: PartialFractionCalculator, template: 'formula', applicationCategory: 'EducationalApplication' },
   'tank-volume-calculator': { component: TankVolumeCalculator, template: 'formula' },
+  'cross-stitch-calculator': { component: DailyBatch260812Calculator, template: 'formula' },
+  'dunk-calculator': { component: DailyBatch260812Calculator, template: 'formula', applicationCategory: 'SportsApplication' },
+  'snowboard-size-calculator': { component: DailyBatch260812Calculator, template: 'versioned-lookup', applicationCategory: 'SportsApplication' },
+  'calculator-bricks': { component: DailyBatch260812Calculator, template: 'formula' },
+  'furnace-size-calculator': { component: DailyBatch260812Calculator, template: 'formula' },
+  'audiobook-calculator': { component: DailyBatch260813Calculator, template: 'formula' },
+  'rpm-calculator': { component: DailyBatch260813Calculator, template: 'formula' },
+  'foc-calculator': { component: DailyBatch260813Calculator, template: 'formula', applicationCategory: 'SportsApplication' },
+  'circle-skirt-calculator': { component: DailyBatch260813Calculator, template: 'formula' },
+  'linear-interpolation-calculator': { component: DailyBatch260813Calculator, template: 'formula', applicationCategory: 'EducationalApplication' },
 };
