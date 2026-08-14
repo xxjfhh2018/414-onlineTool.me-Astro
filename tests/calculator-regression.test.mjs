@@ -13,6 +13,7 @@ import { calculateCinderBlocks, calculateLsacGpa, calculateLsatScore, calculateV
 import { calculateBowlingScore, calculateLinearFeet, calculateRebarGrid, calculateTankVolume, decomposePartialFraction } from '../src/lib/dailyBatch260811.mjs';
 import { calculateBricks, calculateCrossStitch, calculateDunk, calculateFurnaceSize, calculateSnowboardSize } from '../src/lib/dailyBatch260812.mjs';
 import { calculateAudiobook, calculateCircleSkirt, calculateFoc, calculateLinearInterpolation, calculateRpm } from '../src/lib/dailyBatch260813.mjs';
+import { calculateEdpi, calculatePartialDerivative, calculateRoth401k, calculateSchdScenario, calculateTirePressureTemperature } from '../src/lib/dailyBatch260814.mjs';
 
 const closeTo = (actual, expected, tolerance = 0.005) => assert.ok(Math.abs(actual - expected) <= tolerance, `${actual} is not within ${tolerance} of ${expected}`);
 
@@ -366,6 +367,38 @@ test('linear interpolation reports slope, position, extrapolation, and duplicate
   assert.deepEqual(calculateLinearInterpolation({ x1: 10, y1: 100, x2: 20, y2: 200, targetX: 15 }), { y: 150, slope: 10, position: 0.5, isExtrapolation: false });
   assert.equal(calculateLinearInterpolation({ x1: 10, y1: 100, x2: 20, y2: 200, targetX: 25 }).isExtrapolation, true);
   assert.throws(() => calculateLinearInterpolation({ x1: 10, y1: 100, x2: 10, y2: 200, targetX: 10 }), RangeError);
+});
+
+test('Roth 401k projection compounds monthly and checks 2026 elective-deferral limits', () => {
+  const zero=calculateRoth401k({currentBalance:10000,monthlyContribution:1000,years:1,annualReturnPercent:0,ageGroup:'under50'});assert.equal(zero.endingBalance,22000);assert.equal(zero.annualContribution,12000);assert.equal(zero.overLimit,false);
+  assert.equal(calculateRoth401k({currentBalance:0,monthlyContribution:2500,years:1,annualReturnPercent:0,ageGroup:'under50'}).overLimit,true);
+  assert.throws(()=>calculateRoth401k({monthlyContribution:100,years:0,annualReturnPercent:7}),RangeError);
+});
+
+test('SCHD scenario uses user-entered total return and yield without live data', () => {
+  const zero=calculateSchdScenario({initialInvestment:10000,monthlyInvestment:0,years:1,annualTotalReturnPercent:0,forwardYieldPercent:3});assert.equal(zero.endingValue,10000);assert.equal(zero.estimatedAnnualDividends,300);
+  assert.equal(calculateSchdScenario({initialInvestment:0,monthlyInvestment:100,years:1,annualTotalReturnPercent:0,forwardYieldPercent:0}).endingValue,1200);
+  assert.throws(()=>calculateSchdScenario({initialInvestment:0,monthlyInvestment:0,years:1,annualTotalReturnPercent:8,forwardYieldPercent:3}),RangeError);
+});
+
+test('tire pressure temperature estimate uses absolute pressure and temperature', () => {
+  closeTo(calculateTirePressureTemperature({unitSystem:'psi',measuredPressure:35,measuredTemperature:70,targetTemperature:70}).estimatedPressure,35,1e-10);
+  assert.ok(calculateTirePressureTemperature({unitSystem:'psi',measuredPressure:35,measuredTemperature:70,targetTemperature:30}).pressureChange<0);
+  closeTo(calculateTirePressureTemperature({unitSystem:'kpa',measuredPressure:241.316505,measuredTemperature:21.111111,targetTemperature:21.111111}).estimatedPressure,241.316505,1e-6);
+  assert.throws(()=>calculateTirePressureTemperature({unitSystem:'psi',measuredPressure:-1,measuredTemperature:70,targetTemperature:30}),RangeError);
+});
+
+test('partial derivative parser differentiates supported x-y polynomials and rejects unsupported syntax', () => {
+  assert.equal(calculatePartialDerivative({expression:'3*x^2*y+4*y^2-5*x',variable:'x'}).derivativeExpression,'6*x*y-5');
+  assert.deepEqual(calculatePartialDerivative({expression:'3*x^2*y+4*y^2-5*x',variable:'y',xValue:2,yValue:3}),{derivativeExpression:'3*x^2+8*y',value:36,termCount:3});
+  assert.equal(calculatePartialDerivative({expression:'5',variable:'x'}).derivativeExpression,'0');
+  assert.throws(()=>calculatePartialDerivative({expression:'sin(x)',variable:'x'}),RangeError);
+});
+
+test('eDPI calculator preserves same-game effective sensitivity and target-DPI equivalence', () => {
+  assert.deepEqual(calculateEdpi({mouseDpi:800,inGameSensitivity:0.5,targetDpi:1600}),{edpi:400,equivalentSensitivity:0.25});
+  assert.equal(calculateEdpi({mouseDpi:800,inGameSensitivity:0}).edpi,0);
+  assert.throws(()=>calculateEdpi({mouseDpi:0,inGameSensitivity:1}),RangeError);
 });
 
 test('every published tool has a centralized registry entry', async () => {

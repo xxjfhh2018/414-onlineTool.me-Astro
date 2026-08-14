@@ -40,6 +40,7 @@ import PartialFractionCalculator from '../components/tools/PartialFractionCalcul
 import TankVolumeCalculator from '../components/tools/TankVolumeCalculator.astro';
 import DailyBatch260812Calculator from '../components/tools/DailyBatch260812Calculator.astro';
 import DailyBatch260813Calculator from '../components/tools/DailyBatch260813Calculator.astro';
+import DailyBatch260814Calculator from '../components/tools/DailyBatch260814Calculator.astro';
 
 export type ApplicationCategory =
   | 'UtilitiesApplication'
@@ -125,4 +126,9 @@ export const toolRegistry: Record<string, ToolRegistryEntry> = {
   'foc-calculator': { component: DailyBatch260813Calculator, template: 'formula', applicationCategory: 'SportsApplication' },
   'circle-skirt-calculator': { component: DailyBatch260813Calculator, template: 'formula' },
   'linear-interpolation-calculator': { component: DailyBatch260813Calculator, template: 'formula', applicationCategory: 'EducationalApplication' },
+  'roth-401k-calculator': { component: DailyBatch260814Calculator, template: 'versioned-lookup', applicationCategory: 'FinanceApplication' },
+  'schd-calculator': { component: DailyBatch260814Calculator, template: 'formula', applicationCategory: 'FinanceApplication' },
+  'tire-pressure-calculator': { component: DailyBatch260814Calculator, template: 'formula' },
+  'partial-derivative-calculator': { component: DailyBatch260814Calculator, template: 'custom', applicationCategory: 'EducationalApplication' },
+  'edpi-calculator': { component: DailyBatch260814Calculator, template: 'formula', applicationCategory: 'GameApplication' },
 };
