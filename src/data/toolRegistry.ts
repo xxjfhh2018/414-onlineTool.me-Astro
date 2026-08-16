@@ -41,6 +41,7 @@ import TankVolumeCalculator from '../components/tools/TankVolumeCalculator.astro
 import DailyBatch260812Calculator from '../components/tools/DailyBatch260812Calculator.astro';
 import DailyBatch260813Calculator from '../components/tools/DailyBatch260813Calculator.astro';
 import DailyBatch260814Calculator from '../components/tools/DailyBatch260814Calculator.astro';
+import DailyBatch260815Calculator from '../components/tools/DailyBatch260815Calculator.astro';
 
 export type ApplicationCategory =
   | 'UtilitiesApplication'
@@ -131,4 +132,9 @@ export const toolRegistry: Record<string, ToolRegistryEntry> = {
   'tire-pressure-calculator': { component: DailyBatch260814Calculator, template: 'formula' },
   'partial-derivative-calculator': { component: DailyBatch260814Calculator, template: 'custom', applicationCategory: 'EducationalApplication' },
   'edpi-calculator': { component: DailyBatch260814Calculator, template: 'formula', applicationCategory: 'GameApplication' },
+  'sig-fig-calculator': { component: DailyBatch260815Calculator, template: 'formula', applicationCategory: 'EducationalApplication' },
+  'binomial-distribution-calculator': { component: DailyBatch260815Calculator, template: 'formula', applicationCategory: 'EducationalApplication' },
+  'percentage-calculator': { component: DailyBatch260815Calculator, template: 'formula', applicationCategory: 'EducationalApplication' },
+  'binomial-calculator': { component: DailyBatch260815Calculator, template: 'formula', applicationCategory: 'EducationalApplication' },
+  'statistics-calculator': { component: DailyBatch260815Calculator, template: 'multi-row', applicationCategory: 'EducationalApplication' },
 };

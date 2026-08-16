@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="144" viewBox="0 0 560 144" role="img" aria-labelledby="title desc">
+  <title id="title">OnlineTool.me</title>
+  <desc id="desc">OnlineTool.me wordmark with a teal calculator symbol.</desc>
+  <g transform="translate(16 16)">
+    <rect width="112" height="112" rx="28" fill="#0f766e"/>
+    <rect x="24" y="14" width="64" height="84" rx="18" fill="none" stroke="#ffffff" stroke-width="7"/>
+    <rect x="34" y="27" width="44" height="22" rx="7" fill="#ccfbf1"/>
+    <path d="M42 38h28" stroke="#0f766e" stroke-width="4" stroke-linecap="round"/>
+    <g fill="#ffffff"><circle cx="39" cy="63" r="5"/><circle cx="56" cy="63" r="5"/><circle cx="73" cy="63" r="5"/><circle cx="39" cy="80" r="5"/><circle cx="56" cy="80" r="5"/></g>
+    <circle cx="73" cy="80" r="5" fill="#5eead4"/>
+  </g>
+  <text x="152" y="84" fill="#111827" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="45" font-weight="750" letter-spacing="-1.8">OnlineTool<tspan fill="#0f766e">.me</tspan></text>
+</svg>

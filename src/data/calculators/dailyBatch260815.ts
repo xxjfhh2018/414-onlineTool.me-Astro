@@ -1,0 +1,67 @@
+import type { CalculatorSpecification } from '../../types/calculator';
+
+const lastVerified = '2026-08-15';
+const updateResponsibility = 'OnlineTool.me';
+
+export const dailyBatch260815Specifications: CalculatorSpecification[] = [
+  {
+    slug:'sig-fig-calculator', template:'formula',
+    inputs:[{id:'value',label:'Number to round',kind:'text',required:true},{id:'significantFigures',label:'Significant figures',kind:'number',required:true,min:1,max:15,step:1}],
+    outputs:[{id:'rounded',label:'Rounded value',primary:true},{id:'scientific',label:'Scientific notation'}],
+    formula:'Keep the requested leading significant digits; round an exact 5 tie to an even final retained digit.',
+    calculationSteps:['Ignore leading zeros when locating the first significant digit.','Keep the requested number of digits.','Apply half-even rounding to the discarded digits and preserve precision in scientific notation.'],
+    rounding:'Uses the NIST half-even rule for exact halfway cases and supports 1–15 significant figures.',
+    validation:[{inputId:'significantFigures',rule:'custom',message:'Use a whole-number precision from 1 to 15.'}],
+    exceptionalStates:['Plain decimal notation may not visibly preserve trailing-zero significance for large whole numbers; scientific notation does.'],
+    provenance:{resultLabel:'Exact calculation',sources:[{name:'NIST Guide to the SI, Chapter 7',url:'https://www.nist.gov/pml/special-publication-811/nist-guide-si-chapter-7-rules-and-style-conventions-expressing-values',publisher:'NIST',accessedDate:lastVerified},{name:'NIST SP 811 Appendix B',url:'https://physics.nist.gov/cuu/pdf/sp811.pdf',publisher:'NIST',accessedDate:lastVerified}],version:'NIST half-even rounding',lastVerified,updateResponsibility,assumptions:['The entered digits represent the intended measurement precision.']},
+    testCases:[{name:'Small decimal to three figures',kind:'normal',inputs:{value:'0.004565',significantFigures:3},expected:{rounded:'0.00456'}},{name:'Half-even tie rounds odd upward',kind:'boundary',inputs:{value:'12.35',significantFigures:3},expected:{rounded:'12.4'}},{name:'Invalid precision',kind:'invalid',inputs:{value:'12.3',significantFigures:0},expected:{error:true}}],
+  },
+  {
+    slug:'binomial-distribution-calculator', template:'formula',
+    inputs:[{id:'trials',label:'Independent trials',kind:'number',required:true,min:1,max:1000,step:1},{id:'successes',label:'Successes',kind:'number',required:true,min:0,max:1000,step:1},{id:'probabilityPercent',label:'Success probability',kind:'number',unit:'%',required:true,min:0,max:100},{id:'event',label:'Probability event',kind:'select',required:true}],
+    outputs:[{id:'selected',label:'Selected probability',unit:'%',primary:true},{id:'mean',label:'Expected successes'},{id:'standardDeviation',label:'Standard deviation'}],
+    formula:'P(X=x) = C(n,x)p^x(1−p)^(n−x); cumulative results sum the matching integer outcomes.',
+    calculationSteps:['Validate whole-number trials and successes.','Evaluate the binomial probability mass function for each required outcome.','Sum outcomes for at-most or at-least probability and compute np and √np(1−p).'],
+    rounding:'Calculate with floating-point precision and display probabilities with up to eight decimal percentage places.',
+    validation:[{inputId:'successes',rule:'custom',message:'Successes must be a whole number from zero through the number of trials.'}],
+    exceptionalStates:['Probabilities extremely close to zero may display as 0% at the shown precision.'],
+    provenance:{resultLabel:'Exact calculation',sources:[{name:'Binomial Distribution',url:'https://itl.nist.gov/div898/handbook/eda/section3/eda366i.htm',publisher:'NIST/SEMATECH',accessedDate:lastVerified}],version:'NIST binomial PMF and CDF formulas',lastVerified,updateResponsibility,assumptions:['Trials are independent.','Each trial has two mutually exclusive outcomes.','The success probability remains fixed across trials.']},
+    testCases:[{name:'Ten fair trials exactly three',kind:'published-example',inputs:{trials:10,successes:3,probabilityPercent:50,event:'exact'},expected:{selected:0.1171875}},{name:'Zero success probability',kind:'boundary',inputs:{trials:10,successes:0,probabilityPercent:0,event:'exact'},expected:{selected:1}},{name:'Successes exceed trials',kind:'invalid',inputs:{trials:5,successes:6,probabilityPercent:50,event:'exact'},expected:{error:true}}],
+  },
+  {
+    slug:'percentage-calculator', template:'formula',
+    inputs:[{id:'mode',label:'Calculation',kind:'select',required:true},{id:'first',label:'First value',kind:'number',required:true},{id:'second',label:'Second value',kind:'number',required:true}],
+    outputs:[{id:'result',label:'Percentage result',primary:true},{id:'difference',label:'Difference'}],
+    formula:'Percent of = B×A/100; percent ratio = A/B×100; percent change = (B−A)/A×100.',
+    calculationSteps:['Choose the question that matches the comparison.','Enter both values without silently converting units.','Apply the selected denominator and show the calculation context.'],
+    rounding:'Calculate with full precision and display up to eight decimal places.',
+    validation:[{inputId:'second',rule:'custom',message:'The comparison denominator cannot be zero in percent-ratio mode.'}],
+    exceptionalStates:['Percentage change is undefined when the starting value is zero.'],
+    provenance:{resultLabel:'Exact calculation',sources:[{name:'Financial Statement Analysis — Percentage Change',url:'https://openstax.org/books/principles-financial-accounting/pages/a-financial-statement-analysis',publisher:'OpenStax',accessedDate:lastVerified}],version:'Standard percentage formulas',lastVerified,updateResponsibility,assumptions:['Both compared values use compatible units.','Percentage change treats the first value as the starting value.']},
+    testCases:[{name:'Twenty percent of 150',kind:'normal',inputs:{mode:'of',first:20,second:150},expected:{result:30}},{name:'No change',kind:'boundary',inputs:{mode:'change',first:100,second:100},expected:{result:0}},{name:'Zero starting value',kind:'invalid',inputs:{mode:'change',first:0,second:100},expected:{error:true}}],
+  },
+  {
+    slug:'binomial-calculator', template:'formula',
+    inputs:[{id:'a',label:'x coefficient',kind:'number',required:true,min:-1000000,max:1000000},{id:'b',label:'Constant',kind:'number',required:true,min:-1000000,max:1000000},{id:'exponent',label:'Exponent',kind:'number',required:true,min:0,max:20,step:1},{id:'k',label:'Term index k',kind:'number',required:false,min:0,max:20,step:1}],
+    outputs:[{id:'expansion',label:'Expanded polynomial',primary:true},{id:'selectedCoefficient',label:'Selected theorem coefficient'}],
+    formula:'(ax+b)^n = Σ[k=0..n] C(n,k)(ax)^(n−k)b^k.',
+    calculationSteps:['Generate C(n,k) for every k from zero through n.','Multiply each coefficient by a^(n−k) and b^k.','Combine like powers of x and omit zero terms.'],
+    rounding:'Coefficients retain numeric precision and display up to twelve significant digits.',
+    validation:[{inputId:'exponent',rule:'custom',message:'Use a whole-number exponent from 0 to 20.'}],
+    exceptionalStates:['A zero coefficient can remove one or more displayed terms.','Very large coefficients may use scientific notation.'],
+    provenance:{resultLabel:'Exact calculation',sources:[{name:'DLMF §1.2 Elementary Algebra',url:'https://dlmf.nist.gov/1.2',publisher:'NIST Digital Library of Mathematical Functions',accessedDate:lastVerified}],version:'Finite binomial theorem for nonnegative integer n',lastVerified,updateResponsibility,assumptions:['The variable is x and n is a nonnegative integer no greater than 20.']},
+    testCases:[{name:'Expand two x plus three cubed',kind:'normal',inputs:{a:2,b:3,exponent:3,k:1},expected:{expansion:'8x^3 + 36x^2 + 54x + 27',selectedCoefficient:36}},{name:'Zero exponent',kind:'boundary',inputs:{a:2,b:3,exponent:0},expected:{expansion:'1'}},{name:'Negative exponent',kind:'invalid',inputs:{a:2,b:3,exponent:-1},expected:{error:true}}],
+  },
+  {
+    slug:'statistics-calculator', template:'multi-row',
+    inputs:[{id:'values',label:'Data values',kind:'text',required:true}],
+    outputs:[{id:'mean',label:'Mean',primary:true},{id:'median',label:'Median'},{id:'sampleStandardDeviation',label:'Sample standard deviation'},{id:'populationStandardDeviation',label:'Population standard deviation'}],
+    formula:'Mean = Σx/n; population variance = Σ(x−μ)²/n; sample variance = Σ(x−x̄)²/(n−1).',
+    calculationSteps:['Parse and sort the entered values.','Calculate count, sum, center, range, modes, and median-of-halves quartiles.','Calculate both population and sample variance and standard deviation.'],
+    rounding:'Calculate with full precision and display summary values with up to eight decimal places.',
+    validation:[{inputId:'values',rule:'custom',message:'Enter 1–10,000 valid numbers separated by commas, spaces, semicolons, or new lines.'}],
+    exceptionalStates:['Sample variance and sample standard deviation require at least two values.','A list with no repeated value is reported as having no repeated mode.'],
+    provenance:{resultLabel:'Exact calculation',sources:[{name:'Measures of Scale',url:'https://itl.nist.gov/div898/handbook/eda/section3/eda356.htm',publisher:'NIST/SEMATECH',accessedDate:lastVerified},{name:'Measures of the Center of the Data',url:'https://openstax.org/books/introductory-statistics/pages/2-5-measures-of-the-center-of-the-data',publisher:'OpenStax',accessedDate:lastVerified}],version:'Descriptive statistics with median-of-halves quartiles',lastVerified,updateResponsibility,assumptions:['Every entered number has equal weight.','Q1 and Q3 exclude the overall median when the count is odd.']},
+    testCases:[{name:'Five-value list',kind:'normal',inputs:{values:'2,4,4,6,8'},expected:{mean:4.8,median:4,populationVariance:4.16}},{name:'Single value',kind:'boundary',inputs:{values:'5'},expected:{mean:5,sampleStandardDeviation:'null'}},{name:'Invalid list item',kind:'invalid',inputs:{values:'1, two, 3'},expected:{error:true}}],
+  },
+];

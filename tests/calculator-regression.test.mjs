@@ -14,6 +14,7 @@ import { calculateBowlingScore, calculateLinearFeet, calculateRebarGrid, calcula
 import { calculateBricks, calculateCrossStitch, calculateDunk, calculateFurnaceSize, calculateSnowboardSize } from '../src/lib/dailyBatch260812.mjs';
 import { calculateAudiobook, calculateCircleSkirt, calculateFoc, calculateLinearInterpolation, calculateRpm } from '../src/lib/dailyBatch260813.mjs';
 import { calculateEdpi, calculatePartialDerivative, calculateRoth401k, calculateSchdScenario, calculateTirePressureTemperature } from '../src/lib/dailyBatch260814.mjs';
+import { calculateBinomialDistribution, calculatePercentage, calculateStatistics, expandBinomial, roundToSignificantFigures } from '../src/lib/dailyBatch260815.mjs';
 
 const closeTo = (actual, expected, tolerance = 0.005) => assert.ok(Math.abs(actual - expected) <= tolerance, `${actual} is not within ${tolerance} of ${expected}`);
 
@@ -399,6 +400,42 @@ test('eDPI calculator preserves same-game effective sensitivity and target-DPI e
   assert.deepEqual(calculateEdpi({mouseDpi:800,inGameSensitivity:0.5,targetDpi:1600}),{edpi:400,equivalentSensitivity:0.25});
   assert.equal(calculateEdpi({mouseDpi:800,inGameSensitivity:0}).edpi,0);
   assert.throws(()=>calculateEdpi({mouseDpi:0,inGameSensitivity:1}),RangeError);
+});
+
+test('sig fig calculator applies exact half-even rounding and preserves requested precision', () => {
+  assert.equal(roundToSignificantFigures({value:'0.004565',significantFigures:3}).rounded,'0.00456');
+  assert.equal(roundToSignificantFigures({value:'12.35',significantFigures:3}).rounded,'12.4');
+  assert.equal(roundToSignificantFigures({value:'12.25',significantFigures:3}).rounded,'12.2');
+  assert.equal(roundToSignificantFigures({value:'999',significantFigures:2}).scientific,'1.0 × 10^3');
+  assert.throws(()=>roundToSignificantFigures({value:'12.3',significantFigures:0}),RangeError);
+});
+
+test('binomial distribution returns exact and cumulative probabilities with boundary handling', () => {
+  const result=calculateBinomialDistribution({trials:10,successes:3,probabilityPercent:50,event:'exact'});
+  closeTo(result.exact,0.1171875,1e-12); closeTo(result.atMost,0.171875,1e-12); closeTo(result.atLeast,0.9453125,1e-12);
+  assert.equal(calculateBinomialDistribution({trials:10,successes:0,probabilityPercent:0,event:'exact'}).selected,1);
+  assert.throws(()=>calculateBinomialDistribution({trials:5,successes:6,probabilityPercent:50}),RangeError);
+});
+
+test('percentage calculator keeps each denominator explicit and rejects undefined ratios', () => {
+  assert.deepEqual(calculatePercentage({mode:'of',first:20,second:150}),{result:30,difference:null,mode:'of'});
+  assert.equal(calculatePercentage({mode:'what-percent',first:30,second:150}).result,20);
+  assert.equal(calculatePercentage({mode:'change',first:80,second:100}).result,25);
+  assert.throws(()=>calculatePercentage({mode:'change',first:0,second:100}),RangeError);
+});
+
+test('binomial calculator expands numeric binomials and exposes the selected k coefficient', () => {
+  assert.deepEqual(expandBinomial({a:2,b:3,exponent:3,k:1}),{expansion:'8x^3 + 36x^2 + 54x + 27',coefficients:[8,36,54,27],selectedCoefficient:36,selectedK:1,termCount:4});
+  assert.equal(expandBinomial({a:2,b:3,exponent:0}).expansion,'1');
+  assert.equal(expandBinomial({a:1,b:-1,exponent:2}).expansion,'x^2 − 2x + 1');
+  assert.throws(()=>expandBinomial({a:2,b:3,exponent:-1}),RangeError);
+});
+
+test('statistics calculator reports center, spread, modes, quartiles, and sample boundaries', () => {
+  const result=calculateStatistics('2, 4, 4, 6, 8');
+  assert.equal(result.mean,4.8); assert.equal(result.median,4); assert.deepEqual(result.modes,[4]); assert.equal(result.q1,3); assert.equal(result.q3,7); closeTo(result.populationVariance,4.16,1e-12); closeTo(result.sampleVariance,5.2,1e-12);
+  assert.equal(calculateStatistics('5').sampleStandardDeviation,null);
+  assert.throws(()=>calculateStatistics('1, two, 3'),RangeError);
 });
 
 test('every published tool has a centralized registry entry', async () => {

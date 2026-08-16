@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="112" height="112" viewBox="0 0 112 112" role="img" aria-labelledby="title desc">
+  <title id="title">OnlineTool.me calculator mark</title>
+  <desc id="desc">A white calculator with a display and six keys on a teal rounded square.</desc>
+  <rect width="112" height="112" rx="28" fill="#0f766e"/>
+  <rect x="24" y="14" width="64" height="84" rx="18" fill="none" stroke="#ffffff" stroke-width="7"/>
+  <rect x="34" y="27" width="44" height="22" rx="7" fill="#ccfbf1"/>
+  <path d="M42 38h28" stroke="#0f766e" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="39" cy="63" r="5" fill="#ffffff"/>
+  <circle cx="56" cy="63" r="5" fill="#ffffff"/>
+  <circle cx="73" cy="63" r="5" fill="#ffffff"/>
+  <circle cx="39" cy="80" r="5" fill="#ffffff"/>
+  <circle cx="56" cy="80" r="5" fill="#ffffff"/>
+  <circle cx="73" cy="80" r="5" fill="#5eead4"/>
+</svg>
