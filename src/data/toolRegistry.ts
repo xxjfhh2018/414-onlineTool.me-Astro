@@ -42,6 +42,7 @@ import DailyBatch260812Calculator from '../components/tools/DailyBatch260812Calc
 import DailyBatch260813Calculator from '../components/tools/DailyBatch260813Calculator.astro';
 import DailyBatch260814Calculator from '../components/tools/DailyBatch260814Calculator.astro';
 import DailyBatch260815Calculator from '../components/tools/DailyBatch260815Calculator.astro';
+import DailyBatch260818Calculator from '../components/tools/DailyBatch260818Calculator.astro';
 
 export type ApplicationCategory =
   | 'UtilitiesApplication'
@@ -86,6 +87,9 @@ export const toolRegistry: Record<string, ToolRegistryEntry> = {
   'ap-statistics-score-calculator': { component: APScoreCalculator, template: 'versioned-lookup', applicationCategory: 'EducationalApplication' },
   'ap-psychology-score-calculator': { component: APScoreCalculator, template: 'versioned-lookup', applicationCategory: 'EducationalApplication' },
   'ap-world-history-score-calculator': { component: APScoreCalculator, template: 'versioned-lookup', applicationCategory: 'EducationalApplication' },
+  'ap-gov-calculator': { component: APScoreCalculator, template: 'versioned-lookup', applicationCategory: 'EducationalApplication' },
+  'ap-physics-1-score-calculator': { component: APScoreCalculator, template: 'versioned-lookup', applicationCategory: 'EducationalApplication' },
+  'apes-score-calculator': { component: APScoreCalculator, template: 'versioned-lookup', applicationCategory: 'EducationalApplication' },
   'material-calculator': { component: MaterialCalculatorHub, template: 'custom' },
   'asphalt-calculator': { component: MaterialQuantityCalculator, template: 'formula' },
   'sand-calculator': { component: MaterialQuantityCalculator, template: 'formula' },
@@ -137,4 +141,6 @@ export const toolRegistry: Record<string, ToolRegistryEntry> = {
   'percentage-calculator': { component: DailyBatch260815Calculator, template: 'formula', applicationCategory: 'EducationalApplication' },
   'binomial-calculator': { component: DailyBatch260815Calculator, template: 'formula', applicationCategory: 'EducationalApplication' },
   'statistics-calculator': { component: DailyBatch260815Calculator, template: 'multi-row', applicationCategory: 'EducationalApplication' },
+  'mcat-score-calculator': { component: DailyBatch260818Calculator, template: 'versioned-lookup', applicationCategory: 'EducationalApplication' },
+  'hydrates-calculator': { component: DailyBatch260818Calculator, template: 'formula', applicationCategory: 'EducationalApplication' },
 };

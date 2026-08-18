@@ -15,6 +15,7 @@ import { calculateBricks, calculateCrossStitch, calculateDunk, calculateFurnaceS
 import { calculateAudiobook, calculateCircleSkirt, calculateFoc, calculateLinearInterpolation, calculateRpm } from '../src/lib/dailyBatch260813.mjs';
 import { calculateEdpi, calculatePartialDerivative, calculateRoth401k, calculateSchdScenario, calculateTirePressureTemperature } from '../src/lib/dailyBatch260814.mjs';
 import { calculateBinomialDistribution, calculatePercentage, calculateStatistics, expandBinomial, roundToSignificantFigures } from '../src/lib/dailyBatch260815.mjs';
+import { calculateHydrate, calculateMcatScore } from '../src/lib/dailyBatch260818.mjs';
 
 const closeTo = (actual, expected, tolerance = 0.005) => assert.ok(Math.abs(actual - expected) <= tolerance, `${actual} is not within ${tolerance} of ${expected}`);
 
@@ -100,6 +101,28 @@ test('Versioned Lookup AP calculation uses the selected version and visible cuto
   assert.equal(result.predictedScore, 3);
   assert.throws(() => calculateApPracticeScore({ version, earnedPoints: [43, 27] }), RangeError);
   assert.throws(() => calculateApPracticeScore({ version, earnedPoints: [21, 27], cutScoreOverrides: [60, 70, 40, 30] }), /descend/);
+});
+
+test('new AP versions preserve official section counts and weights', () => {
+  assert.equal(getApVersion('ap-physics-1-score-calculator').version.sections[0].possible, 42);
+  assert.equal(getApVersion('ap-physics-1-score-calculator', 'may-2026').version.sections[0].possible, 40);
+  assert.equal(getApVersion('ap-gov-calculator').version.sections.length, 5);
+  assert.equal(getApVersion('apes-score-calculator').version.sections[0].weight, 60);
+  closeTo(calculateApPracticeScore({ version:getApVersion('apes-score-calculator').version, earnedPoints:[40,5,5,5] }).normalized, 50, 1e-10);
+});
+
+test('MCAT calculator adds scaled sections and rejects invented raw-score inputs', () => {
+  assert.equal(calculateMcatScore({chemPhys:125,cars:125,bioBiochem:125,psychSoc:125}).total, 500);
+  assert.equal(calculateMcatScore({chemPhys:132,cars:132,bioBiochem:132,psychSoc:132}).total, 528);
+  assert.throws(() => calculateMcatScore({chemPhys:117,cars:125,bioBiochem:125,psychSoc:125}), /118 to 132/);
+});
+
+test('hydrates calculator returns theoretical composition and validates n', () => {
+  const result=calculateHydrate({anhydrousMolarMass:159.609,waterMolecules:5,sampleMass:25});
+  closeTo(result.hydrateMolarMass,249.684,1e-10);
+  closeTo(result.percentWater,36.07559955784111,1e-10);
+  closeTo(result.sampleWaterMass,9.018899889460278,1e-10);
+  assert.throws(() => calculateHydrate({anhydrousMolarMass:100,waterMolecules:0}), /1 to 100/);
 });
 
 test('AP Biology uses the official 60 MCQ / 34 FRQ structure', () => {

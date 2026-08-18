@@ -58,6 +58,22 @@ export const AP_SCORE_CONFIGS = {
       current: current('Current published exam format', [{ label: 'Multiple Choice', possible: 55, weight: 40 }, { label: 'Short Answer', possible: 9, weight: 20 }, { label: 'Document-Based Question', possible: 7, weight: 25 }, { label: 'Long Essay', possible: 6, weight: 15 }], [75, 60, 45, 30], source('AP World History exam', 'https://apcentral.collegeboard.org/courses/ap-world-history/exam')),
     },
   },
+  'ap-gov-calculator': {
+    name: 'AP U.S. Government and Politics', format: 'Enter your MCQ and four free-response practice scores to see your estimated AP Gov result (1–5).', currentVersion: 'may-2027', versions: {
+      'may-2027': current('May 2027 exam format', [{ label: 'Multiple Choice', possible: 55, weight: 50 }, { label: 'Concept Application', possible: 3, weight: 12.5 }, { label: 'Quantitative Analysis', possible: 4, weight: 12.5 }, { label: 'SCOTUS Comparison', possible: 4, weight: 12.5 }, { label: 'Argument Essay', possible: 6, weight: 12.5 }], [75, 60, 45, 30], source('AP U.S. Government and Politics exam', 'https://apcentral.collegeboard.org/courses/ap-united-states-government-and-politics/exam'), 'Applies to the May 2027 exam'),
+    },
+  },
+  'ap-physics-1-score-calculator': {
+    name: 'AP Physics 1', format: 'Enter your MCQ and four free-response practice scores to see your estimated AP Physics 1 result (1–5).', currentVersion: 'may-2027', versions: {
+      'may-2027': current('May 2027 exam format', [{ label: 'Multiple Choice', possible: 42, weight: 50 }, { label: 'Mathematical Routines', possible: 10, weight: 12.5 }, { label: 'Translation Between Representations', possible: 12, weight: 15 }, { label: 'Experimental Design and Analysis', possible: 10, weight: 12.5 }, { label: 'Qualitative/Quantitative Translation', possible: 8, weight: 10 }], [72, 58, 43, 30], source('AP Physics 1 exam', 'https://apcentral.collegeboard.org/courses/ap-physics-1/exam'), 'Applies beginning with the May 2027 exam'),
+      'may-2026': current('May 2026 exam format', [{ label: 'Multiple Choice', possible: 40, weight: 50 }, { label: 'Mathematical Routines', possible: 10, weight: 12.5 }, { label: 'Translation Between Representations', possible: 12, weight: 15 }, { label: 'Experimental Design and Analysis', possible: 10, weight: 12.5 }, { label: 'Qualitative/Quantitative Translation', possible: 8, weight: 10 }], [72, 58, 43, 30], source('AP Physics 1 exam', 'https://apcentral.collegeboard.org/courses/ap-physics-1/exam'), 'Legacy format for the May 2026 exam'),
+    },
+  },
+  'apes-score-calculator': {
+    name: 'AP Environmental Science', format: 'Enter your MCQ and three free-response practice scores to see your estimated APES result (1–5).', currentVersion: 'may-2027', versions: {
+      'may-2027': current('May 2027 exam format', [{ label: 'Multiple Choice', possible: 80, weight: 60 }, { label: 'Design an Investigation', possible: 10, weight: 13.3333 }, { label: 'Analyze Quantitative Data', possible: 10, weight: 13.3333 }, { label: 'Environmental Calculations', possible: 10, weight: 13.3334 }], [75, 60, 45, 30], source('AP Environmental Science exam', 'https://apcentral.collegeboard.org/courses/ap-environmental-science/exam'), 'Applies to the May 2027 exam'),
+    },
+  },
 };
 
 export function getApVersion(course, versionId) {
